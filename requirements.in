@@ -1,0 +1,15 @@
+brotlipy
+Django~=1.10.0
+django-annoying
+psycopg2
+shortuuid
+uwsgi
+django-extensions
+raven
+whitenoise
+Werkzeug
+
+# Testing
+coverage
+django-nose
+hypothesis[django]

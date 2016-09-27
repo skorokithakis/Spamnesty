@@ -1,0 +1,29 @@
+image: python:latest
+
+stages:
+  - staticcheck
+  - typecheck
+  - test
+
+staticcheck:
+  before_script:
+    - pip install -U flake8
+  script:
+    - flake8 .
+  stage: staticcheck
+
+typecheck:
+  before_script:
+    - pip install -U mypy-lang
+  script:
+    - mypy -s .
+  stage: typecheck
+
+test:
+  before_script:
+    - pip install -Ur requirements.txt
+    - python manage.py migrate
+    - python manage.py collectstatic --noinput
+  script:
+    - python manage.py test
+  stage: test

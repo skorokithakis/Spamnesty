@@ -1,0 +1,14 @@
+*.pyc
+*.swp
+.venv
+.idea/*
+.coverage
+.hypothesis/
+cover/
+env/
+*.sqlite3
+*.mo
+local_settings.py
+secret_keys.py
+_static/
+htmlcov/
