@@ -1,8 +1,4 @@
-from datetime import timedelta
-from django.conf import settings
 from django.test import TestCase
-from django.utils import timezone
-from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from hypothesis.extra.django.models import models, default_value
 import hypothesis.strategies as st
