@@ -1,8 +1,7 @@
-import datetime
 import random
 
 
-from .models import Message, Conversation
+from .models import Message
 
 
 def quote_message(reply, message):

@@ -85,7 +85,6 @@ class ConversationManager(models.Manager):
         return conversation
 
 
-
 class Conversation(CharIDModel):
     """The main conversation object."""
     # The name of our sender (the bot).

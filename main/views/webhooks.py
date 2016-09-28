@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-from ..models import Conversation, Message
+from ..models import Message
 from ..utils import construct_reply
 
 

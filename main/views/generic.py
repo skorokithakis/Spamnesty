@@ -7,8 +7,7 @@ from ..models import Conversation
 
 @render_to("home.html")
 def home(request):
-    if not (request.get_host().startswith("spa.")
-            or settings.DEBUG):
+    if not (request.get_host().startswith("spa.") or settings.DEBUG):
         return {"TEMPLATE": "home.html"}
     return {}
 
