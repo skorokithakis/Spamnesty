@@ -1,11 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>MNesty LLC</title>
-</head>
-<body>
-    Welcome to MNesty, the premier maritime logistics company of Asia,
-    strategically located in Mongolia.
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Spamnesty</h1>
+    <p class="lead">Fun with spam!</p>
+</div>
+
+<h3>Conversations</h3>
+<p>Get three equal-width columns <strong>starting at desktops and scaling to large desktops</strong>. On mobile devices, tablets and below, the columns will automatically stack.</p>
+<div class="row">
+    <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-4">.col-md-4</div>
+</div>
+{% endblock %}

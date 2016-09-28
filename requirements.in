@@ -1,10 +1,12 @@
+bleach
 brotlipy
 Django~=1.10.0
 django-annoying
+django-extensions
+fake-factory
 psycopg2
 shortuuid
 uwsgi
-django-extensions
 raven
 whitenoise
 Werkzeug

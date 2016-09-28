@@ -138,7 +138,7 @@ SITE_ID = 1
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_HOST_USER = 'postmaster@spamnesty.com'
+EMAIL_HOST_USER = 'postmaster@mnesty.com'
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD", "")
 EMAIL_PORT = 587
 

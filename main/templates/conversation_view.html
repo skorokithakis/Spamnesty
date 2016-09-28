@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Spamnesty</h1>
+    <p class="lead">Fun with spam!</p>
+</div>
+
+<h3>Emails</h3>
+<div class="row">
+    <div class="col-md-12">
+        {% for message in conversation.message_set.all %}
+        <p><strong>From:</strong> {{ message.sender }}</p>
+        <p><strong>To:</strong> {{ message.recipient }}</p>
+        <p><strong>Subject:</strong> {{ message.subject }}</p>
+        <p>{{ message.body|linebreaks }}</p>
+        <hr>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
