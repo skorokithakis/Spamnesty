@@ -10,7 +10,6 @@ ConversationFactory = models(
         Conversation,
         id=default_value,
         sender_name=st.text(max_size=100),
-        sender_email=st.text(max_size=100),
     )
 
 
