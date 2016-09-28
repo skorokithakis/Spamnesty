@@ -6,7 +6,6 @@ from main.views import webhooks
 
 urlpatterns = [
     url(r'^$', generic.home, name="home"),
-    url(r'^conversations/$', generic.conversation_list, name="conversation-list"),
     url(r'^conversations/(?P<conversation_id>.*)?/$', generic.conversation_view, name="conversation-view"),
 ]
 

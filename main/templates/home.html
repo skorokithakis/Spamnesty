@@ -9,10 +9,23 @@
 </div>
 
 <h3>Conversations</h3>
-<p>Get three equal-width columns <strong>starting at desktops and scaling to large desktops</strong>. On mobile devices, tablets and below, the columns will automatically stack.</p>
 <div class="row">
-    <div class="col-md-4">.col-md-4</div>
-    <div class="col-md-4">.col-md-4</div>
-    <div class="col-md-4">.col-md-4</div>
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <th>Person</th>
+                <th>Subject</th>
+                <th>Date</th>
+            </tr>
+
+            {% for conversation in conversations %}
+            <tr>
+                <td><a href="{% url "main:conversation-view" conversation.id %}">The colloquy of {{ conversation.sender_name }}</a></td>
+                <td>{{ conversation.message_set.first.subject }}</td>
+                <td>{{ conversation.last_message_time }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </div>
 {% endblock %}

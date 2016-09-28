@@ -141,6 +141,9 @@ class Message(CharIDModel):
     # The in-reply-to header, which complements the ID.
     in_reply_to = models.CharField(max_length=1000, blank=True)
 
+    class Meta:
+        ordering = ["timestamp"]
+
     def __str__(self):
         return self.subject
 
