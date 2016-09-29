@@ -43,6 +43,17 @@ class CharIDModel(models.Model):
         abstract = True
 
 
+class Domain(CharIDModel):
+    "A domain to use for sending and receiving email."
+    # The domain name (e.g. example.com).
+    name = models.CharField(max_length=1000)
+    # The company name (e.g. Example, LLC).
+    company_name = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return "{0.company_name} ({0.name})".format(self)
+
+
 class ConversationManager(models.Manager):
     def create(self, *args, **kwargs):
         """Generate an object, retrying if there's an ID collision."""
@@ -75,7 +86,7 @@ class ConversationManager(models.Manager):
         """
         if message.direction == "F":
             # A forwarded email gets a new conversation.
-            conversation = super().create()
+            conversation = self.create()
         else:
             replied_to = Message.objects.filter(message_id=message.in_reply_to).first()
             if not replied_to:
@@ -86,17 +97,6 @@ class ConversationManager(models.Manager):
                 # conversation.
                 conversation = replied_to.conversation
         return conversation
-
-
-class Domain(CharIDModel):
-    "A domain to use for sending and receiving email."
-    # The domain name (e.g. example.com).
-    name = models.CharField(max_length=1000)
-    # The company name (e.g. Example, LLC).
-    company_name = models.CharField(max_length=1000)
-
-    def __str__(self):
-        return "{0.company_name} ({0.name})".format(self)
 
 
 class Conversation(CharIDModel):
