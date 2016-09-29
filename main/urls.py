@@ -12,4 +12,5 @@ urlpatterns = [
 urlpatterns += [
     url(r'^webhooks/forwarded/$', webhooks.forwarded, name="forwarded-webhook"),
     url(r'^webhooks/email/$', webhooks.email, name="email-webhook"),
+    url(r'^webhooks/cron/$', webhooks.cron, name="cron-webhook"),
 ]
