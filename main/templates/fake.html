@@ -1,33 +1,351 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-        <title>MNesty LLC</title>
-
-        <!-- Bootstrap -->
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Welcome to the web presence of MNesty, LLC</title>
+		<meta name="generator" content="Bootply" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <script src="https://use.fontawesome.com/55291a2f3d.js"></script>
 
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-    </head>
-    <body>
+		<!--[if lt IE 9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+        <style>
+            /* -- custom css for Bootstrap 3.x --*/
+
+            /* move special fonts to HTML head for better performance */
+            @import url(http://fonts.googleapis.com/css?family=Voltaire);
+
+            html,
+            body {
+                height: 100%;
+                width: 100%;
+                font-family:Arial,sans-serif;
+            }
+
+            /* fix bs3 horizontal scrollbar bug */
+            .row { margin: 0; padding: 0 }
+
+
+            /* use special fonts in certain elements */
+            h1,h2,h3,h4,.lead,.btn,.navbar a {
+                text-transform:uppercase;
+                font-family:'Voltaire',Arial,sans-serif;
+                letter-spacing:2px;
+            }
+
+            h1 {
+                font-size:50px;
+            }
+
+            /* make images gray */
+            img.grayscale {
+                filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
+                filter: gray; /* IE6-9 */
+                -webkit-filter: grayscale(100%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
+            }
+
+            .icon-bar {
+                background-color:#fff;
+            }
+
+            .scroll-down a, .scroll-top a {
+                color:#ffffff;
+            }
+
+            .scroll-down {
+                position:fixed;
+                bottom:20%;
+                right:0%;
+                color:#f9f9f9;
+            }
+
+            .scroll-top {
+                background-color:#dbdbdb;
+            }
+
+            .vert {
+                vertical-align: middle;
+                width:100%;
+                padding-top:4%;
+                text-align:center;
+            }
+
+            .header .btn-lg {
+                font-size:28px;
+                border-color:#eeeeee;
+                padding:15px;
+                background-color:transparent;
+                color:#ffffff;
+            }
+
+            .header .btn-lg:hover {
+                background-color:#eeeeee;
+                color:#777777;
+            }
+
+            .navbar a {
+                color:#fff;
+                font-size:14px;
+            }
+
+            .navbar-bold.affix {
+                background-color:#d46054;
+            }
+
+            .navbar-bold {
+                background-color:#f68076;
+                font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+            }
+
+            .navbar-bold li a:hover, .navbar-bold li.active {
+                background-color:#d46054;
+            }
+
+
+            .header h1 {
+                font-size:80px;
+                -webkit-text-stroke: 1px rgba(f,f,f,0.1);
+                color:#431a6d;
+                color:#fff;
+                margin-left:-5px;
+                margin-bottom:5px;
+                text-transform:uppercase;
+            }
+
+            .header .lead {
+                color:#d46054;
+                font-size:25px;
+            }
+
+            .header {
+                height: 40%;
+                background: #f68076 url('{% static "images/hero.jpg" %}');
+                background-size: cover;
+            }
+
+            /* use alt in navbar and header for different color */
+
+            .alt {
+                background-color: #6E28C9;
+            }
+
+            .alt .lead {
+                color: #3B0496;
+            }
+
+            .alt.affix {
+                background-color:#4C06AB;
+            }
+
+            .alt li a:hover, .alt li.active {
+                background-color:#5D17BA;
+            }
+
+
+
+            .blurb {
+                padding: 120px 0;
+                background-color:#fefefe;
+            }
+
+            .blurb .panel {
+                background-color:transparent;
+            }
+
+            .bright {
+                background: #dbdbdb url('../assets/pt_topo.png') repeat center center fixed;
+                color:#777;
+            }
+
+            .featurette {
+                background: #222334;
+                padding: 50px 0;
+                color: #ffffff;
+            }
+
+            .featurette-item {
+                margin-bottom: 15px;
+            }
+
+            .featurette-item > i {
+                border: 3px solid #ffffff;
+                border-radius: 50%;
+                display: inline-block;
+                font-size: 56px;
+                width: 140px;
+                height: 140px;
+                line-height: 136px;
+                vertical-align: middle;
+                text-align: center;
+            }
+
+            .featurette-item > i:hover {
+                font-size: 68px;
+            }
+
+            .callout {
+                color: #ffffff;
+                padding-top:7%;
+                height: 100%;
+                width: 100%;
+                background: url('../assets/bg_suburb.jpg') no-repeat center center fixed;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+            }
+
+            .gallery {
+                padding: 50px 0;
+            }
+
+            .call-to-action {
+                background: #eeeeee;
+                padding: 50px 0;
+            }
+
+            .call-to-action .btn {
+                margin: 10px;
+            }
+
+            footer {
+                padding: 100px 0;
+            }
+
+            /* -- end custom css for Bootstrap 3.x --*/
+        </style>
+	</head>
+	<body>
+
+	<nav class="navbar navbar-fixed-top alt" data-spy="affix" data-offset-top="1000">
+	  <div class="container">
+		<div class="navbar-header">
+		  <a href="#" class="navbar-brand">Home</a>
+		  <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </a>
+		</div>
+
+		<div class="navbar-collapse collapse" id="navbar">
+		  <ul class="nav navbar-nav">
+			<li><a href="#sec1">Your shipment</a></li>
+			<li><a href="#sec2">Features</a></li>
+			<li><a href="#sec3">Contact</a></li>
+		  </ul>
+		</div>
+	   </div>
+	</nav>
+
+    <div class="header alt vert">
         <div class="container">
-            <p>
-            Welcome to MNesty, the premier maritime logistics company of Asia,
-            strategically located in Mongolia.
-            </p>
-        </div> <!-- /container -->
+            <p>&nbsp;</p>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+            <h1>MNesty, LLC</h1>
+            <p class="lead">Asia's premier maritime logistics company,<br/> strategically located in Mongolia.</p>
+        </div>
+    </div>
+
+	<div id="sec1" class="blurb">
+	  <div class="container">
+		<div class="row">
+		  <div class="col-md-7">
+			<h1>Your shipment, the world over</h1>
+			<p class="lead">We handle every port globally</p>
+		  </div>
+		  <div class="col-md-5">
+			<h1 class="pull-right"><i class="fa fa-globe fa-3x"></i> <i class="fa fa-ship fa-3x"></i></h1>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+	<div class="featurette" id="sec2">
+	  <div class="container">
+		<div class="row">
+		  <div class="col-md-12 text-center">
+			<h1>Security, affordability, promptness</h1>
+		  </div>
+		</div>
+		<div class="row">
+		  <div class="col-md-2 col-md-offset-2 text-center">
+			<div class="featurette-item">
+			  <i class="fa fa-lock"></i>
+			  <h4>Security</h4>
+			  <p>Every shipment is insured.</p>
+			</div>
+		  </div>
+		  <div class="col-md-2 text-center">
+			<div class="featurette-item">
+			  <i class="fa fa-dollar"></i>
+			  <h4>Affordability</h4>
+			  <p>Global reach for local cost.</p>
+			</div>
+		  </div>
+		  <div class="col-md-2 text-center">
+			<div class="featurette-item">
+			  <i class="fa fa-clock-o"></i>
+			  <h4>Promptness</h4>
+			  <p>Your shipment, on time.</p>
+			</div>
+		  </div>
+		  <div class="col-md-2 text-center">
+			<div class="featurette-item">
+			  <i class="fa fa-phone"></i>
+			  <h4>Outreach</h4>
+			  <p>Contact us today.</p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+	<footer>
+	  <div class="container" id="sec3">
+		<div class="row">
+		  <div class="col-md-6 col-md-offset-3 text-center">
+			<ul class="list-inline">
+			  <li><i class="fa fa-facebook fa fa-2x"></i></li>
+			  <li><i class="fa fa-twitter fa fa-2x"></i></li>
+			  <li><i class="fa fa-google-plus fa fa-2x"></i></li>
+			  <li><i class="fa fa-pinterest fa fa-2x"></i></li>
+			</ul>
+			<hr>
+            <p>Looking for amnesty? <a href="https://spa.mnesty.com/">Look no further</a>.</p>
+		  </div>
+		</div>
+	  </div>
+	</footer>
+
+	<ul class="nav pull-right scroll-down">
+	  <li><a href="#" title="Scroll down"><i class="fa fa-chevron-down fa fa-3x"></i></a></li>
+	</ul>
+	<ul class="nav pull-right scroll-top">
+	  <li><a href="#" title="Scroll to top"><i class="fa fa-chevron-up fa fa-3x"></i></a></li>
+	</ul>
+
+	<!-- script references -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    </body>
-</html>
+        <script>
+            $(document).ready(function(){/* smooth scrolling for scroll to top */
+                $('.scroll-top').click(function(){
+                    $('body,html').animate({scrollTop:0},800);
+                })
+                /* smooth scrolling for scroll down */
+                $('.scroll-down').click(function(){
+                    $('body,html').animate({scrollTop:$(window).scrollTop()+800},1000);
+                })
 
+                /* highlight the top nav as scrolling occurs */
+                $('body').scrollspy({ target: '#navbar' })
+
+            });
+        </script>
+	</body>
+</html>

@@ -8,7 +8,7 @@ from ..models import Conversation
 
 @render_to("home.html")
 def home(request):
-    if not (request.get_host().startswith("spa.") or settings.DEBUG):
+    if (request.get_host().startswith("spa.") or settings.DEBUG):
         return {"TEMPLATE": "fake.html"}
     conversations = Conversation.objects.annotate(
             last_message_time=Max('message__timestamp')

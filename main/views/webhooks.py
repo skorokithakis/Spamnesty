@@ -8,9 +8,6 @@ from django.views.decorators.csrf import csrf_exempt
 from ..models import Message
 from ..utils import construct_reply
 
-import tbvaccine
-tbvaccine.add_hook()
-
 
 @csrf_exempt
 def forwarded(request):
