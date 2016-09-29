@@ -1,0 +1,10 @@
+Hello!
+I just got your spam submission, and it looks like it was sent from
+{{ message.sender_email }}.
+
+I have emailed them back to have a chat, you can read it here:
+
+https://spa.mnesty.com{% url "main:conversation-view" message.conversation.id %}
+
+Thanks!
+Spamnesty

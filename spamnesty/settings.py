@@ -15,6 +15,8 @@ DEBUG = True if os.environ.get("NODEBUG") is None else False
 
 ALLOWED_HOSTS = [".mnesty.com"]
 
+DEFAULT_FROM_EMAIL = "Spamnesty <sp@mnesty.com>"
+
 
 # Application definition
 

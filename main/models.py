@@ -1,17 +1,19 @@
 from __future__ import unicode_literals
 
 import datetime
+import re
 import random
 
 import shortuuid
 from django.conf import settings
+from django.core.mail import EmailMessage
 from django.db import models
 from django.db.utils import IntegrityError
-from email.utils import parseaddr
+from django.urls import reverse
+from email.utils import parseaddr, make_msgid
 from faker import Faker
 
-from email.utils import make_msgid
-from django.core.mail import EmailMessage
+from .utils import parse_forwarded_message
 
 
 def generate_message_id(domain_name) -> str:
@@ -101,6 +103,9 @@ class ConversationManager(models.Manager):
 
 class Conversation(CharIDModel):
     """The main conversation object."""
+    # The email address of the person who reported this message.
+    reporter_email = models.CharField(max_length=1000, blank=True)
+
     # The name of our sender (the bot).
     sender_name = models.CharField(max_length=1000, default=generate_fake_name)
 
@@ -111,6 +116,9 @@ class Conversation(CharIDModel):
 
     def __str__(self):
         return "%s <%s>" % (self.sender_name, self.sender_email)
+
+    def get_absolute_url(self):
+        return reverse("main:conversation-view", args=[self.id])
 
     @property
     def sender_username(self):
@@ -145,11 +153,8 @@ class Message(CharIDModel):
     # The plaintext body of the email.
     body = models.TextField()
 
-    # The body of the email, stripped of any replies or signatures.
+    # The body of the email, with signature.
     stripped_body = models.TextField(blank=True)
-
-    # The signature of the email, if available.
-    stripped_signature = models.TextField(blank=True)
 
     # The message ID, so we can keep track of the conversation.
     message_id = models.CharField(max_length=1000, unique=True)
@@ -202,10 +207,39 @@ class Message(CharIDModel):
         message.recipient = posted["To"]
         message.subject = posted["Subject"]
         message.body = posted["body-plain"]
-        message.stripped_body = posted["stripped-text"]
-        message.stripped_signature = posted.get("stripped-signature", "")
+        message.stripped_body = posted.get("stripped-text", "")
         message.message_id = posted["Message-Id"]
         message.in_reply_to = posted.get("In-Reply-To", "")
+
+        if forwarded:
+            # If a message has been forwarded to us, we need to:
+            #
+            # 1. Store the original reporter's email in the conversation, so we
+            #    can email them.
+            # 2. Parse the forwarded message from the email and replace the body
+            #    of the email with it.
+            # 3. Parse the spammer's email from it and replace the sender with
+            #    that.
+            # 4. Remove the "Fwd:" from the subject.
+            #
+            # We will consider the forwarded message to be what starts the email
+            # chain.
+            message.conversation = Conversation.objects.create(
+                reporter_email=posted["From"]
+            )
+
+            # Strip Fw/Fwd from the subject.
+            match = re.match("\W*Fwd?: (.*)$", message.subject, re.I)
+            if match:
+                message.subject = match.group(1)
+
+            body = message.stripped_body if message.stripped_body else message.body
+
+            # Parse the forwarded message and replace the sender and body.
+            sender, body = parse_forwarded_message(body)
+            message.sender = sender
+            message.body = message.stripped_body = body
+
         message.save()
 
         return message

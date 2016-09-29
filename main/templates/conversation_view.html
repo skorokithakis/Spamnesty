@@ -12,10 +12,17 @@
 <div class="row">
     <div class="col-md-12">
         {% for message in conversation.message_set.all %}
-        <p><strong>From:</strong> {{ message.sender }}</p>
-        <p><strong>To:</strong> {{ message.recipient }}</p>
+
+        {% if message.direction == "S" %}
+        <p>From <strong>Me</strong> to <strong>Spammer</strong></p>
+        {% else %}
+        <p>From <strong>Spammer</strong> to <strong>Me</strong></p>
+        {% endif %}
+
         <p><strong>Subject:</strong> {{ message.subject }}</p>
+
         <p>{{ message.body|linebreaks }}</p>
+
         <hr>
         {% endfor %}
     </div>

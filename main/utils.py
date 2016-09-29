@@ -1,19 +1,47 @@
 import random
+import re
 
 
-from .models import Message
+def parse_forwarded_message(message: str):
+    """
+    Parse an email body that contains a forwarded message, and return the
+    message and the original sender's email address.
+    """
+    state = "START"
+    sender = None
+    body = []
+    for line in message.split("\n"):
+        line = line.strip("\r\n")
+        if state == "START":
+            match = re.match("From:\W*(.*?)$", line)
+            if match:
+                state = "HEADER"
+                sender = match.group(1).strip()
+        elif state == "HEADER":
+            # Start reading the message on the first blank line.
+            if line == "":
+                state = "MESSAGE"
+        else:
+            body.append(line)
+
+    return sender, "\n".join(body).lstrip()
 
 
-def quote_message(reply, message):
-    body = ("%s\n\n%s" % (message.stripped_body, message.stripped_signature)) if message.stripped_body else message.body
+def quote_message(body: str, message):
+    """
+    Given a body and an EmailMessage instance, construct a reply that contains
+    the body and quoted EmailMessage contents.
+    """
 
-    lines = reply.split("\n")
+    lines = body.split("\n")
     lines.append("")
     lines.append(message.conversation.sender_name)
     lines.append("CEO, %s" % message.conversation.domain.company_name)
     lines.extend(["", ""])
     lines.append("On %s, %s wrote:" % (message.timestamp.strftime("%d/%m/%Y %H:%M %p"), message.sender_name))
-    lines.extend(["> " + line for line in body.split("\n")])
+
+    original = message.stripped_body or message.body
+    lines.extend(["> " + line for line in original.split("\n")])
     return "\n".join(lines)
 
 
@@ -34,6 +62,9 @@ def construct_reply(message):
     subject = message.subject
     if not subject.startswith("Re: "):
         subject = "Re: " + subject
+
+    # We can't import a model here, as it would be circular.
+    Message = message.__class__
 
     reply = Message.objects.create(
         direction="S",
