@@ -10,7 +10,7 @@ def quote_message(reply, message):
     lines = reply.split("\n")
     lines.append("")
     lines.append(message.conversation.sender_name)
-    lines.append("CEO, MNesty, LLC")
+    lines.append("CEO, %s" % message.conversation.domain.company_name)
     lines.extend(["", ""])
     lines.append("On %s, %s wrote:" % (message.timestamp.strftime("%d/%m/%Y %H:%M %p"), message.sender_name))
     lines.extend(["> " + line for line in body.split("\n")])
@@ -19,10 +19,10 @@ def quote_message(reply, message):
 
 def get_random_message():
     messages = [
-        "Hello,\nThat is very interesting! Could you elaborate? Do you have any details\nonline I could look at?",
-        "Hi,\nSounds great, how can we proceed? We're interested in getting started\npretty much immediately, as we could use this.",
-        "Hello,\nThank you for your email! However, I don't know if this will fit in\nour budget. Is there anything better you could do?",
-        "Hey there,\nCould you tell me where you are located? Also, could you tell me\nmore about your offer?",
+        "Hello,\nThat is very interesting! Could you elaborate? Do you have any details online I could look at?",
+        "Hi,\nSounds great, how can we proceed? We're interested in getting started pretty much immediately, as we could use this.",
+        "Hello,\nThank you for your email! However, I don't know if this will fit in our budget. Is there anything better you could do?",
+        "Hey there,\nCould you tell me where you are located? Also, could you tell me more about your offer?",
     ]
     return random.choice(messages)
 

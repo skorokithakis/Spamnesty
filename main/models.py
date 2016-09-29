@@ -3,7 +3,6 @@ from __future__ import unicode_literals
 import shortuuid
 from django.db import models
 from django.db.utils import IntegrityError
-from django.contrib.sites.models import Site
 from email.utils import parseaddr
 from faker import Faker
 
@@ -11,14 +10,9 @@ from email.utils import make_msgid
 from django.core.mail import EmailMessage
 
 
-def domain() -> str:
-    "Return the current domain."
-    return Site.objects.get_current().domain
-
-
-def generate_message_id() -> str:
+def generate_message_id(domain_name) -> str:
     "Generate an email message ID."
-    return make_msgid(domain=domain())
+    return make_msgid(domain=domain_name)
 
 
 def generate_fake_name():
@@ -29,6 +23,11 @@ def generate_fake_name():
 def generate_uuid() -> str:
     "Generate a UUID for an object."
     return shortuuid.ShortUUID("abdcefghjkmnpqrstuvwxyz").random()[:8]
+
+
+def get_random_domain():
+    "Choose a random domain from the database."
+    return Domain.objects.order_by("?").first()
 
 
 class CharIDModel(models.Model):
@@ -85,10 +84,24 @@ class ConversationManager(models.Manager):
         return conversation
 
 
+class Domain(CharIDModel):
+    "A domain to use for sending and receiving email."
+    # The domain name (e.g. example.com).
+    name = models.CharField(max_length=1000)
+    # The company name (e.g. Example, LLC).
+    company_name = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return "{0.company_name} ({0.name})".format(self)
+
+
 class Conversation(CharIDModel):
     """The main conversation object."""
     # The name of our sender (the bot).
     sender_name = models.CharField(max_length=1000, default=generate_fake_name)
+
+    # The fake domain to use to send mail from.
+    domain = models.ForeignKey(Domain, default=get_random_domain)
 
     objects = ConversationManager()
 
@@ -104,7 +117,7 @@ class Conversation(CharIDModel):
     @property
     def sender_email(self):
         "Derive a username from the sender's username."
-        return "%s@%s" % (self.sender_username, domain())
+        return "%s@%s" % (self.sender_username, self.domain.name)
 
 
 class Message(CharIDModel):
@@ -132,11 +145,7 @@ class Message(CharIDModel):
     stripped_signature = models.TextField(blank=True)
 
     # The message ID, so we can keep track of the conversation.
-    message_id = models.CharField(
-            max_length=1000,
-            unique=True,
-            default=generate_message_id,
-            )
+    message_id = models.CharField(max_length=1000, unique=True)
 
     # The in-reply-to header, which complements the ID.
     in_reply_to = models.CharField(max_length=1000, blank=True)
@@ -190,8 +199,6 @@ class Message(CharIDModel):
         message.stripped_signature = posted.get("stripped-signature", "")
         message.message_id = posted["Message-Id"]
         message.in_reply_to = posted.get("In-Reply-To", "")
-        # In order to get_by_message, we need to already have set in_reply_to.
-        message.conversation = Conversation.objects.get_by_message(message)
         message.save()
 
         return message
@@ -209,3 +216,14 @@ class Message(CharIDModel):
         )
 
         email.send()
+
+    def save(self, *args, **kwargs):
+        "Generate a message ID on saving."
+        if not self.conversation_id:
+            # In order to get_by_message, we need to already have set in_reply_to.
+            self.conversation = Conversation.objects.get_by_message(self)
+
+        if not self.message_id:
+            self.message_id = generate_message_id(self.conversation.domain.name)
+
+        super().save(*args, **kwargs)
