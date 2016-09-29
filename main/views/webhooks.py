@@ -32,7 +32,6 @@ def cron(request):
     "The webhook that is called when it's time to send emails."
     unsent_messages = Message.objects.exclude(send_on=None).filter(send_on__lt=datetime.datetime.now())
     for message in unsent_messages:
-        print("sending message")
         message.send()
 
     return HttpResponse("OK")
