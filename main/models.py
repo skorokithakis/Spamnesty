@@ -1,6 +1,10 @@
 from __future__ import unicode_literals
 
+import datetime
+import random
+
 import shortuuid
+from django.conf import settings
 from django.db import models
 from django.db.utils import IntegrityError
 from email.utils import parseaddr
@@ -135,6 +139,9 @@ class Message(CharIDModel):
     recipient = models.CharField(max_length=1000, blank=True)
     subject = models.CharField(max_length=1000)
 
+    # The time to send the email on.
+    send_on = models.DateTimeField(blank=True, null=True)
+
     # The plaintext body of the email.
     body = models.TextField()
 
@@ -203,6 +210,19 @@ class Message(CharIDModel):
 
         return message
 
+    def queue(self):
+        """
+        Queue the message for sending with a random delay (to appear more
+        realistic).
+        """
+        if settings.DEBUG:
+            send_on = datetime.datetime.now()
+        else:
+            send_on = datetime.datetime.now() + \
+                datetime.timedelta(seconds=random.randrange(60, 12 * 60 * 60))
+        self.send_on = send_on
+        self.save()
+
     def send(self):
         "Send the message through email."
         conversation = self.conversation
@@ -216,6 +236,9 @@ class Message(CharIDModel):
         )
 
         email.send()
+
+        self.send_on = None
+        self.save()
 
     def save(self, *args, **kwargs):
         "Generate a message ID on saving."
