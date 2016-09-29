@@ -1,11 +1,17 @@
 from django.contrib import admin
 
-from .models import Conversation, Message
+from .models import Domain, Conversation, Message
+
+
+@admin.register(Domain)
+class DomainAdmin(admin.ModelAdmin):
+    list_display = ["name", "company_name"]
+    search_fields = ["name", "company_name"]
 
 
 @admin.register(Conversation)
 class ConversationAdmin(admin.ModelAdmin):
-    list_display = ["id"]
+    list_display = ["id", "sender_name", "domain"]
     search_fields = ["id", "profile"]
 
 
