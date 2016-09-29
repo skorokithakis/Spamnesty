@@ -4,9 +4,20 @@
 
 {% block content %}
 <div class="page-header">
-    <h1>Spamnesty</h1>
-    <p class="lead">Fun with spam!</p>
+    <h1>{{ request.site.name }}</h1>
+    <p class="lead">Have fun with spam!</p>
 </div>
+
+<h2>What is {{ request.site.name }}?</h2>
+<p>{{ request.site.name }} is a way to waste spammers' time. If you get a spam
+email, simply forward it to <a href="mailto:sp@mnesty.com">sp@mnesty.com</a>,
+and {{ request.site.name }} will strip anything that has to do with you, pretend
+it's a real person and reply to the email.</p>
+
+<p>That way, the spammer will start talking to a bot, and hopefully waste some
+time there instead of spending it on a real victim. Meanwhile,
+{{ request.site.name }} will send you an email with a link to the conversation,
+so you can watch it unfold live!</p>
 
 <h3>Conversations</h3>
 <div class="row">
