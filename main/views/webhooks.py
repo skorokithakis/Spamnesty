@@ -15,24 +15,37 @@ def forwarded(request):
 
     # Parse the forwarded message.
     message = Message.parse_from_mailgun(request.POST, forwarded=True)
+    if not message:
+        # Notify the sender that we couldn't find the spammer's address.
+        EmailMessage(
+            subject=render_to_string(
+                "emails/forward_no_email_subject.txt",
+                request=request
+            ).strip(),
+            body=render_to_string(
+                "emails/forward_no_email_body.txt",
+                request=request
+            ),
+            to=[request.POST["From"]],
+        ).send()
+    else:
+        # Notify the sender that we've received it.
+        EmailMessage(
+            subject=render_to_string(
+                "emails/forward_received_subject.txt",
+                request=request
+            ).strip(),
+            body=render_to_string(
+                "emails/forward_received_body.txt",
+                context={"message": message},
+                request=request
+            ),
+            to=[request.POST["From"]],
+        ).send()
 
-    # Notify the sender that we've received it.
-    EmailMessage(
-        subject=render_to_string(
-            "emails/forward_received_subject.txt",
-            request=request
-        ).strip(),
-        body=render_to_string(
-            "emails/forward_received_body.txt",
-            context={"message": message},
-            request=request
-        ),
-        to=[message.conversation.reporter_email],
-    ).send()
-
-    # Reply to the spammer.
-    reply = construct_reply(message)
-    reply.send()
+        # Reply to the spammer.
+        reply = construct_reply(message)
+        reply.send()
 
     return HttpResponse("OK")
 

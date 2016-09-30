@@ -224,21 +224,24 @@ class Message(CharIDModel):
             #
             # We will consider the forwarded message to be what starts the email
             # chain.
-            message.conversation = Conversation.objects.create(
-                reporter_email=posted["From"]
-            )
+
+            # Parse the forwarded message and replace the sender and body.
+            body = message.stripped_body if message.stripped_body else message.body
+            sender, body = parse_forwarded_message(body)
+            if not sender:
+                # We couldn't locate a sender, so abort.
+                return None
+            message.sender = sender
+            message.body = message.stripped_body = body
 
             # Strip Fw/Fwd from the subject.
             match = re.match("\W*Fwd?: (.*)$", message.subject, re.I)
             if match:
                 message.subject = match.group(1)
 
-            body = message.stripped_body if message.stripped_body else message.body
-
-            # Parse the forwarded message and replace the sender and body.
-            sender, body = parse_forwarded_message(body)
-            message.sender = sender
-            message.body = message.stripped_body = body
+            message.conversation = Conversation.objects.create(
+                reporter_email=posted["From"]
+            )
 
         message.save()
 

@@ -1,0 +1,8 @@
+Hello!
+I just got your spam submission, but I couldn't figure out who sent it.
+Make sure it includes the forwarding headers, and that it has a "From:"
+line with the spammer's email on it. If your computer is in a language
+other than English, maybe you can change the From to English manually.
+
+Let me know!
+Spamnesty
