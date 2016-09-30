@@ -2,6 +2,17 @@ import random
 import re
 
 
+def parse_email_address(address: str):
+    """
+    Break an email address of the form First Last <firstlast@example.com> into
+    a name and an email address.
+    """
+    match = re.match("\W*\"?(.*?)\"?\W+<(.*?)>$", address)
+    if not match:
+        return None
+    return match.groups()
+
+
 def parse_forwarded_message(message: str):
     """
     Parse an email body that contains a forwarded message, and return the
@@ -24,6 +35,7 @@ def parse_forwarded_message(message: str):
         else:
             body.append(line)
 
+    sender = "%s <%s>" % parse_email_address(sender)
     return sender, "\n".join(body).lstrip()
 
 

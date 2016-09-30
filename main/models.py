@@ -10,10 +10,10 @@ from django.core.mail import EmailMessage
 from django.db import models
 from django.db.utils import IntegrityError
 from django.urls import reverse
-from email.utils import parseaddr, make_msgid
+from email.utils import make_msgid
 from faker import Faker
 
-from .utils import parse_forwarded_message
+from .utils import parse_forwarded_message, parse_email_address
 
 
 def generate_message_id(domain_name) -> str:
@@ -173,28 +173,28 @@ class Message(CharIDModel):
         "Parse and return the sender's name."
         if not self.sender:
             return ""
-        return parseaddr(self.sender)[0]
+        return parse_email_address(self.sender)[0]
 
     @property
     def sender_email(self):
         "Parse and return the sender's email address."
         if not self.sender:
             return ""
-        return parseaddr(self.sender)[1]
+        return parse_email_address(self.sender)[1]
 
     @property
     def recipient_name(self):
         "Parse and return the recipient's name."
         if not self.recipient:
             return ""
-        return parseaddr(self.recipient)[0]
+        return parse_email_address(self.recipient)[0]
 
     @property
     def recipient_email(self):
         "Parse and return the recipient's email address."
         if not self.recipient:
             return ""
-        return parseaddr(self.recipient)[1]
+        return parse_email_address(self.recipient)[1]
 
     @classmethod
     def parse_from_mailgun(cls, posted, forwarded=False):
