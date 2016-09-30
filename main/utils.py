@@ -7,10 +7,20 @@ def parse_email_address(address: str):
     Break an email address of the form First Last <firstlast@example.com> into
     a name and an email address.
     """
-    match = re.match("\W*\"?(.*?)\"?\W+<(.*?)>$", address)
-    if not match:
-        return None
-    return match.groups()
+    regexes = [
+        # Weird-ass Outlook format (Person <per@ex.com<mailto:per@ex.com>>).
+        "\W*\"?(.*?)\"?\W+<(.*?)<.*?>>$",
+        # Regular format (Person <person@example.com>).
+        "\W*\"?(.*?)\"?\W+<(.*?)>$",
+    ]
+    # Try each regex in order, to find one that matches.
+    for regex in regexes:
+        match = re.match(regex, address)
+        if not match:
+            continue
+        return match.groups()
+
+    return None
 
 
 def parse_forwarded_message(message: str):

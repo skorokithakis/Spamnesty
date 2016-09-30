@@ -1,0 +1,10 @@
+
+
+---------- Forwarded message ----------
+From: "Spam Spammer" <spam@example.com<mailto:spam@example.com>>
+Date: Fri, Sep 30, 2016 at 2:37 PM +0300
+Subject: Some spam
+To: "person@example.com" <person@example.com<mailto:person@example.com>>
+
+
+Hi, this is spam.

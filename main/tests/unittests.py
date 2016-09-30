@@ -31,6 +31,11 @@ class UnitTests(TestCase):
                 "sender": "SomePerson <sperson@example.com>",
                 "check": "Stuff.",
             },
+            {
+                "body": open("main/tests/forwarded_emails/6.txt").read(),
+                "sender": "Spam Spammer <spam@example.com>",
+                "check": "Hi, this is spam.",
+            },
         ]
 
         for message in messages:
