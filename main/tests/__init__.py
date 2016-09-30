@@ -1,4 +1,4 @@
 # flake8: noqa
 
-from .smoketests import SmokeTests
-from .unittests import UnitTests
+from .smoke_tests import SmokeTests
+from .unit_tests import UnitTests

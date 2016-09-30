@@ -8,10 +8,12 @@ def parse_email_address(address: str):
     a name and an email address.
     """
     regexes = [
+        # Bare email addresses (per@ex.com)
+        "^()([^<>]*)$",
         # Weird-ass Outlook format (Person <per@ex.com<mailto:per@ex.com>>).
-        "\W*\"?(.*?)\"?\W+<(.*?)<.*?>>$",
-        # Regular format (Person <person@example.com>).
-        "\W*\"?(.*?)\"?\W+<(.*?)>$",
+        "^\W*\"?(.*?)\"?\W+<(.*?)<.*?>>$",
+        # Regular format (Person <per@ex.com>).
+        "^\W*\"?(.*?)\"?\W+<(.*?)>$",
     ]
     # Try each regex in order, to find one that matches.
     for regex in regexes:
@@ -21,6 +23,18 @@ def parse_email_address(address: str):
         return match.groups()
 
     return None
+
+
+def normalize_email_address(address: str):
+    """
+    Normalize an email address to either a "First Last <flast@ex.com>" or a
+    "flast@ex.com" format.
+    """
+    display_name, email = parse_email_address(address)
+    if display_name:
+        return "%s <%s>" % (display_name, email)
+    else:
+        return email
 
 
 def parse_forwarded_message(message: str):
@@ -37,7 +51,7 @@ def parse_forwarded_message(message: str):
             match = re.match("From:\W*(.*?)$", line)
             if match:
                 state = "HEADER"
-                sender = match.group(1).strip()
+                sender = normalize_email_address(match.group(1).strip())
         elif state == "HEADER":
             # Start reading the message on the first blank line.
             if line == "":
@@ -45,7 +59,6 @@ def parse_forwarded_message(message: str):
         else:
             body.append(line)
 
-    sender = "%s <%s>" % parse_email_address(sender)
     return sender, "\n".join(body).lstrip()
 
 
