@@ -45,13 +45,46 @@ def parse_forwarded_message(message: str):
     state = "START"
     sender = None
     body = []
+    regex = re.compile(
+        r"""
+        [\r\n][\t\f\v ]*    # Ignore any whitespace before the header.
+        (Reply-To|From):    # Match the header.
+        \s*                 # Ignore whitespace after it.
+        ((?:.*?)            # Non-preserving group of anything before the @.
+        @                   # The actual "@" sign (it all hinges on this, so if
+                            # some madman has a quoted "@" in their email address,
+                            # we're out of luck.
+        (?:[^\r\n]*))       # Match anything remaining, up to a newline.
+        """,
+        re.DOTALL | re.IGNORECASE | re.VERBOSE
+    )
+
+    # Match headers, but only keep the first two matches. If there are more,
+    # there is either some junk before or after the header. In the former case,
+    # the message is junk because the forwarder added it, in the latter, we only
+    # need the first two anyway.
+    matches = regex.findall(message)[:2]
+    if not matches:
+        # No sender found.
+        return sender, ""
+    elif len(matches) > 1 and matches[1][0].lower() == "reply-to":
+        # If the second address is a Reply-To, keep it.
+        sender = matches[1][1]
+    else:
+        # Otherwise, keep the first address.
+        sender = matches[0][1]
+
+    sender = normalize_email_address(sender)
+
+    # Parse the header so we can recover the original message.
     for line in message.split("\n"):
         line = line.strip("\r\n")
         if state == "START":
-            match = re.match("From:\W*(.*?)$", line)
+            match = re.match("^From:.*$", line)
             if match:
                 state = "HEADER"
-                sender = normalize_email_address(match.group(1).strip())
+        elif state == "EMAIL":
+            pass
         elif state == "HEADER":
             # Start reading the message on the first blank line.
             if line == "":

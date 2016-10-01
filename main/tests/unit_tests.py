@@ -36,6 +36,16 @@ class UnitTests(TestCase):
                 "sender": "Spam Spammer <spam@example.com>",
                 "check": "Hi, this is spam.",
             },
+            {
+                "body": open("main/tests/forwarded_emails/7.txt").read(),
+                "sender": "stuff/things <reply+00005c60909823812093819034c0f36b6e0bb2b65fda05b292cf000000011406c76b92a169ce020bbb75@reply.example.com>",
+                "check": "You could try to create",
+            },
+            {
+                "body": open("main/tests/forwarded_emails/8.txt").read(),
+                "sender": "stuff/things <reply+00005c60909823812093819034c0f36b6e0bb2b65fda05b292cf000000011406c76b92a169ce020bbb75@reply.example.com>",
+                "check": "You could try to create",
+            },
         ]
 
         for message in messages:

@@ -1,0 +1,27 @@
+
+-------- Forwarded Message --------
+Subject: 	Re: [stuff/things] Stuff
+Challenge-Response (#52)
+Date: 	Fri, 30 Sep 2016 17:38:03 -0700
+From: 	Person Person
+<notifications@example.com>
+Reply-To: 	stuff/things
+<reply+00005c60909823812093819034c0f36b6e0bb2b65fda05b292cf000000011406c76b92a169ce020bbb75@reply.example.com>
+To: 	stuff/stuff <stuff@noreply.example.com>
+CC: 	Stavros Korokithakis <stavros@korokithakis.net>, Comment
+<comment@noreply.example.com>
+From: 	More invalid crap
+<crap@example.com>
+Reply-To: 	crap <morecrap@reply.example.com>
+
+
+
+You could try to create this pull request over at
+https://example.com/stuff/stuff
+
+—
+You are receiving this because you commented.
+Reply to this email directly, view it on example
+<https://example.com/stuff/stuff/pull/52,
+or mute the thread
+<https://example.com/notifications/unsubscribe-auth/>.
