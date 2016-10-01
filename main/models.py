@@ -23,7 +23,9 @@ def generate_message_id(domain_name) -> str:
 
 def generate_fake_name():
     "Generate a fake name."
-    return Faker().name()
+    fake = Faker()
+    fake.seed(time.time())
+    return fake.name()
 
 
 def generate_uuid() -> str:
