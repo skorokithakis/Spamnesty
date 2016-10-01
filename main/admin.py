@@ -9,10 +9,16 @@ class DomainAdmin(admin.ModelAdmin):
     search_fields = ["name", "company_name"]
 
 
+class MessageInline(admin.TabularInline):
+    model = Message
+    fields = ["sender", "recipient", "body"]
+
+
 @admin.register(Conversation)
 class ConversationAdmin(admin.ModelAdmin):
     list_display = ["id", "sender_name", "domain"]
     search_fields = ["id", "profile"]
+    inlines = [MessageInline]
 
 
 @admin.register(Message)
