@@ -153,7 +153,10 @@ class Message(CharIDModel):
     # The plaintext body of the email.
     body = models.TextField()
 
-    # The body of the email, with signature.
+    # Any quoted text we need to include in the message.
+    quoted_text = models.TextField(blank=True)
+
+    # The stripped body of the email (no signature).
     stripped_body = models.TextField(blank=True)
 
     # The message ID, so we can keep track of the conversation.
@@ -196,6 +199,13 @@ class Message(CharIDModel):
             return ""
         return parse_email_address(self.recipient)[1]
 
+    @property
+    def best_body(self):
+        """
+        Return the best body to use (i.e. stripped_body if available).
+        """
+        return self.stripped_body or self.body
+
     @classmethod
     def parse_from_mailgun(cls, posted, forwarded=False):
         """
@@ -226,13 +236,14 @@ class Message(CharIDModel):
             # chain.
 
             # Parse the forwarded message and replace the sender and body.
-            body = message.stripped_body if message.stripped_body else message.body
+            body = message.best_body
             sender, body = parse_forwarded_message(body)
             if not sender:
                 # We couldn't locate a sender, so abort.
                 return None
             message.sender = sender
-            message.body = message.stripped_body = body
+            message.body = body
+            message.stripped_body = ""
 
             # Strip Fw/Fwd from the subject.
             match = re.match("\W*Fwd?: (.*)$", message.subject, re.I)
@@ -264,9 +275,14 @@ class Message(CharIDModel):
         "Send the message through email."
         conversation = self.conversation
 
+        body = self.body
+
+        if self.quoted_text:
+            body += "\n\n" + self.quoted_text
+
         email = EmailMessage(
             self.subject,
-            self.body,
+            body,
             "%s <%s>" % (conversation.sender_name, self.conversation.sender_email),
             [self.recipient],
             headers={'Message-ID': self.message_id},

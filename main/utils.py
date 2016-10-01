@@ -64,20 +64,19 @@ def parse_forwarded_message(message: str):
 
 def quote_message(body: str, message):
     """
-    Given a body and an EmailMessage instance, construct a reply that contains
-    the body and quoted EmailMessage contents.
+    Given a body and an EmailMessage instance, construct a body (with a
+    signature) and a quoted reply.
     """
 
-    lines = body.split("\n")
-    lines.append("")
-    lines.append(message.conversation.sender_name)
-    lines.append("CEO, %s" % message.conversation.domain.company_name)
-    lines.extend(["", ""])
-    lines.append("On %s, %s wrote:" % (message.timestamp.strftime("%d/%m/%Y %H:%M %p"), message.sender_name))
+    original = body.split("\n")
+    original.append("")
+    original.append(message.conversation.sender_name)
+    original.append("CEO, %s" % message.conversation.domain.company_name)
 
-    original = message.stripped_body or message.body
-    lines.extend(["> " + line for line in original.split("\n")])
-    return "\n".join(lines)
+    reply = []
+    reply.append("On %s, %s wrote:" % (message.timestamp.strftime("%d/%m/%Y %H:%M %p"), message.sender_name))
+    reply.extend(["> " + line for line in message.best_body.split("\n")])
+    return "\n".join(original), "\n".join(reply)
 
 
 def get_random_message():
@@ -101,13 +100,16 @@ def construct_reply(message):
     # We can't import a model here, as it would be circular.
     Message = message.__class__
 
+    original, reply = quote_message(get_random_message(), message)
+
     reply = Message.objects.create(
         direction="S",
         conversation=message.conversation,
         sender=message.conversation.sender_email,
         recipient=message.sender,
         subject=subject,
-        body=quote_message(get_random_message(), message),
+        body=original,
+        quoted_text=reply,
         in_reply_to=message.message_id,
     )
     return reply
