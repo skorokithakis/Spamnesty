@@ -95,8 +95,12 @@ class ConversationManager(models.Manager):
         else:
             replied_to = Message.objects.filter(message_id=message.in_reply_to).first()
             if not replied_to:
-                # We've never seen this ID before, so return a new conversation.
-                conversation = super().create()
+                # There may not be an included in-reply-to header, check the
+                # email address.
+                conversation = Conversation.objects.filter(sender_email=message.recipient_email).first()
+                if not conversation:
+                    # We've never seen this ID before, so return a new conversation.
+                    conversation = super().create()
             else:
                 # If we've seen a message with that ID before, return its
                 # conversation.
@@ -112,6 +116,9 @@ class Conversation(CharIDModel):
     # The name of our sender (the bot).
     sender_name = models.CharField(max_length=1000, default=generate_fake_name)
 
+    # The email address of the bot (so we can match incoming messages).
+    sender_email = models.CharField(max_length=1000, blank=True, db_index=True)
+
     # The fake domain to use to send mail from.
     domain = models.ForeignKey(Domain, default=get_random_domain)
 
@@ -124,15 +131,22 @@ class Conversation(CharIDModel):
         return reverse("main:conversation-view", args=[self.id])
 
     @property
-    def sender_username(self):
+    def calculated_sender_username(self):
         "Derive a username from the sender's name."
         split_name = self.sender_name.split()
         return (split_name[0][0] + split_name[1]).lower()
 
     @property
-    def sender_email(self):
+    def calculated_sender_email(self):
         "Derive a username from the sender's username."
-        return "%s@%s" % (self.sender_username, self.domain.name)
+        return "%s@%s" % (self.calculated_sender_username, self.domain.name)
+
+    def save(self, *args, **kwargs):
+        "Generate the sender_email on saving."
+        if not self.sender_email:
+            self.sender_email = self.calculated_sender_email
+
+        super().save(*args, **kwargs)
 
 
 class Message(CharIDModel):
@@ -173,6 +187,9 @@ class Message(CharIDModel):
 
     def __str__(self):
         return self.subject
+
+    def get_absolute_url(self):
+        return reverse("main:conversation-view", args=[self.conversation.id])
 
     @property
     def sender_name(self):
