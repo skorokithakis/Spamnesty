@@ -11,9 +11,9 @@ def parse_email_address(address: str):
         # Bare email addresses (per@ex.com)
         "^()([^<>]*)$",
         # Weird-ass Outlook format (Person <per@ex.com<mailto:per@ex.com>>).
-        "^\W*\"?(.*?)\"?\W+<(.*?)<.*?>>$",
+        "^\s*\"?(.*?)\"?\s*<(.*?)<.*?>>$",
         # Regular format (Person <per@ex.com>).
-        "^\W*\"?(.*?)\"?\W+<(.*?)>$",
+        "^\s*\"?(.*?)\"?\s*<(.*?)>\s*$",
     ]
     # Try each regex in order, to find one that matches.
     for regex in regexes:
@@ -22,7 +22,7 @@ def parse_email_address(address: str):
             continue
         return match.groups()
 
-    return None
+    raise ValueError("Could not parse input: %s" % address)
 
 
 def normalize_email_address(address: str):
