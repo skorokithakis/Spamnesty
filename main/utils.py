@@ -118,6 +118,9 @@ def get_random_message():
         "Hi,\nSounds great, how can we proceed? We're interested in getting started pretty much immediately, as we could use this.",
         "Hello,\nThank you for your email! However, I don't know if this will fit in our budget. Is there anything better you could do?",
         "Hey there,\nCould you tell me where you are located? Also, could you tell me more about your offer?",
+        "Hello,\nThat is reasonable, but do you think you can go into more detail about your main product? What is it about, exactly?",
+        "Hello,\nThat is very helpful, thank you. Do you perhaps have some literature I could look at, or could you send me some more information about what exactly makes you unique?",
+        "Hi,\nGreat, thanks. Could we have a short call to discuss the specifics? What are your contact details? Also, what is your pricing model like?",
     ]
     return random.choice(messages)
 
