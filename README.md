@@ -4,8 +4,9 @@ Spamnesty
 [![build status](https://gitlab.com/stavros/Spamnesty/badges/master/build.svg)](https://gitlab.com/stavros/Spamnesty/commits/master)
 [![coverage report](https://gitlab.com/stavros/Spamnesty/badges/master/coverage.svg)](https://gitlab.com/stavros/Spamnesty/commits/master)
 
-Spamnesty is an amazing service that lets you make the most delicious countdown
-timers on the entire web!
+
+Spamnesty lets you waste spammers' time by pretending it's a person and talking
+to them.
 
 
 Running
