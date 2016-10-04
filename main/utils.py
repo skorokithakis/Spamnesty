@@ -115,6 +115,7 @@ def quote_message(body: str, message):
 def get_random_message():
     messages = [
         "Hello,\nThat is very interesting! Could you elaborate? Do you have any details online I could look at?",
+        "Hello,\nCan you give me some more info about what you're offering? Specifically, how does it apply to our business? How can we use this?",
         "Hi,\nSounds great, how can we proceed? We're interested in getting started pretty much immediately, as we could use this.",
         "Hello,\nThank you for your email! However, I don't know if this will fit in our budget. Is there anything better you could do?",
         "Hey there,\nCould you tell me where you are located? Also, could you tell me more about your offer?",
