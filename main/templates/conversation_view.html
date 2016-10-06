@@ -28,6 +28,7 @@
         <p>From <strong>Spammer</strong> to <strong>Me</strong></p>
         {% endif %}
 
+        <p><strong>On:</strong> {{ message.timestamp }}</p>
         <p><strong>Subject:</strong> {{ message.subject }}</p>
 
         <p>{{ message.best_body|linebreaks }}</p>
