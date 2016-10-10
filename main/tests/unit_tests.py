@@ -57,6 +57,10 @@ class UnitTests(TestCase):
         addresses = [
             ('"Test Tester" <test@example.com>', "Test Tester", "test@example.com"),
             ('Test Tester <test@example.com>', "Test Tester", "test@example.com"),
+            ('Test Tester <<test@example.com>', "Test Tester", "test@example.com"),
+            ('Test Tester <<<<<test@example.com>', "Test Tester", "test@example.com"),
+            ('Test Tester <test@example.com>>>>>', "Test Tester", "test@example.com"),
+            ('Test Tester <<<<test@example.com>>>>>', "Test Tester", "test@example.com"),
             ('Test Tester<test@example.com>', "Test Tester", "test@example.com"),
             ('Test Tester <test@example.com<mailto:test@example.com>>', "Test Tester", "test@example.com"),
             ('test@example.com', "", "test@example.com"),

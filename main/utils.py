@@ -11,9 +11,9 @@ def parse_email_address(address: str):
         # Bare email addresses (per@ex.com)
         "^()([^<>]*)$",
         # Weird-ass Outlook format (Person <per@ex.com<mailto:per@ex.com>>).
-        "^\s*\"?(.*?)\"?\s*<(.*?)<.*?>>$",
+        "^\s*\"?(.*?)\"?\s*<([^<>]+?)<.*?>>$",
         # Regular format (Person <per@ex.com>).
-        "^\s*\"?(.*?)\"?\s*<(.*?)>\s*$",
+        "^\s*\"?(.*?)\"?\s*<+(.*?)>+\s*$",
     ]
     # Try each regex in order, to find one that matches.
     for regex in regexes:
