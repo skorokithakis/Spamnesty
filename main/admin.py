@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from .models import Domain, Conversation, Message
+from .models import Domain, ReplyTemplate, Conversation, Message
+
+
+@admin.register(ReplyTemplate)
+class ReplyTemplateAdmin(admin.ModelAdmin):
+    list_display = ["id", "snippet"]
+    search_fields = ["body"]
 
 
 @admin.register(Domain)

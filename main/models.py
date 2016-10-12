@@ -59,6 +59,19 @@ class Domain(CharIDModel):
         return "{0.company_name} ({0.name})".format(self)
 
 
+class ReplyTemplate(CharIDModel):
+    """Custom reply templates."""
+    body = models.TextField()
+
+    @property
+    def snippet(self):
+        "Get the first few characters of the reply."
+        return self.body[:20]
+
+    def __str__(self):
+        return self.snippet
+
+
 class ConversationManager(models.Manager):
     def create(self, *args, **kwargs):
         """Generate an object, retrying if there's an ID collision."""
@@ -312,6 +325,12 @@ class Message(CharIDModel):
 
         self.send_on = None
         self.save()
+
+    def get_random_reply(self):
+        "Get a random reply to this message, based on its contents."
+        # Right now it's not very much based on its contents.
+        reply = ReplyTemplate.objects.order_by("?").first()
+        return reply.body
 
     def save(self, *args, **kwargs):
         "Generate a message ID on saving."

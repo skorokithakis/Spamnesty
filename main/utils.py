@@ -1,4 +1,3 @@
-import random
 import re
 
 
@@ -112,20 +111,6 @@ def quote_message(body: str, message):
     return "\n".join(original), "\n".join(reply)
 
 
-def get_random_message():
-    messages = [
-        "Hello,\nThat is very interesting! Could you elaborate? Do you have any details online I could look at?",
-        "Hello,\nCan you give me some more info about what you're offering? Specifically, how does it apply to our business? How can we use this?",
-        "Hi,\nSounds great, how can we proceed? We're interested in getting started pretty much immediately, as we could use this.",
-        "Hello,\nThank you for your email! However, I don't know if this will fit in our budget. Is there anything better you could do?",
-        "Hey there,\nCould you tell me where you are located? Also, could you tell me more about your offer?",
-        "Hello,\nThat is reasonable, but do you think you can go into more detail about your main product? What is it about, exactly?",
-        "Hello,\nThat is very helpful, thank you. Do you perhaps have some literature I could look at, or could you send me some more information about what exactly makes you unique?",
-        "Hi,\nGreat, thanks. Could we have a short call to discuss the specifics? What are your contact details? Also, what is your pricing model like?",
-    ]
-    return random.choice(messages)
-
-
 def construct_reply(message):
     """
     Construct a reply to the received message.
@@ -137,7 +122,7 @@ def construct_reply(message):
     # We can't import a model here, as it would be circular.
     Message = message.__class__
 
-    original, reply = quote_message(get_random_message(), message)
+    original, reply = quote_message(message.get_random_reply(), message)
 
     reply = Message.objects.create(
         direction="S",
