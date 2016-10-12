@@ -66,7 +66,7 @@ class ReplyTemplate(CharIDModel):
     @property
     def snippet(self):
         "Get the first few characters of the reply."
-        return self.body[:20]
+        return self.body[:40]
 
     def __str__(self):
         return self.snippet

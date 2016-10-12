@@ -60,6 +60,7 @@ class UnitTests(TestCase):
             ('Test Tester <<test@example.com>', "Test Tester", "test@example.com"),
             ('Test Tester <<<<<test@example.com>', "Test Tester", "test@example.com"),
             ('Test Tester <test@example.com>>>>>', "Test Tester", "test@example.com"),
+            ('FBI OFFICE <"WWW."@ex.amp.le.com>', "FBI OFFICE", '"WWW."@ex.amp.le.com'),
             ('Test Tester <<<<test@example.com>>>>>', "Test Tester", "test@example.com"),
             ('Test Tester<test@example.com>', "Test Tester", "test@example.com"),
             ('Test Tester <test@example.com<mailto:test@example.com>>', "Test Tester", "test@example.com"),
