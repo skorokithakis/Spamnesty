@@ -29,6 +29,11 @@ def generate_fake_name():
     return fake.name()
 
 
+def generate_key() -> str:
+    "Generate a secret key for an object."
+    return shortuuid.ShortUUID().random()
+
+
 def generate_uuid() -> str:
     "Generate a UUID for an object."
     return shortuuid.ShortUUID("abdcefghjkmnpqrstuvwxyz").random()[:8]
@@ -131,6 +136,9 @@ class Conversation(CharIDModel):
 
     # The email address of the bot (so we can match incoming messages).
     sender_email = models.CharField(max_length=1000, blank=True, db_index=True)
+
+    # The secret key for editing the conversation.
+    secret_key = models.CharField(max_length=1000, default=generate_key)
 
     # The fake domain to use to send mail from.
     domain = models.ForeignKey(Domain, default=get_random_domain)

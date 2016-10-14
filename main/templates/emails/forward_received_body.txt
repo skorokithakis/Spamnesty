@@ -4,7 +4,7 @@ I just got your spam submission, and it looks like it was sent from
 
 I have emailed them back to have a chat, you can read it here:
 
-https://spa.mnesty.com{% url "main:conversation-view" message.conversation.id %}
+https://spa.mnesty.com{% url "main:conversation-view" message.conversation.id %}?key={{ message.conversation.secret_key }}
 
 Thanks!
 Spamnesty
