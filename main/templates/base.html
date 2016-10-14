@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load staticfiles bootstrap3 %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -33,6 +33,8 @@
         {% endif %}
 
         <div class="container">
+            {% bootstrap_messages %}
+
             {% block content %}
             {% endblock %}
         </div> <!-- /container -->

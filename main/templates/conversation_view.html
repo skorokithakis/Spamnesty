@@ -10,6 +10,12 @@
     {% if request.user.is_staff %}
     <a class="btn btn-info" href="{% url "admin:main_conversation_change" conversation.id %}">Admin</a>
     {% endif %}
+
+    {% if own %}
+    <form method="POST" action="{% url "main:conversation-delete" conversation.id %}?key={{ request.GET.key }}">{% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+    {% endif %}
 </div>
 
 <h3>The colloquy of {{ conversation.sender_name }}</h3>

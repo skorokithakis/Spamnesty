@@ -1,8 +1,10 @@
 from annoying.decorators import render_to
 from django.db.models import Max, Count
+from django.contrib import messages
 from django.conf import settings
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.utils.crypto import constant_time_compare
+from django.views.decorators.http import require_POST
 
 from ..models import Conversation
 
@@ -16,6 +18,17 @@ def home(request):
             num_messages=Count("message"),
         ).filter(num_messages__gt=2).order_by('-last_message_time')
     return {"conversations": conversations}
+
+
+@require_POST
+def conversation_delete(request, conversation_id):
+    conversation = get_object_or_404(Conversation, pk=conversation_id)
+    if constant_time_compare(request.GET.get("key"), conversation.secret_key):
+        messages.success(request, "The conversation has been deleted.")
+        conversation.delete()
+    else:
+        messages.error(request, "The conversation's secret key was invalid.")
+    return redirect("main:home")
 
 
 @render_to("conversation_view.html")
