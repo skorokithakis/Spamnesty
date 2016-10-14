@@ -46,6 +46,11 @@ class UnitTests(TestCase):
                 "sender": "stuff/things <reply+00005c60909823812093819034c0f36b6e0bb2b65fda05b292cf000000011406c76b92a169ce020bbb75@reply.example.com>",
                 "check": "You could try to create",
             },
+            {
+                "body": open("main/tests/forwarded_emails/9.txt").read(),
+                "sender": "International Thing of Thing Stuff <j.thing@example.com>",
+                "check": "You could try to create",
+            },
         ]
 
         for message in messages:

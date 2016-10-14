@@ -6,6 +6,7 @@ def parse_email_address(address: str):
     Break an email address of the form First Last <firstlast@example.com> into
     a name and an email address.
     """
+    address = re.sub("[\n\r]", " ", address)
     regexes = [
         # Bare email addresses (per@ex.com)
         "^()([^<>]*)$",
@@ -19,7 +20,8 @@ def parse_email_address(address: str):
         match = re.match(regex, address)
         if not match:
             continue
-        return match.groups()
+        name, email = match.groups()
+        return name.strip(), email.strip()
 
     raise ValueError("Could not parse input: %s" % address)
 
