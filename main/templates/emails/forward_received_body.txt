@@ -6,5 +6,10 @@ I have emailed them back to have a chat, you can read it here:
 
 https://spa.mnesty.com{% url "main:conversation-view" message.conversation.id %}?key={{ message.conversation.secret_key }}
 
+The above link contains your secret key for editing/deleting the conversation.
+If you want to share the conversation with someone else, please use this link:
+
+https://spa.mnesty.com{% url "main:conversation-view" message.conversation.id %}
+
 Thanks!
 Spamnesty
