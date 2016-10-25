@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-12">
         <h3>The colloquy of {{ conversation.sender_name }}</h3>
     </div>
     <div class="col-md-12">
@@ -13,9 +13,21 @@
         replied to the email, pretending to be a person called
         {{ conversation.sender_name }} and starting a conversation.
         </p>
+
         <p>
         This is that conversation.
         </p>
+
+        {% if request.user.is_staff %}
+        <a class="btn btn-info" href="{% url "admin:main_conversation_change" conversation.id %}">Admin</a>
+        {% endif %}
+
+        {% if own %}
+        <form method="POST" style="display: inline" action="{% url "main:conversation-delete" conversation.id %}?key={{ request.GET.key }}">{% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+        {% endif %}
+
         <hr>
     </div>
 </div>
