@@ -11,8 +11,9 @@ class SpamCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(ReplyTemplate)
 class ReplyTemplateAdmin(admin.ModelAdmin):
-    list_display = ["id", "snippet"]
+    list_display = ["id", "snippet", "category"]
     search_fields = ["body"]
+    list_filter = ["category"]
 
 
 @admin.register(Domain)
