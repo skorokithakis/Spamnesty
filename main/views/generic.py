@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils.crypto import constant_time_compare
 from django.views.decorators.http import require_POST
 
-from ..models import Conversation
+from ..models import Conversation, SpamCategory
 
 
 @render_to("home.html")
@@ -23,7 +23,7 @@ def home(request):
 @require_POST
 def conversation_delete(request, conversation_id):
     conversation = get_object_or_404(Conversation, pk=conversation_id)
-    if constant_time_compare(request.GET.get("key"), conversation.secret_key):
+    if constant_time_compare(request.GET.get("key"), conversation.secret_key) or request.user.is_staff:
         messages.success(request, "The conversation has been deleted.")
         conversation.delete()
     else:
@@ -31,8 +31,27 @@ def conversation_delete(request, conversation_id):
     return redirect("main:home")
 
 
+def conversation_change(request, conversation_id):
+    conversation = get_object_or_404(Conversation, pk=conversation_id)
+    category = get_object_or_404(SpamCategory, pk=request.GET.get("category", ""))
+    if constant_time_compare(request.GET.get("key"), conversation.secret_key) or request.user.is_staff:
+        messages.success(request, "The conversation's category has been changed.")
+        conversation.category = category
+        conversation.save()
+    else:
+        messages.error(request, "The conversation's secret key was invalid.")
+    return redirect(conversation)
+
+
 @render_to("conversation_view.html")
 def conversation_view(request, conversation_id):
     conversation = get_object_or_404(Conversation, pk=conversation_id)
     own_conversation = constant_time_compare(request.GET.get("key"), conversation.secret_key)
-    return {"conversation": conversation, "own": own_conversation}
+
+    # Sort with the default category being last.
+    categories = SpamCategory.objects.order_by("default", "name")
+    return {
+        "conversation": conversation,
+        "own": own_conversation,
+        "spam_categories": categories,
+    }
