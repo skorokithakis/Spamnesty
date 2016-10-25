@@ -4,10 +4,8 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-8">
         <h3>The colloquy of {{ conversation.sender_name }}</h3>
-    </div>
-    <div class="col-md-12">
         <p>
         Someone forwarded a spammer's email to {{ request.site.name }}, which
         replied to the email, pretending to be a person called
@@ -19,15 +17,29 @@
         </p>
 
         {% if request.user.is_staff %}
-        <a class="btn btn-info" href="{% url "admin:main_conversation_change" conversation.id %}">Admin</a>
+        <a class="btn btn-default" href="{% url "admin:main_conversation_change" conversation.id %}">Admin</a>
         {% endif %}
 
-        {% if own %}
+        {% if own or request.user.is_staff %}
+        <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ conversation.category }} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li class="disabled"><a href="#">Select the category of the spam email</a></li>
+                <li role="separator" class="divider"></li>
+                {% for category in spam_categories %}
+                <li><a href="{% url "main:conversation-change" conversation.id %}?key={{ request.GET.key }}&category={{ category.id }}">{{ category.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+
         <form method="POST" style="display: inline" action="{% url "main:conversation-delete" conversation.id %}?key={{ request.GET.key }}">{% csrf_token %}
             <button type="submit" class="btn btn-danger">Delete</button>
         </form>
         {% endif %}
-
+    </div>
+    <div class="col-md-12">
         <hr>
     </div>
 </div>

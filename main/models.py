@@ -39,6 +39,11 @@ def generate_uuid() -> str:
     return shortuuid.ShortUUID("abdcefghjkmnpqrstuvwxyz").random()[:8]
 
 
+def get_default_category() -> int:
+    "Retrieve the default SpamCategory"
+    return SpamCategory.objects.get(default=True).id
+
+
 def get_random_domain():
     "Choose a random domain from the database."
     return Domain.objects.order_by("?").first()
@@ -64,9 +69,22 @@ class Domain(CharIDModel):
         return "{0.company_name} ({0.name})".format(self)
 
 
+class SpamCategory(CharIDModel):
+    """The categories of spam emails"""
+    name = models.CharField(max_length=30)
+    default = models.BooleanField(default=False, db_index=True)
+
+    class Meta:
+        verbose_name_plural = "spam categories"
+
+    def __str__(self):
+        return self.name
+
+
 class ReplyTemplate(CharIDModel):
     """Custom reply templates."""
     body = models.TextField()
+    category = models.ForeignKey(SpamCategory, default=get_default_category)
 
     @property
     def snippet(self):
@@ -142,6 +160,9 @@ class Conversation(CharIDModel):
 
     # The fake domain to use to send mail from.
     domain = models.ForeignKey(Domain, default=get_random_domain)
+
+    # The category of the email (sales, scam, dating, etc).
+    category = models.ForeignKey(SpamCategory, default=get_default_category)
 
     objects = ConversationManager()
 
@@ -337,7 +358,7 @@ class Message(CharIDModel):
     def get_random_reply(self):
         "Get a random reply to this message, based on its contents."
         # Right now it's not very much based on its contents.
-        reply = ReplyTemplate.objects.order_by("?").first()
+        reply = ReplyTemplate.objects.filter(category=self.conversation.category).order_by("?").first()
         return reply.body
 
     def save(self, *args, **kwargs):
