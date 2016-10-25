@@ -44,9 +44,9 @@
 
                     {% for conversation in conversations %}
                     <tr>
-                        <td><a href="{% url "main:conversation-view" conversation.id %}">The colloquy of {{ conversation.sender_name }}</a></td>
+                        <td><a href="{% url "main:conversation-view" conversation.id %}">{{ conversation.sender_name }}</a></td>
                         <td>{{ conversation.message_set.first.subject }}</td>
-                        <td>{{ conversation.last_message_time }}</td>
+                        <td>{{ conversation.last_message_time|date:"d M Y" }}</td>
                         <td>{{ conversation.num_messages}}</td>
                     </tr>
                     {% endfor %}
