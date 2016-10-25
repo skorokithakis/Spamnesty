@@ -273,6 +273,10 @@ class Message(CharIDModel):
         """
         Parse a message from Mailgun and return a Message instance.
         """
+        # Delete old messages with this ID, as it probably means the server
+        # crashed on them and we need to redo whatever we did.
+        cls.objects.filter(message_id=posted["Message-Id"]).delete()
+
         message = cls()
         message.direction = "F" if forwarded else "R"
         message.sender = posted["From"]
