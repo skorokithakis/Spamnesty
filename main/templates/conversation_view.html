@@ -1,55 +1,57 @@
 {% extends "base.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}The colloquy of {{ conversation.sender_name }}{% endblock %}
 
 {% block content %}
-<div class="page-header">
-    <h1>Spamnesty</h1>
-    <p class="lead">Fun with spam!</p>
-
-    {% if request.user.is_staff %}
-    <a class="btn btn-info" href="{% url "admin:main_conversation_change" conversation.id %}">Admin</a>
-    {% endif %}
-
-    {% if own %}
-    <form method="POST" action="{% url "main:conversation-delete" conversation.id %}?key={{ request.GET.key }}">{% csrf_token %}
-        <button type="submit" class="btn btn-danger">Delete</button>
-    </form>
-    {% endif %}
-</div>
-
-<h3>The colloquy of {{ conversation.sender_name }}</h3>
-{% for message in conversation.message_set.all %}
 <div class="row">
-
-    {% if message.direction == "S" %}
-    <div class="col-md-4"></div>
-    {% endif %}
-
-    <div class="col-md-8">
-
-        {% if message.direction == "S" %}
-        <p>From <strong>Me</strong> to <strong>Spammer</strong></p>
-        {% else %}
-        <p>From <strong>Spammer</strong> to <strong>Me</strong></p>
-        {% endif %}
-
-        <p><strong>On:</strong> {{ message.timestamp }}</p>
-        <p><strong>Subject:</strong> {{ message.subject }}</p>
-
-        <p>{{ message.best_body|linebreaks }}</p>
-
+    <div class="col-md-10">
+        <h3>The colloquy of {{ conversation.sender_name }}</h3>
     </div>
-
-    {% if message.direction != "S" %}
-    <div class="col-md-4"></div>
-    {% endif %}
-
     <div class="col-md-12">
+        <p>
+        Someone forwarded a spammer's email to {{ request.site.name }}, which
+        replied to the email, pretending to be a person called
+        {{ conversation.sender_name }} and starting a conversation.
+        </p>
+        <p>
+        This is that conversation.
+        </p>
         <hr>
     </div>
-
 </div>
-{% endfor %}
 
+{% for message in conversation.message_set.all %}
+    <div class="row">
+        {% if message.direction == "S" %}
+        <div class="col-md-4"></div>
+        {% endif %}
+
+        <div class="col-md-8">
+            {% if message.direction == "S" %}
+            <div class="panel panel-default panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ request.site.name }}</h3>
+
+            {% else %}
+            <div class="panel panel-default panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Spammer</h3>
+            {% endif %}
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Subject:</strong> {{ message.subject }}</li>
+                    <li class="list-group-item"><strong>On:</strong> {{ message.timestamp }}</li>
+                </ul>
+                <div class="panel-body">
+                    <p>{{ message.best_body|linebreaks }}</p>
+                </div>
+            </div>
+        </div>
+
+        {% if message.direction != "S" %}
+        <div class="col-md-4"></div>
+        {% endif %}
+    </div>
+{% endfor %}
+</div>
 {% endblock %}

@@ -3,57 +3,56 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div class="page-header">
-    <h1>{{ request.site.name }}</h1>
-    <p class="lead">Have fun with spam!</p>
-</div>
-
-<h2>What is {{ request.site.name }}?</h2>
-<p>{{ request.site.name }} is a way to waste spammers' time. If you get a spam
-email, simply forward it to <a href="mailto:sp@mnesty.com">sp@mnesty.com</a>,
-and {{ request.site.name }} will strip your email address, pretend it's a real
-person and reply to the email. Just remember to strip out any personal
-information from the body of the email, as it will be used so the reply looks
-more legitimate.</p>
-
-<p>That way, the spammer will start talking to a bot, and hopefully waste some
-time there instead of spending it on a real victim. Meanwhile,
-{{ request.site.name }} will send you an email with a link to the conversation,
-so you can watch it unfold live!</p>
-
-<h3>Current state</h3>
-<p>
-<strong>WARNING:</strong> The service isn't done yet! It looks like crap and
-there may be loads of wonky stuff going on. That said, you can help by
-cautiously using it for a bit, and
-<a href="https://gitlab.com/stavros/Spamnesty/issues">opening an issue</a>
-if you notice something wrong or if you have any suggestions.
-<p>
-
-<p>
-Thanks for your help!
-</p>
-
-<h3>Conversations</h3>
 <div class="row">
-    <div class="col-md-12">
-        <table class="table">
-            <tr>
-                <th>Person</th>
-                <th>Subject</th>
-                <th>Date</th>
-                <th>Msgs</th>
-            </tr>
+    <div class="col-xs-12">
+        <h2>What is {{ request.site.name }}?</h2>
+        <p>{{ request.site.name }} is a way to waste spammers' time. If you get a spam
+        email, simply forward it to <a href="mailto:sp@mnesty.com">sp@mnesty.com</a>,
+        and {{ request.site.name }} will strip your email address, pretend it's a real
+        person and reply to the email. Just remember to strip out any personal
+        information from the body of the email, as it will be used so the reply looks
+        more legitimate.</p>
 
-            {% for conversation in conversations %}
-            <tr>
-                <td><a href="{% url "main:conversation-view" conversation.id %}">The colloquy of {{ conversation.sender_name }}</a></td>
-                <td>{{ conversation.message_set.first.subject }}</td>
-                <td>{{ conversation.last_message_time }}</td>
-                <td>{{ conversation.num_messages}}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        <p>That way, the spammer will start talking to a bot, and hopefully waste some
+        time there instead of spending it on a real victim. Meanwhile,
+        {{ request.site.name }} will send you an email with a link to the conversation,
+        so you can watch it unfold live!</p>
+
+        <h3>Current state</h3>
+        <p>
+        <strong>WARNING:</strong> The service isn't done yet! It looks like crap and
+        there may be loads of wonky stuff going on. That said, you can help by
+        cautiously using it for a bit, and
+        <a href="https://gitlab.com/stavros/Spamnesty/issues">opening an issue</a>
+        if you notice something wrong or if you have any suggestions.
+        <p>
+
+        <p>
+        Thanks for your help!
+        </p>
+
+        <h3>Conversations</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <tr>
+                        <th>Person</th>
+                        <th>Subject</th>
+                        <th>Date</th>
+                        <th>Msgs</th>
+                    </tr>
+
+                    {% for conversation in conversations %}
+                    <tr>
+                        <td><a href="{% url "main:conversation-view" conversation.id %}">The colloquy of {{ conversation.sender_name }}</a></td>
+                        <td>{{ conversation.message_set.first.subject }}</td>
+                        <td>{{ conversation.last_message_time }}</td>
+                        <td>{{ conversation.num_messages}}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
