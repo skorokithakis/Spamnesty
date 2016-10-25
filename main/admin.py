@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from .models import Domain, ReplyTemplate, Conversation, Message
+from .models import Domain, ReplyTemplate, Conversation, Message, SpamCategory
+
+
+@admin.register(SpamCategory)
+class SpamCategoryAdmin(admin.ModelAdmin):
+    list_display = ["name", "default"]
+    search_fields = ["name"]
 
 
 @admin.register(ReplyTemplate)
@@ -22,8 +28,9 @@ class MessageInline(admin.TabularInline):
 
 @admin.register(Conversation)
 class ConversationAdmin(admin.ModelAdmin):
-    list_display = ["id", "sender_name", "sender_email", "domain"]
+    list_display = ["id", "sender_name", "sender_email", "domain", "category"]
     search_fields = ["id", "profile"]
+    list_filter = ["category"]
     inlines = [MessageInline]
 
 
