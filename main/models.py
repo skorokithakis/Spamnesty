@@ -334,6 +334,7 @@ class Message(CharIDModel):
         else:
             send_on = datetime.datetime.now() + \
                 datetime.timedelta(seconds=random.randrange(60, 12 * 60 * 60))
+        self.timestamp = send_on
         self.send_on = send_on
         self.save()
 
