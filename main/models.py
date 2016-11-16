@@ -304,8 +304,10 @@ class Message(CharIDModel):
             # Parse the forwarded message and replace the sender and body.
             body = message.best_body
             sender, body = parse_forwarded_message(body)
-            if not sender:
-                # We couldn't locate a sender, so abort.
+            if not sender or \
+               "@" not in sender or \
+               Domain.objects.filter(name=sender.split("@")[1].lower()).exists():
+                # We couldn't locate a sender, or the sender is us, so abort.
                 return None
             message.sender = sender
             message.body = body
