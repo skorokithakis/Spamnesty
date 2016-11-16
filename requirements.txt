@@ -4,30 +4,27 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-bleach==1.4.3
+bleach==1.5.0
 brotlipy==0.6.0
-cffi==1.8.3               # via brotlipy
+cffi==1.9.1               # via brotlipy
 contextlib2==0.5.4        # via raven
 coverage==4.2
 django-annoying==0.10.3
 django-bootstrap3==7.1.0
 django-extensions==1.7.4
 django-nose==1.4.4
-Django==1.10.2            # via hypothesis
+Django==1.10.3            # via hypothesis
 fake-factory==0.7.2
 html5lib==0.9999999       # via bleach
-hypothesis[django]==3.5.3
+hypothesis[django]==3.6.0
 nose==1.3.7               # via django-nose
 psycopg2==2.6.2
-pycparser==2.14           # via cffi
-python-dateutil==2.5.3    # via fake-factory
+pycparser==2.17           # via cffi
+python-dateutil==2.6.0    # via fake-factory
 pytz==2016.7              # via hypothesis
-raven==5.27.1
+raven==5.32.0
 shortuuid==0.4.3
 six==1.10.0               # via bleach, django-extensions, fake-factory, html5lib, python-dateutil
-spark-parser==1.4.0       # via uncompyle6
-uncompyle6==2.9.1         # via hypothesis
 uwsgi==2.0.14
 Werkzeug==0.11.11
 whitenoise==3.2.2
-xdis==3.0.2               # via uncompyle6
