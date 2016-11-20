@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Conversation classification{% endblock %}
+
+{% block scripts %}
+<script>
+function classifyConversation(conversation_id, category_id, category_name) {
+    var data = new FormData();
+    data.append('conversation_id', conversation_id);
+    data.append('category_id', category_id);
+    data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '{% url "classification:classify" %}', true);
+    xhr.onload = function () {};
+    xhr.send(data);
+
+    document.getElementsByClassName("conv-" + conversation_id)[0].innerHTML =
+        category_name + '<span class="caret"></span>';
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+
+    <div class="col-xs-12">
+        <h2>Classify conversations</h2>
+        <p>
+        Please select the appropriate category for each conversation. Each
+        conversation
+        </p>
+
+        <table class="table">
+            <tr>
+                <th>Message</th>
+                <th>Stuff</th>
+            </tr>
+
+            <ul>
+                {% for category in categories %}
+                    <li>{{ category }}</li>
+                {% endfor %}
+            </ul>
+
+            {% for conversation in conversations %}
+            <tr>
+                <td>{{ conversation.first_message.best_body|linebreaksbr }}</td>
+                <td>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle conv-{{ conversation.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ conversation.category }} <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li class="disabled"><a href="#">Select the category of the spam email</a></li>
+                            <li role="separator" class="divider"></li>
+                            {% for category in spam_categories %}
+                            <li><a href="#" onclick="classifyConversation('{{ conversation.id }}', '{{ category.id }}', '{{ category.name }}'); return false;">{{ category.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}
