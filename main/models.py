@@ -176,6 +176,11 @@ class Conversation(CharIDModel):
         return reverse("main:conversation-view", args=[self.id])
 
     @property
+    def first_message(self):
+        "Return the first message in the conversation."
+        return self.message_set.all().order_by("timestamp").first()
+
+    @property
     def calculated_sender_username(self):
         "Derive a username from the sender's name."
         split_name = self.sender_name.split()
