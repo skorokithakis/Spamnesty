@@ -70,7 +70,7 @@ class Domain(CharIDModel):
 
 
 class SpamCategory(CharIDModel):
-    """The categories of spam emails"""
+    """The categories of spam emails."""
     name = models.CharField(max_length=30)
     default = models.BooleanField(default=False, db_index=True)
 
@@ -163,6 +163,9 @@ class Conversation(CharIDModel):
 
     # The category of the email (sales, scam, dating, etc).
     category = models.ForeignKey(SpamCategory, default=get_default_category)
+
+    # Whether this has been classified by a trusted human.
+    classified = models.BooleanField(default=False, db_index=True)
 
     objects = ConversationManager()
 

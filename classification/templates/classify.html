@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Classify stuff{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xs-12">
+        <h2>Classify conversations</h2>
+        <p>
+        Please classify the following conversations into their proper
+        categories:
+        </p>
+
+        <table class="table">
+            <tr>
+                <th>Message</th>
+                <th>Stuff</th>
+            </tr>
+
+            <ul>
+                {% for category in categories %}
+                    <li>{{ category }}</li>
+                {% endfor %}
+            </ul>
+
+            {% for conversation in conversations %}
+            <tr>
+                <td>{{ conversation }}</td>
+                <td>{{ conversation.category }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

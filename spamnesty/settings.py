@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django_nose',
     'bootstrap3',
     'main',
+    'classification',
 ]
 
 MIDDLEWARE = [
