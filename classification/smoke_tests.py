@@ -5,7 +5,11 @@ from django.test import TestCase
 
 class SmokeTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user('user', 'user@user.com', 'password')
+        self.user = User.objects.create_user(
+            'user',
+            'user@user.com',
+            'password'
+        )
         self.user.is_staff = True
         self.user.save()
 
