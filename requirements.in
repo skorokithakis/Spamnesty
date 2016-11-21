@@ -16,3 +16,4 @@ Werkzeug
 coverage
 django-nose
 hypothesis[django]
+ipython
