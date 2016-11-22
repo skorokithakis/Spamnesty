@@ -17,4 +17,4 @@ class WebhookTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
         self.assertEqual(len(mail.outbox), 1)
-        self.assertIn(mail.outbox[0].subject, "didn't work out")
+        self.assertIn("didn't work out", mail.outbox[0].subject)
