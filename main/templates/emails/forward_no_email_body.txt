@@ -4,5 +4,11 @@ Make sure it includes the forwarding headers, and that it has a "From:"
 line with the spammer's email on it. If your computer is in a language
 other than English, maybe you can change the From to English manually.
 
+If you think that I should have been able to find the spammer's email address,
+please open an issue on my issue tracker and paste the forwarded email exactly
+as your mail client generated it:
+
+https://gitlab.com/stavros/Spamnesty/issues
+
 Let me know!
 Spamnesty

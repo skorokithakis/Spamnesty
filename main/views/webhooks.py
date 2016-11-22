@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
 
+from raven.contrib.django.raven_compat.models import client
+
 from ..models import Message
 from ..utils import construct_reply
 
@@ -13,8 +15,17 @@ from ..utils import construct_reply
 def forwarded(request):
     "The webhook that fires when a user forwards a legitimate email."
 
-    # Parse the forwarded message.
-    message = Message.parse_from_mailgun(request.POST, forwarded=True)
+    if not request.POST.get("From"):
+        return HttpResponse("Empty sender.")
+
+    # Try to parse the forwarded message.
+    try:
+        message = Message.parse_from_mailgun(request.POST, forwarded=True)
+    except:
+        # Notify Sentry.
+        client.captureException()
+        message = None
+
     if not message:
         # Notify the sender that we couldn't find the spammer's address.
         EmailMessage(
