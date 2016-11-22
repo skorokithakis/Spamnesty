@@ -47,6 +47,11 @@ class UnitTests(TestCase):
                 "check": "You could try to create",
             },
             {
+                "body": open("main/tests/forwarded_emails/10.txt").read(),
+                "sender": "Example <ex@example.com>",
+                "check": "There was stuff",
+            },
+            {
                 "body": open("main/tests/forwarded_emails/9.txt").read(),
                 "sender": "International Thing of Thing Stuff <j.thing@example.com>",
                 "check": "You could try to create",

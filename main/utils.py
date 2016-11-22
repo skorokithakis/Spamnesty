@@ -48,7 +48,7 @@ def parse_forwarded_message(message: str):
     body = []
     regex = re.compile(
         r"""
-        [\r\n][\t\f\v ]*    # Ignore any whitespace before the header.
+        [\r\n][\t\f\v \>]*    # Ignore any whitespace before the header.
         (Reply-To|From):    # Match the header.
         \s*                 # Ignore whitespace after it.
         ((?:.*?)            # Non-preserving group of anything before the @.
@@ -79,7 +79,7 @@ def parse_forwarded_message(message: str):
 
     # Parse the header so we can recover the original message.
     for line in message.split("\n"):
-        line = line.strip("\r\n")
+        line = line.strip("\r\n> ")
         if state == "START":
             match = re.match("^From:.*$", line)
             if match:

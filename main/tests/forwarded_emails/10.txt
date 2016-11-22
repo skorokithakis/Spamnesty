@@ -1,0 +1,13 @@
+
+> Begin forwarded message:
+>
+> From: Example <ex@example.com>
+> Subject: Some things happened
+> Date: 22 November 2016 at 14:15:52 GMT+2
+> To: Ex ample <example@example.com>
+>
+> Hello!
+> There was stuff!
+>
+> Thanks,
+> Person.
