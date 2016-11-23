@@ -6,7 +6,9 @@ Spamnesty
 
 
 Spamnesty lets you waste spammers' time by pretending it's a person and talking
-to them.
+to them. The URL to the service is:
+
+[https://spa.mnesty.com](https://spa.mnesty.com/)
 
 
 Running
