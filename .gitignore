@@ -4,6 +4,7 @@
 .idea/*
 .coverage
 .hypothesis/
+dbdata/
 cover/
 env/
 *.sqlite3

@@ -13,7 +13,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", 'secret')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get("NODEBUG") is None else False
 
-ALLOWED_HOSTS = [".mnesty.com"]
+ALLOWED_HOSTS = ["web"] if os.environ.get("NODEBUG") is None else [".mnesty.com"]
 
 DEFAULT_FROM_EMAIL = "Spamnesty <sp@mnesty.com>"
 
