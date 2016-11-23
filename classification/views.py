@@ -24,7 +24,8 @@ def classify(request):
         return {"result": "success"}
     else:
         conversations = Conversation.objects.filter(classified=False)
-        progress = int((100.0 * conversations.count()) / Conversation.objects.count())
+        conv_count = Conversation.objects.count()
+        progress = int((100.0 * conversations.count()) / conv_count) if conv_count else 100
 
         categories = SpamCategory.objects.all()
         return {
