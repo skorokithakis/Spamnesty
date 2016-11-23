@@ -68,9 +68,11 @@ def email(request):
     # Parse the received message.
     message = Message.parse_from_mailgun(request.POST)
 
-    # Reply to the spammer.
-    reply = construct_reply(message)
-    reply.queue()
+    # If there is no unsent message in the queue, queue one.
+    if not message.converation.messages.exclude(send_on=None).exists():
+        # Reply to the spammer.
+        reply = construct_reply(message)
+        reply.queue()
 
     return HttpResponse("OK")
 

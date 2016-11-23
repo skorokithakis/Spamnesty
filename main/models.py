@@ -176,9 +176,12 @@ class Conversation(CharIDModel):
         return reverse("main:conversation-view", args=[self.id])
 
     @property
-    def first_message(self):
-        "Return the first message in the conversation."
-        return self.message_set.all().order_by("timestamp").first()
+    def messages(self):
+        """
+        A QuerySet of all the messages in this converation, sorted by
+        ascending date (most recent last).
+        """
+        return self.message_set.all().order_by("timestamp")
 
     @property
     def calculated_sender_username(self):

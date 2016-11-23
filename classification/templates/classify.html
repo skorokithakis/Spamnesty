@@ -41,7 +41,7 @@ function classifyConversation(conversation_id, category_id, category_name) {
 
             {% for conversation in conversations %}
             <tr>
-                <td>{{ conversation.first_message.best_body|linebreaksbr }}</td>
+                <td>{{ conversation.messages.first.best_body|linebreaksbr }}</td>
                 <td>
                     {% if request.user.is_staff %}
                     <p><a class="btn btn-danger" href="{% url "admin:main_conversation_change" conversation.id %}">Admin</a></p>
