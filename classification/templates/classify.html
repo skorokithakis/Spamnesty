@@ -33,6 +33,12 @@ function classifyConversation(conversation_id, category_id, category_name) {
         you've picked the correct category before navigating away.
         </p>
 
+        <div class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
+                <span class="sr-only">20% Complete</span>
+            </div>
+        </div>
+
         <table class="table">
             <tr>
                 <th>Message</th>

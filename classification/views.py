@@ -23,6 +23,12 @@ def classify(request):
         conversation.save()
         return {"result": "success"}
     else:
-        conversations = Conversation.objects.filter(classified=False)[:10]
+        conversations = Conversation.objects.filter(classified=False)
+        progress = int((100.0 * conversations.count()) / Conversation.objects.count())
+
         categories = SpamCategory.objects.all()
-        return {"conversations": conversations, "spam_categories": categories}
+        return {
+            "conversations": conversations[:10],
+            "spam_categories": categories,
+            "progress": progress,
+        }
