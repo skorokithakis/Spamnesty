@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'spamnesty.stats_middleware.StatsMiddleware',
+    'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
