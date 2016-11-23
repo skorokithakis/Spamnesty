@@ -37,6 +37,7 @@ def conversation_change(request, conversation_id):
     if constant_time_compare(request.GET.get("key"), conversation.secret_key) or request.user.is_staff:
         messages.success(request, "The conversation's category has been changed.")
         conversation.category = category
+        conversation.classified = request.user.is_staff
         conversation.save()
     else:
         messages.error(request, "The conversation's secret key was invalid.")
