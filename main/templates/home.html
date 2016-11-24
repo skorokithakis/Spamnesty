@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load cache %}
+
 {% block title %}Home{% endblock %}
 
 {% block content %}
@@ -49,6 +51,7 @@
                         <th>Msgs</th>
                     </tr>
 
+                    {% cache 1800 home-conversations %}
                     {% for conversation in conversations %}
                     <tr>
                         <td><a href="{% url "main:conversation-view" conversation.id %}">{{ conversation.sender_name }}</a></td>
@@ -57,6 +60,7 @@
                         <td>{{ conversation.num_messages}}</td>
                     </tr>
                     {% endfor %}
+                    {% endcache %}
                 </table>
             </div>
         </div>
