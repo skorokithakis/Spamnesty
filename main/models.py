@@ -368,7 +368,7 @@ class Message(CharIDModel):
             headers={'Message-ID': self.message_id},
         )
 
-        email.send()
+        email.send(fail_silently=True)
 
         self.send_on = None
         self.save()
