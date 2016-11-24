@@ -18,6 +18,10 @@ def forwarded(request):
     if not request.POST.get("From"):
         return HttpResponse("Empty sender.")
 
+    if Message.objects.filter(message_id=request.POST.get("Message-Id", "")).exists():
+        # Ignore Mailgun retries if we've already added the message.
+        return HttpResponse("OK")
+
     # Try to parse the forwarded message.
     try:
         message = Message.parse_from_mailgun(request.POST, forwarded=True)

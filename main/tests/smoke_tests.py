@@ -37,6 +37,13 @@ class WebhookTests(TestCase):
         self.assertIn("from\nhi@example.com.", mail.outbox[0].body)
         self.assertIn("CEO, Company", mail.outbox[1].body)
 
+        mail.outbox = []
+
+        response = self.client.post(reverse("main:forwarded-webhook"), data=json.load(open("main/tests/forward_requests/1.json")))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, b"OK")
+        self.assertEqual(len(mail.outbox), 0)
+
     def test_email_request(self):
         self.assertEqual(len(mail.outbox), 0)
 
