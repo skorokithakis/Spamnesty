@@ -122,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 from subprocess import check_output  # noqa
 try:
-    COMMIT_HASH = check_output(['git', 'rev-parse', '--short', 'HEAD'])
+    COMMIT_HASH = check_output(['git', 'rev-parse', '--short', 'HEAD']).strip()
 except:
     COMMIT_HASH = "Not a git repo"
 
