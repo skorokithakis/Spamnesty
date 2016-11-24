@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load cache %}
 
 {% block title %}The colloquy of {{ conversation.sender_name }}{% endblock %}
 
@@ -45,7 +44,6 @@
     </div>
 </div>
 
-{% cache 1800 home-conversations %}
 {% for message in conversation.message_set.all %}
     <div class="row">
         {% if message.direction == "S" %}
@@ -79,6 +77,5 @@
         {% endif %}
     </div>
 {% endfor %}
-{% endcache %}
 </div>
 {% endblock %}
