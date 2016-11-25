@@ -49,10 +49,16 @@ def conversation_view(request, conversation_id):
     conversation = get_object_or_404(Conversation, pk=conversation_id)
     own_conversation = constant_time_compare(request.GET.get("key"), conversation.secret_key)
 
+    if own_conversation and "@" in conversation.reporter_email:
+        other_conversations = Conversation.objects.filter(reporter_email=conversation.reporter_email)
+    else:
+        other_conversations = []
+
     # Sort with the default category being last.
     categories = SpamCategory.objects.order_by("default", "name")
     return {
         "conversation": conversation,
         "own": own_conversation,
         "spam_categories": categories,
+        "other_conversations": other_conversations,
     }

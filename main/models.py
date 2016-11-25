@@ -147,7 +147,7 @@ class ConversationManager(models.Manager):
 class Conversation(CharIDModel):
     """The main conversation object."""
     # The email address of the person who reported this message.
-    reporter_email = models.CharField(max_length=1000, blank=True)
+    reporter_email = models.CharField(max_length=1000, blank=True, db_index=True)
 
     # The name of our sender (the bot).
     sender_name = models.CharField(max_length=1000, default=generate_fake_name)
