@@ -291,12 +291,15 @@ class Message(CharIDModel):
         message = cls()
         message.direction = "F" if forwarded else "R"
         message.sender = posted["From"]
-        message.recipient = posted["To"]
-        message.subject = posted["Subject"]
+        message.recipient = posted.get("To")
+        message.subject = posted.get("Subject", "")
         message.body = posted["body-plain"]
         message.stripped_body = posted.get("stripped-text", "")
         message.message_id = posted["Message-Id"]
         message.in_reply_to = posted.get("In-Reply-To", "")
+
+        if not message.recipient:
+            return None
 
         if forwarded:
             # If a message has been forwarded to us, we need to:
