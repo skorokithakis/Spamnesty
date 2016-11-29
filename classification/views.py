@@ -31,5 +31,5 @@ def classify(request):
         return {
             "conversations": conversations[:10],
             "spam_categories": categories,
-            "progress": progress,
+            "progress": 100 - progress,
         }
