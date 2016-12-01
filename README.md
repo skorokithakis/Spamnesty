@@ -43,3 +43,11 @@ pass first, though:
 ~~~
 docker-compose run web /code/manage.py test
 ~~~
+
+
+Stuff
+-----
+
+Here's a sequence diagram of how the flow works:
+
+![Spamnesty sequence diagram](misc/sequence.png)
