@@ -16,7 +16,7 @@ def home(request):
     conversations = Conversation.objects.annotate(
             last_message_time=Max('message__timestamp'),
             num_messages=Count("message"),
-        ).filter(num_messages__gt=7).order_by('-last_message_time')
+        ).filter(num_messages__gt=11).order_by('-last_message_time')
     return {"conversations": conversations}
 
 
