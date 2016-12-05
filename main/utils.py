@@ -137,3 +137,16 @@ def construct_reply(message):
         in_reply_to=message.message_id,
     )
     return reply
+
+
+def is_blacklisted(message):
+    """
+    Check if a given message should be blacklisted.
+    """
+    blacklisted_content = [
+        "do not write below this line"
+    ]
+    for text in blacklisted_content:
+        if text in message:
+            return True
+    return False

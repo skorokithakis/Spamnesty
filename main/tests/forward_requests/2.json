@@ -11,29 +11,23 @@
   "To": [
     "Alice <alice@mnesty.com>"
   ],
-  "subject": [
-    "Re: Sample POST request"
-  ],
   "from": [
     "Bob <bob@mnesty.com>"
   ],
   "User-Agent": [
     "Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130308 Thunderbird/17.0.4"
   ],
-  "stripped-html": [
-    "<html><head>\r\n<meta content=\"text/html; charset=ISO-8859-1\" http-equiv=\"Content-Type\">\r\n</head>\r\n<body bgcolor=\"#FFFFFF\" text=\"#000000\">\r\n<div class=\"moz-cite-prefix\">\r\n  <div style=\"color: rgb(34, 34, 34); font-family: arial,\r\n    sans-serif; font-size: 12.666666984558105px; font-style: normal;\r\n    font-variant: normal; font-weight: normal; letter-spacing:\r\n    normal; line-height: normal; orphans: auto; text-align: start;\r\n    text-indent: 0px; text-transform: none; white-space: normal;\r\n    widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;\r\n    -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,\r\n    255);\">Hi Alice,</div>\r\n  <div style=\"color: rgb(34, 34, 34); font-family: arial,\r\n    sans-serif; font-size: 12.666666984558105px; font-style: normal;\r\n    font-variant: normal; font-weight: normal; letter-spacing:\r\n    normal; line-height: normal; orphans: auto; text-align: start;\r\n    text-indent: 0px; text-transform: none; white-space: normal;\r\n    widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;\r\n    -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,\r\n    255);\"><br>\r\n  </div>\r\n  <div style=\"color: rgb(34, 34, 34); font-family: arial,\r\n    sans-serif; font-size: 12.666666984558105px; font-style: normal;\r\n    font-variant: normal; font-weight: normal; letter-spacing:\r\n    normal; line-height: normal; orphans: auto; text-align: start;\r\n    text-indent: 0px; text-transform: none; white-space: normal;\r\n    widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;\r\n    -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,\r\n    255);\">This is Bob.<span class=\"Apple-converted-space\"> <img width=\"33\" alt=\"\" height=\"15\" src=\"cid:part1.04060802.06030207@mnesty.com\"></span></div>\r\n  <div style=\"color: rgb(34, 34, 34); font-family: arial,\r\n    sans-serif; font-size: 12.666666984558105px; font-style: normal;\r\n    font-variant: normal; font-weight: normal; letter-spacing:\r\n    normal; line-height: normal; orphans: auto; text-align: start;\r\n    text-indent: 0px; text-transform: none; white-space: normal;\r\n    widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;\r\n    -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,\r\n    255);\"><br>\r\n    I also attached a file.<br>\r\n    <br>\r\n  </div>\r\n  <div style=\"color: rgb(34, 34, 34); font-family: arial,\r\n    sans-serif; font-size: 12.666666984558105px; font-style: normal;\r\n    font-variant: normal; font-weight: normal; letter-spacing:\r\n    normal; line-height: normal; orphans: auto; text-align: start;\r\n    text-indent: 0px; text-transform: none; white-space: normal;\r\n    widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;\r\n    -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,\r\n    255);\">Thanks,</div>\r\n  <div style=\"color: rgb(34, 34, 34); font-family: arial,\r\n    sans-serif; font-size: 12.666666984558105px; font-style: normal;\r\n    font-variant: normal; font-weight: normal; letter-spacing:\r\n    normal; line-height: normal; orphans: auto; text-align: start;\r\n    text-indent: 0px; text-transform: none; white-space: normal;\r\n    widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;\r\n    -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,\r\n    255);\">Bob</div>\r\n  <br>\r\n  On 04/26/2013 11:29 AM, Alice wrote:<br>\r\n</div>\r\n<br>\r\n\r\n\r\n</body></html>"
-  ],
   "In-Reply-To": [
-    "<517AC78B.5060404@mnesty.com>"
+    "<517AC28B.5060404@mnesty.com>"
   ],
   "Date": [
     "Fri, 26 Apr 2013 11:50:29 -0700"
   ],
   "Message-Id": [
-    "<517ACC75.5010709@mnesty.com>"
+    "<511ACC75.5010709@mnesty.com>"
   ],
   "body-plain": [
-    "Hi Alice,\r\n\r\nThis is Bob.\r\n\r\nI also attached a file.\r\n\r\nThanks,\r\nBob\r\n\r\nOn 04/26/2013 11:29 AM, Alice wrote:\r\n> Hi Bob,\r\n>\r\n> This is Alice. How are you doing?\r\n>\r\n> Thanks,\r\n> Alice\r\n\r\n"
+    "---- Forwarded message ----\nFrom: hi@example.com\n\nHello\n\n## Please do not write below this line ##\n\nHello!"
   ],
   "Mime-Version": [
     "1.0"
@@ -54,9 +48,6 @@
   "message-headers": [
     "[[\"Received\", \"by luna.mailgun.net with SMTP mgrt 8788212249833; Fri, 26 Apr 2013 18:50:30 +0000\"], [\"Received\", \"from [10.20.76.69] (Unknown [50.56.129.169]) by mxa.mailgun.org with ESMTP id 517acc75.4b341f0-worker2; Fri, 26 Apr 2013 18:50:29 -0000 (UTC)\"], [\"Message-Id\", \"<517ACC75.5010709@mnesty.com>\"], [\"Date\", \"Fri, 26 Apr 2013 11:50:29 -0700\"], [\"From\", \"Bob <bob@mnesty.com>\"], [\"User-Agent\", \"Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130308 Thunderbird/17.0.4\"], [\"Mime-Version\", \"1.0\"], [\"To\", \"Alice <alice@mnesty.com>\"], [\"Subject\", \"Re: Sample POST request\"], [\"References\", \"<517AC78B.5060404@mnesty.com>\"], [\"In-Reply-To\", \"<517AC78B.5060404@mnesty.com>\"], [\"X-Mailgun-Variables\", \"{\\\"my_var_1\\\": \\\"Mailgun Variable #1\\\", \\\"my-var-2\\\": \\\"awesome\\\"}\"], [\"Content-Type\", \"multipart/mixed; boundary=\\\"------------020601070403020003080006\\\"\"], [\"Sender\", \"bob@mnesty.com\"]]"
   ],
-  "stripped-text": [
-    "Hi Alice,\r\n\r\nThis is Bob.\r\n\r\nI also attached a file."
-  ],
   "recipient": [
     "alice@mnesty.com"
   ],
@@ -68,9 +59,6 @@
   ],
   "token": [
     "3e4adde642f0a4927aece6a57d1302efeb6f523edf6e264b72"
-  ],
-  "body-html": [
-    "<html>\r\n<head>\r\n<meta content=\"text/html; charset=ISO-8859-1\"\r\n  http-equiv=\"Content-Type\">\r\n</head>\r\n<body text=\"#000000\" bgcolor=\"#FFFFFF\">\r\n<div class=\"moz-cite-prefix\">\r\n  <div style=\"color: rgb(34, 34, 34); font-family: arial,\r\n    sans-serif; font-size: 12.666666984558105px; font-style: normal;\r\n    font-variant: normal; font-weight: normal; letter-spacing:\r\n    normal; line-height: normal; orphans: auto; text-align: start;\r\n    text-indent: 0px; text-transform: none; white-space: normal;\r\n    widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;\r\n    -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,\r\n    255);\">Hi Alice,</div>\r\n  <div style=\"color: rgb(34, 34, 34); font-family: arial,\r\n    sans-serif; font-size: 12.666666984558105px; font-style: normal;\r\n    font-variant: normal; font-weight: normal; letter-spacing:\r\n    normal; line-height: normal; orphans: auto; text-align: start;\r\n    text-indent: 0px; text-transform: none; white-space: normal;\r\n    widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;\r\n    -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,\r\n    255);\"><br>\r\n  </div>\r\n  <div style=\"color: rgb(34, 34, 34); font-family: arial,\r\n    sans-serif; font-size: 12.666666984558105px; font-style: normal;\r\n    font-variant: normal; font-weight: normal; letter-spacing:\r\n    normal; line-height: normal; orphans: auto; text-align: start;\r\n    text-indent: 0px; text-transform: none; white-space: normal;\r\n    widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;\r\n    -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,\r\n    255);\">This is Bob.<span class=\"Apple-converted-space\"> <img\r\n        alt=\"\" src=\"cid:part1.04060802.06030207@mnesty.com\"\r\n        height=\"15\" width=\"33\"></span></div>\r\n  <div style=\"color: rgb(34, 34, 34); font-family: arial,\r\n    sans-serif; font-size: 12.666666984558105px; font-style: normal;\r\n    font-variant: normal; font-weight: normal; letter-spacing:\r\n    normal; line-height: normal; orphans: auto; text-align: start;\r\n    text-indent: 0px; text-transform: none; white-space: normal;\r\n    widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;\r\n    -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,\r\n    255);\"><br>\r\n    I also attached a file.<br>\r\n    <br>\r\n  </div>\r\n  <div style=\"color: rgb(34, 34, 34); font-family: arial,\r\n    sans-serif; font-size: 12.666666984558105px; font-style: normal;\r\n    font-variant: normal; font-weight: normal; letter-spacing:\r\n    normal; line-height: normal; orphans: auto; text-align: start;\r\n    text-indent: 0px; text-transform: none; white-space: normal;\r\n    widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;\r\n    -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,\r\n    255);\">Thanks,</div>\r\n  <div style=\"color: rgb(34, 34, 34); font-family: arial,\r\n    sans-serif; font-size: 12.666666984558105px; font-style: normal;\r\n    font-variant: normal; font-weight: normal; letter-spacing:\r\n    normal; line-height: normal; orphans: auto; text-align: start;\r\n    text-indent: 0px; text-transform: none; white-space: normal;\r\n    widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;\r\n    -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,\r\n    255);\">Bob</div>\r\n  <br>\r\n  On 04/26/2013 11:29 AM, Alice wrote:<br>\r\n</div>\r\n<blockquote cite=\"mid:517AC78B.5060404@mnesty.com\" type=\"cite\">Hi\r\n  Bob,\r\n  <br>\r\n  <br>\r\n  This is Alice. How are you doing?\r\n  <br>\r\n  <br>\r\n  Thanks,\r\n  <br>\r\n  Alice\r\n  <br>\r\n</blockquote>\r\n<br>\r\n</body>\r\n</html>\r\n"
   ],
   "References": [
     "<517AC78B.5060404@mnesty.com>"

@@ -44,6 +44,14 @@ class WebhookTests(TestCase):
         self.assertEqual(response.content, b"OK")
         self.assertEqual(len(mail.outbox), 0)
 
+        mail.outbox = []
+
+        # A blacklisted email.
+        response = self.client.post(reverse("main:forwarded-webhook"), data=json.load(open("main/tests/forward_requests/2.json")))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, b"OK")
+        self.assertEqual(len(mail.outbox), 1)
+
     def test_email_request(self):
         self.assertEqual(len(mail.outbox), 0)
 

@@ -14,7 +14,7 @@ from django.urls import reverse
 from email.utils import make_msgid
 from faker import Faker
 
-from .utils import parse_forwarded_message, parse_email_address
+from .utils import parse_forwarded_message, parse_email_address, is_blacklisted
 
 
 def generate_message_id(domain_name) -> str:
@@ -299,6 +299,9 @@ class Message(CharIDModel):
         message.in_reply_to = posted.get("In-Reply-To", "")
 
         if not message.recipient:
+            return None
+
+        if is_blacklisted(message.body):
             return None
 
         if forwarded:
