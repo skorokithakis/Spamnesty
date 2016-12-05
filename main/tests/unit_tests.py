@@ -72,6 +72,9 @@ class UnitTests(TestCase):
         addresses = [
             ('"Test Tester" <test@example.com>', "Test Tester", "test@example.com"),
             ('Test Tester <test@example.com>', "Test Tester", "test@example.com"),
+            ('Test Tester [test@example.com]', "Test Tester", "test@example.com"),
+            ('Test Tester <mailto:test@example.com>', "Test Tester", "test@example.com"),
+            ('Test Tester [mailto:test@example.com]', "Test Tester", "test@example.com"),
             ('Test Tester <<test@example.com>', "Test Tester", "test@example.com"),
             ('Test Tester <<<<<test@example.com>', "Test Tester", "test@example.com"),
             ('Test Tester <test@example.com>>>>>', "Test Tester", "test@example.com"),
@@ -81,6 +84,7 @@ class UnitTests(TestCase):
             ('Test Tester <test@example.com<mailto:test@example.com>>', "Test Tester", "test@example.com"),
             ('test@example.com', "", "test@example.com"),
             ('<test@example.com>', "", "test@example.com"),
+            ('<mailto:test@example.com>', "", "test@example.com"),
         ]
         for address, name, email in addresses:
             n, e = parse_email_address(address)
