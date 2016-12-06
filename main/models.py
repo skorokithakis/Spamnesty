@@ -338,6 +338,12 @@ class Message(CharIDModel):
             message.conversation = Conversation.objects.create(
                 reporter_email=posted["From"]
             )
+        else:
+            if not message.sender or \
+               "@" not in message.sender or \
+               Domain.objects.filter(name=message.sender_email.split("@")[1].lower()).exists():
+                # We couldn't locate a sender, or the sender is us, so abort.
+                return None
 
         message.save()
 

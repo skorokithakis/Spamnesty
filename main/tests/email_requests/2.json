@@ -3,7 +3,7 @@
     "Thanks,\r\nBob"
   ],
   "From": [
-    "Bob <bob@mnesty.com>"
+    "Bob <bob@example.com>"
   ],
   "attachment-count": [
     "2"
@@ -12,7 +12,7 @@
     "Alice <alice@mnesty.com>"
   ],
   "from": [
-    "Bob <bob@mnesty.com>"
+    "Bob <bob@example.com>"
   ],
   "User-Agent": [
     "Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130308 Thunderbird/17.0.4"
@@ -27,7 +27,7 @@
     "<517ACC75.5010709@mnesty.com>"
   ],
   "body-plain": [
-    "---- Forwarded message ----\nFrom: hi@test.com\n\nHello"
+    "---- Forwarded message ----\nFrom: hi@example.com\n\nHello"
   ],
   "Mime-Version": [
     "1.0"
@@ -40,7 +40,7 @@
     "{\"<part1.04060802.06030207@mnesty.com>\": \"attachment-1\"}"
   ],
   "Sender": [
-    "bob@mnesty.com"
+    "bob@example.com"
   ],
   "timestamp": [
     "1479924346"
@@ -52,7 +52,7 @@
     "alice@mnesty.com"
   ],
   "sender": [
-    "bob@mnesty.com"
+    "bob@example.com"
   ],
   "X-Mailgun-Variables": [
     "{\"my_var_1\": \"Mailgun Variable #1\", \"my-var-2\": \"awesome\"}"

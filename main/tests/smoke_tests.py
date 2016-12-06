@@ -15,7 +15,7 @@ class SmokeTests(TestCase):
 
 class WebhookTests(TestCase):
     def setUp(self):
-        Domain.objects.create(name="Example", company_name="Company")
+        Domain.objects.create(name="example.com", company_name="Company")
         ReplyTemplate.objects.create(body="Hello!")
 
     def test_invalid_forwarding(self):
@@ -34,7 +34,7 @@ class WebhookTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
         self.assertEqual(len(mail.outbox), 2)
-        self.assertIn("from\nhi@example.com.", mail.outbox[0].body)
+        self.assertIn("from\nhi@test.com.", mail.outbox[0].body)
         self.assertIn("CEO, Company", mail.outbox[1].body)
 
         mail.outbox = []
@@ -56,6 +56,14 @@ class WebhookTests(TestCase):
         self.assertEqual(len(mail.outbox), 0)
 
         response = self.client.post(reverse("main:email-webhook"), data=json.load(open("main/tests/email_requests/1.json")))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, b"OK")
+        self.assertEqual(len(mail.outbox), 0)
+
+        self.assertEqual(Message.objects.exclude(send_on=None).count(), 1)
+
+        # An email where the sender is us.
+        response = self.client.post(reverse("main:email-webhook"), data=json.load(open("main/tests/email_requests/2.json")))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
         self.assertEqual(len(mail.outbox), 0)
