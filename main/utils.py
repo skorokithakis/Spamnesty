@@ -9,11 +9,13 @@ def parse_email_address(address: str):
     address = re.sub("[\n\r]", " ", address)
     regexes = [
         # Bare email addresses (per@ex.com)
-        "^()([^<>\[\]]*)$",
+        "^()([^<> \[\]]*)$",
         # Weird-ass Outlook format (Person <per@ex.com<mailto:per@ex.com>>).
         "^\s*\"?(.*?)\"?\s*<([^<>]+?)<.*?>>$",
         # Regular format (Person <per@ex.com>).
         "^\s*\"?(.*?)\"?\s*[<\[]+(?:mailto\:)?(.*?)[>\]]+\s*$",
+        # Weird format (Person per@ex.com).
+        "^\s*(.*?)?\s*(?:mailto\:)?(\S+?)\s*$",
     ]
     # Try each regex in order, to find one that matches.
     for regex in regexes:
