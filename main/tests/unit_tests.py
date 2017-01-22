@@ -61,6 +61,11 @@ class UnitTests(TestCase):
                 "sender": "reply.912.45705@example.com",
                 "check": "Do your password reset requests",
             },
+            {
+                "body": open("main/tests/forwarded_emails/12.txt").read(),
+                "sender": "adminuyuog836 <peyveoext160314@mail.com>",
+                "check": "Message",
+            },
         ]
 
         for message in messages:
