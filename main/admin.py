@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Domain, ReplyTemplate, Conversation, Message, SpamCategory
+from .models import Conversation, Domain, Message, ReplyTemplate, SpamCategory
 
 
 @admin.register(SpamCategory)

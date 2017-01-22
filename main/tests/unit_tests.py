@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from ..utils import parse_forwarded_message, parse_email_address
+from ..utils import parse_email_address, parse_forwarded_message
 
 
 class UnitTests(TestCase):
@@ -91,6 +91,7 @@ class UnitTests(TestCase):
             ('test@example.com', "", "test@example.com"),
             ('<test@example.com>', "", "test@example.com"),
             ('<mailto:test@example.com>', "", "test@example.com"),
+            ('Example Example [mailto:exa.mple@example.com]', "Example Example", "exa.mple@example.com"),
         ]
         for address, name, email in addresses:
             n, e = parse_email_address(address)

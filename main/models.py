@@ -1,21 +1,23 @@
 from __future__ import unicode_literals
 
 import datetime
-import re
 import random
-import spintax
+import re
 import time
 
+from email.utils import make_msgid
+
 import shortuuid
+import spintax
+
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.db import models
 from django.db.utils import IntegrityError
 from django.urls import reverse
-from email.utils import make_msgid
 from faker import Faker
 
-from .utils import parse_forwarded_message, parse_email_address, is_blacklisted
+from .utils import is_blacklisted, parse_email_address, parse_forwarded_message
 
 
 def generate_message_id(domain_name) -> str:

@@ -1,7 +1,7 @@
 from annoying.decorators import render_to
-from django.db.models import Max, Count
-from django.contrib import messages
 from django.conf import settings
+from django.contrib import messages
+from django.db.models import Count, Max
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.crypto import constant_time_compare
 from django.views.decorators.http import require_POST
