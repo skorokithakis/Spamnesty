@@ -4,7 +4,7 @@ Django~=1.10.0
 django-annoying
 django-bootstrap3~=7.1.0
 django-extensions
-fake-factory
+Faker
 psycopg2
 shortuuid
 spintax
