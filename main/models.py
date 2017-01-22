@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 import datetime
 import re
 import random
+import spintax
 import time
 
 import shortuuid
@@ -387,9 +388,9 @@ class Message(CharIDModel):
 
     def get_random_reply(self):
         "Get a random reply to this message, based on its contents."
-        # Right now it's not very much based on its contents.
+        # Right now it's not very much based on the original email's contents.
         reply = ReplyTemplate.objects.filter(category=self.conversation.category).order_by("?").first()
-        return reply.body
+        return spintax.spin(reply.body)
 
     def save(self, *args, **kwargs):
         "Generate a message ID on saving."
