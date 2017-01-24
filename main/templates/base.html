@@ -51,7 +51,7 @@
                     <ul class="dropdown-menu">
                         {% for conversation in other_conversations %}
                         <li>
-                        <a href="{% url "main:conversation-view" conversation.id %}">The colloquy of {{ conversation.sender_name }}</a>
+                        <a href="{% url "main:conversation-view" conversation.id %}">The colloquy of {{ conversation.sender_name }} ({{ conversation.num_messages }})</a>
                         </li>
                         {% endfor %}
                     </ul>

@@ -50,7 +50,7 @@ def conversation_view(request, conversation_id):
     own_conversation = constant_time_compare(request.GET.get("key"), conversation.secret_key)
 
     if own_conversation and "@" in conversation.reporter_email:
-        other_conversations = Conversation.objects.filter(reporter_email=conversation.reporter_email)
+        other_conversations = Conversation.objects.filter(reporter_email=conversation.reporter_email).annotate(num_messages=Count("message"))
     else:
         other_conversations = []
 
