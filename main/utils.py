@@ -1,3 +1,5 @@
+# This file uses the encoding: utf8
+
 import re
 
 
@@ -146,7 +148,10 @@ def is_blacklisted(message):
     Check if a given message should be blacklisted.
     """
     blacklisted_content = [
-        "do not write below this line"
+        "do not write below this line",
+        "Please type your reply above this line",
+        "Não escreva abaixo desta linha",
+        "Your inquiry has been received by DHL",
     ]
     for text in blacklisted_content:
         if text in message:
