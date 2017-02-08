@@ -152,6 +152,7 @@ def is_blacklisted(message):
         "Please type your reply above this line",
         "Não escreva abaixo desta linha",
         "Your inquiry has been received by DHL",
+        "Agradecemos desde já o seu contacto",
     ]
     for text in blacklisted_content:
         if text in message:
