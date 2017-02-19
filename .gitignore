@@ -13,3 +13,4 @@ local_settings.py
 secret_keys.py
 _static/
 htmlcov/
+.vscode/
