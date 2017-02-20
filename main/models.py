@@ -334,7 +334,7 @@ class Message(CharIDModel):
             message.stripped_body = ""
 
             # Strip Fw/Fwd from the subject.
-            match = re.match("\W*Fwd?: (.*)$", message.subject, re.I)
+            match = re.match(r"\W*Fwd?: (.*)$", message.subject, re.I)
             if match:
                 message.subject = match.group(1)
 
