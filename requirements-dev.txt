@@ -4,16 +4,22 @@
 #
 #    pip-compile --output-file requirements-dev.txt requirements-dev.in
 #
+appdirs==1.4.1            # via setuptools
 click==6.7                # via pip-tools
 first==2.0.1              # via pip-tools
-flake8-import-order==0.11
+flake8-import-order==0.12
 flake8-tidy-imports==1.0.5
-flake8==3.2.1
-mccabe==0.5.3             # via flake8
+flake8==3.3.0
+mccabe==0.6.1             # via flake8
 mypy-lang==0.4.6
+packaging==16.8           # via setuptools
 pep8-naming==0.4.1
 pep8==1.7.0
 pip-tools==1.8.0
-pycodestyle==2.2.0        # via flake8, flake8-import-order
-pyflakes==1.3.0           # via flake8
-six==1.10.0               # via pip-tools
+pycodestyle==2.3.1        # via flake8, flake8-import-order
+pyflakes==1.5.0           # via flake8
+pyparsing==2.1.10         # via packaging
+six==1.10.0               # via packaging, pip-tools, setuptools
+
+# The following packages are considered to be unsafe in a requirements file:
+# setuptools                # via flake8-import-order
