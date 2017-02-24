@@ -1,8 +1,8 @@
+"""The main application's URLs."""
+
 from django.conf.urls import url
 
-from main.views import generic
-from main.views import webhooks
-from main.views import learn
+from main.views import generic, learn, webhooks
 
 
 urlpatterns = [
@@ -19,5 +19,5 @@ urlpatterns += [
 ]
 
 urlpatterns += [
-    url(r'^entrary/misc/export-messages/$', learn.export_spam, name="learn-export-spam"),
+    url(r'^entrary/misc/export-messages/$', learn.export_messages, name="learn-export-messages"),
 ]
