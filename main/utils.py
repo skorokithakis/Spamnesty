@@ -11,13 +11,13 @@ def parse_email_address(address: str):
     address = re.sub("[\n\r]", " ", address)
     regexes = [
         # Bare email addresses (per@ex.com)
-        "^()([^<> \[\]]*)$",
+        r"^()([^<> \[\]]*)$",
         # Weird-ass Outlook format (Person <per@ex.com<mailto:per@ex.com>>).
-        "^\s*\"?(.*?)\"?\s*<([^<>]+?)<.*?>>$",
+        r"^\s*\"?(.*?)\"?\s*<([^<>]+?)<.*?>>$",
         # Regular format (Person <per@ex.com>).
-        "^\s*\"?(.*?)\"?\s*[<\[]+(?:mailto\:)?(.*?)[>\]]+\s*$",
+        r"^\s*\"?(.*?)\"?\s*[<\[]+(?:mailto\:)?(.*?)[>\]]+\s*$",
         # Weird format (Person per@ex.com).
-        "^\s*(.*?)?\s*(?:mailto\:)?(\S+?)\s*$",
+        r"^\s*(.*?)?\s*(?:mailto\:)?(\S+?)\s*$",
     ]
     # Try each regex in order, to find one that matches.
     for regex in regexes:
@@ -85,7 +85,7 @@ def parse_forwarded_message(message: str):
     for line in message.split("\n"):
         line = line.strip("\r\n> ")
         if state == "START":
-            match = re.match("^From:.*$", line)
+            match = re.match(r"^From:.*$", line)
             if match:
                 state = "HEADER"
         elif state == "EMAIL":

@@ -20,6 +20,9 @@ everything up:
 ~~~
 pip install docker-compose
 docker-compose up
+
+# You can create a superuser (or run other manage.py commands) like so:
+docker-compose run web /code/manage.py createsuperuser <yourusername>
 ~~~
 
 If you access [http://localhost/](http://localhost/), you should see the
