@@ -3,17 +3,18 @@ import json
 
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import StreamingHttpResponse
 
 from main.models import Conversation, SpamCategory
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def export_messages(request):
-    """Export spam messages as json object."""
-    categories = [{"id": cat.id, "name": cat.name} for cat in SpamCategory.objects.all()]
-    messages = []
-    for conversation in Conversation.objects.annotate(num_messages=Count("message")).filter(num_messages__gte=1):
+def message_exporter():
+    # We need to do these contortions so we can stream the response.
+    yield '{"categories": '
+    yield json.dumps([{"id": cat.id, "name": cat.name} for cat in SpamCategory.objects.all()], indent=2) + ', "messages": ['
+
+    for counter, conversation in enumerate(Conversation.objects.annotate(num_messages=Count("message")).filter(num_messages__gte=1)):
+        yield "," if counter else ""
         message = conversation.messages[0]
         message_exp = {
             "message_id": message.message_id,
@@ -22,10 +23,13 @@ def export_messages(request):
             "category": conversation.category_id,
             "classified": conversation.classified,
         }
-        messages.append(message_exp)
+        yield json.dumps(message_exp, indent=2, sort_keys=True)
+    yield "]}"
 
-    exp = {"categories": categories, "messages": messages}
-    j_str = json.dumps(exp, indent=2, sort_keys=True)
-    response = HttpResponse(j_str, content_type='application/json')
+
+@user_passes_test(lambda u: u.is_superuser)
+def export_messages(request):
+    """Export spam messages as a JSON object."""
+    response = StreamingHttpResponse(message_exporter(), content_type='application/json')
     response['Content-Disposition'] = 'attachment; filename="spamnesty_messages.json"'
     return response
