@@ -167,3 +167,13 @@ try:
     from .local_settings import *  # noqa
 except ImportError:
     pass
+
+try:
+    INSTALLED_APPS += LOCAL_INSTALLED_APPS  # noqa
+except:
+    pass
+
+try:
+    MIDDLEWARE_CLASSES += LOCAL_MIDDLEWARE_CLASSES  # noqa
+except:
+    pass
