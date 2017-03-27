@@ -66,6 +66,11 @@ class UnitTests(TestCase):
                 "sender": "adminuyuog836 <peyveoext160314@mail.com>",
                 "check": "Message",
             },
+            {
+                "body": open("main/tests/forwarded_emails/13.txt").read(),
+                "sender": "Bamba Mariam <bamba@gmail.com>",
+                "check": "Things",
+            },
         ]
 
         for message in messages:
