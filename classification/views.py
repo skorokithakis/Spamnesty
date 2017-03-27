@@ -1,20 +1,18 @@
 from annoying.decorators import render_to
-from django.http import Http404
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_http_methods
 
 from main.models import Conversation, SpamCategory
 
 
+@staff_member_required
 @require_http_methods(["GET", "POST"])
 @render_to("classify.html")
 def classify(request):
     """
     Allow staff to classify conversations into categories.
     """
-    if not request.user.is_staff:
-        raise Http404
-
     if request.method == "POST":
         conversation = get_object_or_404(Conversation, pk=request.POST.get("conversation_id"))
         category = get_object_or_404(SpamCategory, pk=request.POST.get("category_id", ""))
@@ -33,3 +31,15 @@ def classify(request):
             "spam_categories": categories,
             "progress": 100 - progress,
         }
+
+
+@staff_member_required
+@require_http_methods(["POST"])
+@render_to("classify.html")
+def delete_conversation(request):
+    """
+    Allow staff to delete conversations.
+    """
+    conversation = get_object_or_404(Conversation, pk=request.POST.get("conversation_id"))
+    conversation.delete()
+    return {"result": "success"}
