@@ -11,13 +11,31 @@ function classifyConversation(conversation_id, category_id, category_name) {
     data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
 
     var xhr = new XMLHttpRequest();
+    xhr.conv_id = conversation_id;
     xhr.open('POST', '{% url "classification:classify" %}', true);
-    xhr.onload = function () {};
+    xhr.onload = function () {
+        jQuery('.conv-'+this.conv_id).addClass('classified')
+    };
     xhr.send(data);
 
     document.getElementsByClassName("conv-" + conversation_id)[0].innerHTML =
         category_name + '<span class="caret"></span>';
 }
+function deleteConversation(conversation_id) {
+    var data = new FormData();
+    data.append('conversation_id', conversation_id);
+    data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+    var xhr = new XMLHttpRequest();
+    xhr.conv_id = conversation_id;
+    xhr.open('POST', '{% url "classification:delete" %}', true);
+    xhr.onload = function () {
+        jQuery('#conv-id-'+this.conv_id+' td').addClass('deleted')
+        jQuery('#conv-id-'+this.conv_id+' .conv-buttons').addClass('deleted')
+    };
+    xhr.send(data);
+}
+
 </script>
 {% endblock %}
 
@@ -46,11 +64,12 @@ function classifyConversation(conversation_id, category_id, category_name) {
             </tr>
 
             {% for conversation in conversations %}
-            <tr>
-                <td>{{ conversation.messages.first.best_body|linebreaksbr }}</td>
-                <td>
+            <tr id='conv-id-{{ conversation.id }}'>
+                <td class='conv-body'>{{ conversation.messages.first.best_body|linebreaksbr }}</td>
+                <td class='conv-buttons'>
                     {% if request.user.is_staff %}
                     <p><a class="btn btn-danger" href="{% url "admin:main_conversation_change" conversation.id %}">Admin</a></p>
+                    <p><a class="btn btn-danger" href="#" onclick="deleteConversation('{{ conversation.id }}'); return false;">Delete</a></p>
                     {% endif %}
 
                     <div class="btn-group">
