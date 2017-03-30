@@ -1,5 +1,3 @@
-import datetime
-
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -86,8 +84,5 @@ def email(request):
 @csrf_exempt
 def cron(request):
     "The webhook that is called when it's time to send emails."
-    unsent_messages = Message.objects.exclude(send_on=None).filter(send_on__lt=datetime.datetime.now())
-    for message in unsent_messages:
-        message.send()
-
+    Message.send_unsent()
     return HttpResponse("OK")
