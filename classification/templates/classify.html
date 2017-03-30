@@ -4,8 +4,12 @@
 
 {% block scripts %}
 <script>
-function classifyConversation(conversation_id, category_id, category_name) {
+function classifyConversation(conversation_id, category_id) {
     var data = new FormData();
+    if(category_id === null) {
+        category_id = jQuery('#conv-id-'+conversation_id+' .category-button').attr('spamcat')
+    }
+    category_name = jQuery('#conv-id-'+conversation_id+' .cat-'+category_id+' a').text()
     data.append('conversation_id', conversation_id);
     data.append('category_id', category_id);
     data.append('csrfmiddlewaretoken', '{{ csrf_token }}');
@@ -14,12 +18,11 @@ function classifyConversation(conversation_id, category_id, category_name) {
     xhr.conv_id = conversation_id;
     xhr.open('POST', '{% url "classification:classify" %}', true);
     xhr.onload = function () {
-        jQuery('.conv-'+this.conv_id).addClass('classified')
+        jQuery('#conv-id-'+this.conv_id).addClass('classified')
+        jQuery('#conv-id-'+this.conv_id+' button.category-button').text(category_name)
+        jQuery('#conv-id-'+this.conv_id+' .category-button').attr('spamcat', category_id)
     };
     xhr.send(data);
-
-    document.getElementsByClassName("conv-" + conversation_id)[0].innerHTML =
-        category_name + '<span class="caret"></span>';
 }
 function deleteConversation(conversation_id) {
     var data = new FormData();
@@ -73,14 +76,16 @@ function deleteConversation(conversation_id) {
                     {% endif %}
 
                     <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle conv-{{ conversation.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ conversation.category }} <span class="caret"></span>
+                        <button type="button" class="btn btn-primary category-button" spamcat="{{ conversation.category_id }}"  onclick="classifyConversation('{{ conversation.id }}', null); return false;">{{ conversation.category }}</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle conv-{{ conversation.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu">
                             <li class="disabled"><a href="#">Select the category of the spam email</a></li>
                             <li role="separator" class="divider"></li>
                             {% for category in spam_categories %}
-                            <li><a href="#" onclick="classifyConversation('{{ conversation.id }}', '{{ category.id }}', '{{ category.name }}'); return false;">{{ category.name }}</a></li>
+                            <li class="cat-{{ category.id }}"><a href="#" onclick="classifyConversation('{{ conversation.id }}', '{{ category.id }}'); return false;">{{ category.name }}</a></li>
                             {% endfor %}
                         </ul>
                     </div>

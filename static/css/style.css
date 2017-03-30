@@ -7,7 +7,7 @@ td.conv-body {
     text-overflow: ellipsis;
 }
 
-.classified {
+.classified .btn-group button {
     border: 2px solid
 }
 
