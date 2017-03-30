@@ -21,6 +21,7 @@ function classifyConversation(conversation_id, category_id) {
         jQuery('#conv-id-'+this.conv_id).addClass('classified')
         jQuery('#conv-id-'+this.conv_id+' button.category-button').text(category_name)
         jQuery('#conv-id-'+this.conv_id+' .category-button').attr('spamcat', category_id)
+        jQuery('#conv-id-'+this.conv_id+' .classified-mark').fadeIn().delay(2000).fadeOut('slow')
     };
     xhr.send(data);
 }
@@ -80,7 +81,7 @@ function deleteConversation(conversation_id) {
                         <button type="button" class="btn btn-primary dropdown-toggle conv-{{ conversation.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
-                        </button>
+                        </button><i class="classified-mark fa fa-check" aria-hidden="true"></i>
                         <ul class="dropdown-menu">
                             <li class="disabled"><a href="#">Select the category of the spam email</a></li>
                             <li role="separator" class="divider"></li>
