@@ -205,6 +205,11 @@ class Conversation(CharIDModel):
         super().save(*args, **kwargs)
 
 
+class MessageManager(models.Manager):
+    def unsent(self):
+        return Message.objects.exclude(send_on=None).filter(send_on__lt=datetime.datetime.now())
+
+
 class Message(CharIDModel):
     """A single email message."""
     DIRECTIONS = [("F", "Forwarded"), ("S", "Sent"), ("R", "Received")]
@@ -237,6 +242,8 @@ class Message(CharIDModel):
 
     # The in-reply-to header, which complements the ID.
     in_reply_to = models.CharField(max_length=1000, blank=True)
+
+    objects = MessageManager()
 
     class Meta:
         ordering = ["timestamp"]
@@ -365,6 +372,15 @@ class Message(CharIDModel):
         self.timestamp = send_on
         self.send_on = send_on
         self.save()
+
+    @classmethod
+    def send_unsent(cls):
+        "Send all ready unsent messages."
+        sent_count = 0
+        for message in cls.objects.unsent():
+            message.send()
+            sent_count += 1
+        return sent_count
 
     def send(self):
         "Send the message through email."
