@@ -7,8 +7,8 @@ td.conv-body {
     text-overflow: ellipsis;
 }
 
-.classified .btn-group button {
-    border: 2px solid
+.classified-mark {
+    display: none;
 }
 
 td.deleted {
