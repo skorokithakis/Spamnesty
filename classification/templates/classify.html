@@ -21,7 +21,7 @@ function classifyConversation(conversation_id, category_id) {
         jQuery('#conv-id-'+this.conv_id).addClass('classified')
         jQuery('#conv-id-'+this.conv_id+' button.category-button').text(category_name)
         jQuery('#conv-id-'+this.conv_id+' .category-button').attr('spamcat', category_id)
-        jQuery('#conv-id-'+this.conv_id+' .classified-mark').fadeIn().delay(2000).fadeOut('slow')
+        jQuery('#conv-id-'+this.conv_id+' .classified-mark').fadeTo(500, 1.0).delay(2000).fadeTo(1000, 0.0)
     };
     xhr.send(data);
 }
