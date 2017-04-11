@@ -10,9 +10,7 @@ from main.models import Conversation, SpamCategory
 @require_http_methods(["GET", "POST"])
 @render_to("classify.html")
 def classify(request):
-    """
-    Allow staff to classify conversations into categories.
-    """
+    """Allow staff to classify conversations into categories."""
     if request.method == "POST":
         conversation = get_object_or_404(Conversation, pk=request.POST.get("conversation_id"))
         category = get_object_or_404(SpamCategory, pk=request.POST.get("category_id", ""))
@@ -37,9 +35,7 @@ def classify(request):
 @require_http_methods(["POST"])
 @render_to("classify.html")
 def delete_conversation(request):
-    """
-    Allow staff to delete conversations.
-    """
+    """Allow staff to delete conversations."""
     conversation = get_object_or_404(Conversation, pk=request.POST.get("conversation_id"))
     conversation.delete()
     return {"result": "success"}

@@ -5,7 +5,9 @@ import re
 
 def parse_email_address(address: str):
     """
-    Break an email address of the form First Last <firstlast@example.com> into
+    Split an email address into parts.
+
+    Break an email address of the form "First Last <firstlast@example.com>" into
     a name and an email address.
     """
     address = re.sub("[\n\r]", " ", address)
@@ -32,6 +34,8 @@ def parse_email_address(address: str):
 
 def normalize_email_address(address: str):
     """
+    Normalize an email address.
+
     Normalize an email address to either a "First Last <flast@ex.com>" or a
     "flast@ex.com" format.
     """
@@ -44,8 +48,9 @@ def normalize_email_address(address: str):
 
 def parse_forwarded_message(message: str):
     """
-    Parse an email body that contains a forwarded message, and return the
-    message and the original sender's email address.
+    Parse an email body that contains a forwarded message.
+
+    Returns the message and the original sender's email address.
     """
     state = "START"
     sender = None
@@ -101,11 +106,7 @@ def parse_forwarded_message(message: str):
 
 
 def quote_message(body: str, message):
-    """
-    Given a body and an EmailMessage instance, construct a body (with a
-    signature) and a quoted reply.
-    """
-
+    """Construct a body (with a signature) and a quoted reply."""
     original = body.split("\n")
     original.append("")
     original.append(message.conversation.sender_name)
@@ -118,9 +119,7 @@ def quote_message(body: str, message):
 
 
 def construct_reply(message):
-    """
-    Construct a reply to the received message.
-    """
+    """Construct a reply to the received message."""
     subject = message.subject
     if not subject.startswith("Re: "):
         subject = "Re: " + subject
@@ -144,9 +143,7 @@ def construct_reply(message):
 
 
 def is_blacklisted(message):
-    """
-    Check if a given message should be blacklisted.
-    """
+    """Check if a given message should be blacklisted."""
     blacklisted_content = [
         "do not write below this line",
         "Please type your reply above this line",
