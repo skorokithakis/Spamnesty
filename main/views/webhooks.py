@@ -11,8 +11,7 @@ from ..utils import construct_reply
 
 @csrf_exempt
 def forwarded(request):
-    "The webhook that fires when a user forwards a legitimate email."
-
+    """The webhook that fires when a user forwards a legitimate email."""
     if not request.POST.get("From"):
         return HttpResponse("Empty sender.")
 
@@ -65,8 +64,7 @@ def forwarded(request):
 
 @csrf_exempt
 def email(request):
-    "The webhook that fires when we get some spam."
-
+    """The webhook that fires when we get some spam."""
     # Parse the received message.
     message = Message.parse_from_mailgun(request.POST)
 
@@ -83,6 +81,6 @@ def email(request):
 
 @csrf_exempt
 def cron(request):
-    "The webhook that is called when it's time to send emails."
+    """The webhook that is called when it's time to send emails."""
     Message.send_unsent()
     return HttpResponse("OK")

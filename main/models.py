@@ -21,39 +21,40 @@ from .utils import is_blacklisted, parse_email_address, parse_forwarded_message
 
 
 def generate_message_id(domain_name) -> str:
-    "Generate an email message ID."
+    """Generate an email message ID."""
     return make_msgid(domain=domain_name)
 
 
 def generate_fake_name():
-    "Generate a fake name."
+    """Generate a fake name."""
     fake = Faker()
     fake.seed(time.time())
     return fake.name()
 
 
 def generate_key() -> str:
-    "Generate a secret key for an object."
+    """Generate a secret key for an object."""
     return shortuuid.ShortUUID().random()
 
 
 def generate_uuid() -> str:
-    "Generate a UUID for an object."
+    """Generate a UUID for an object."""
     return shortuuid.ShortUUID("abdcefghjkmnpqrstuvwxyz").random()[:8]
 
 
 def get_default_category() -> int:
-    "Retrieve the default SpamCategory"
+    """Retrieve the default SpamCategory."""
     return SpamCategory.objects.get(default=True).id
 
 
 def get_random_domain():
-    "Choose a random domain from the database."
+    """Choose a random domain from the database."""
     return Domain.objects.order_by("?").first()
 
 
 class CharIDModel(models.Model):
     """Base model that gives children string IDs."""
+
     id = models.CharField(max_length=30, primary_key=True,
             default=generate_uuid, editable=False)
 
@@ -62,7 +63,8 @@ class CharIDModel(models.Model):
 
 
 class Domain(CharIDModel):
-    "A domain to use for sending and receiving email."
+    """A domain to use for sending and receiving email."""
+
     # The domain name (e.g. example.com).
     name = models.CharField(max_length=1000)
     # The company name (e.g. Example, LLC).
@@ -74,6 +76,7 @@ class Domain(CharIDModel):
 
 class SpamCategory(CharIDModel):
     """The categories of spam emails."""
+
     name = models.CharField(max_length=30)
     default = models.BooleanField(default=False, db_index=True)
 
@@ -86,12 +89,13 @@ class SpamCategory(CharIDModel):
 
 class ReplyTemplate(CharIDModel):
     """Custom reply templates."""
+
     body = models.TextField()
     category = models.ForeignKey(SpamCategory, default=get_default_category)
 
     @property
     def snippet(self):
-        "Get the first few characters of the reply."
+        """Get the first few characters of the reply."""
         return self.body[:40]
 
     def __str__(self):
@@ -101,7 +105,6 @@ class ReplyTemplate(CharIDModel):
 class ConversationManager(models.Manager):
     def create(self, *args, **kwargs):
         """Generate an object, retrying if there's an ID collision."""
-
         # Try to generate new IDs for the object if one collides.
         tries = 10
         for x in range(tries):
@@ -149,6 +152,7 @@ class ConversationManager(models.Manager):
 
 class Conversation(CharIDModel):
     """The main conversation object."""
+
     # The email address of the person who reported this message.
     reporter_email = models.CharField(max_length=1000, blank=True, db_index=True)
 
@@ -181,24 +185,26 @@ class Conversation(CharIDModel):
     @property
     def messages(self):
         """
-        A QuerySet of all the messages in this converation, sorted by
-        ascending date (most recent last).
+        A QuerySet of all the messages in the converation.
+
+        The QuerySet is sorted by ascending date, ie the most recent items are
+        last.
         """
         return self.message_set.all().order_by("timestamp")
 
     @property
     def calculated_sender_username(self):
-        "Derive a username from the sender's name."
+        """Derive a username from the sender's name."""
         split_name = self.sender_name.split()
         return (split_name[0][0] + split_name[1]).lower()
 
     @property
     def calculated_sender_email(self):
-        "Derive a username from the sender's username."
+        """Derive a username from the sender's username."""
         return "%s@%s" % (self.calculated_sender_username, self.domain.name)
 
     def save(self, *args, **kwargs):
-        "Generate the sender_email on saving."
+        """Generate the sender_email on saving."""
         if not self.sender_email:
             self.sender_email = self.calculated_sender_email
 
@@ -212,6 +218,7 @@ class MessageManager(models.Manager):
 
 class Message(CharIDModel):
     """A single email message."""
+
     DIRECTIONS = [("F", "Forwarded"), ("S", "Sent"), ("R", "Received")]
 
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -256,44 +263,40 @@ class Message(CharIDModel):
 
     @property
     def sender_name(self):
-        "Parse and return the sender's name."
+        """Parse and return the sender's name."""
         if not self.sender:
             return ""
         return parse_email_address(self.sender)[0]
 
     @property
     def sender_email(self):
-        "Parse and return the sender's email address."
+        """Parse and return the sender's email address."""
         if not self.sender:
             return ""
         return parse_email_address(self.sender)[1]
 
     @property
     def recipient_name(self):
-        "Parse and return the recipient's name."
+        """Parse and return the recipient's name."""
         if not self.recipient:
             return ""
         return parse_email_address(self.recipient)[0]
 
     @property
     def recipient_email(self):
-        "Parse and return the recipient's email address."
+        """Parse and return the recipient's email address."""
         if not self.recipient:
             return ""
         return parse_email_address(self.recipient)[1]
 
     @property
     def best_body(self):
-        """
-        Return the best body to use (i.e. stripped_body if available).
-        """
+        """Return the best body to use (i.e. stripped_body if available)."""
         return self.stripped_body or self.body
 
     @classmethod
     def parse_from_mailgun(cls, posted, forwarded=False):
-        """
-        Parse a message from Mailgun and return a Message instance.
-        """
+        """Parse a message from Mailgun and return a Message instance."""
         # Delete old messages with this ID, as it probably means the server
         # crashed on them and we need to redo whatever we did.
         cls.objects.filter(message_id=posted["Message-Id"]).delete()
@@ -360,10 +363,7 @@ class Message(CharIDModel):
         return message
 
     def queue(self):
-        """
-        Queue the message for sending with a random delay (to appear more
-        realistic).
-        """
+        """Queue the message for sending with a random delay, for realism."""
         if settings.DEBUG:
             send_on = datetime.datetime.now()
         else:
@@ -375,7 +375,7 @@ class Message(CharIDModel):
 
     @classmethod
     def send_unsent(cls):
-        "Send all ready unsent messages."
+        """Send all ready unsent messages."""
         sent_count = 0
         for message in cls.objects.unsent():
             message.send()
@@ -383,7 +383,7 @@ class Message(CharIDModel):
         return sent_count
 
     def send(self):
-        "Send the message through email."
+        """Send the message through email."""
         conversation = self.conversation
 
         body = self.body
@@ -405,13 +405,13 @@ class Message(CharIDModel):
         self.save()
 
     def get_random_reply(self):
-        "Get a random reply to this message, based on its contents."
+        """Get a random reply to this message, based on its contents."""
         # Right now it's not very much based on the original email's contents.
         reply = ReplyTemplate.objects.filter(category=self.conversation.category).order_by("?").first()
         return spintax.spin(reply.body)
 
     def save(self, *args, **kwargs):
-        "Generate a message ID on saving."
+        """Generate a message ID on saving."""
         if not self.conversation_id:
             # In order to get_by_message, we need to already have set in_reply_to.
             self.conversation = Conversation.objects.get_by_message(self)

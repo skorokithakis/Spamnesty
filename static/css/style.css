@@ -8,7 +8,8 @@ td.conv-body {
 }
 
 .classified-mark {
-    display: none;
+    margin: auto 10px;
+    opacity: 0.0;
 }
 
 td.deleted {
@@ -17,4 +18,8 @@ td.deleted {
 
 .conv-buttons.deleted {
     display: none;
+}
+
+.conv-buttons .btn-group {
+    display: flex;
 }
