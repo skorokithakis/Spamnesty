@@ -1,0 +1,16 @@
+This message was created automatically by mail delivery software.
+A message that you sent has not yet been delivered to one or more of its
+recipients after more than 24 hours on the queue on muon.mfg-consulting-llc.com.
+
+The message identifier is: 1cyTEQ-000ALM-3X
+The subject of the message is: Re: Miracle Shake to Treat Root Cause of Diabetes
+The date of the message is: Thu, 13 Apr 2017 01:07:30 -0000
+
+The address to which the message has not yet been delivered is:
+
+mike@catjulia.com
+
+No action is required on your part. Delivery attempts will continue for
+some time, and this warning may be repeated at intervals if the message
+remains undelivered. Eventually the mail delivery software will give up,
+and when that happens, the message will be returned to you.
