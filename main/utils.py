@@ -2,6 +2,9 @@
 
 import re
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
 
 def parse_email_address(address: str):
     """
@@ -155,3 +158,28 @@ def is_blacklisted(message):
         if text in message:
             return True
     return False
+
+
+def check_last_messages_similarity(conversation):
+    """Check whether the last two spammer messages are similar."""
+    messages = conversation.messages
+    spammer_messages = messages.filter(direction='R') | messages.filter(direction='F')
+    num_messages = spammer_messages.count()
+    if num_messages < 2:
+        return False
+    message_last = spammer_messages[num_messages - 1]
+    message_prev = spammer_messages[num_messages - 2]
+    similarity = get_similarity(message_last.body, message_prev.body)
+    if similarity > 0.9:
+        return True
+    return False
+
+
+def get_similarity(txt1, txt2):
+    """Calculate similarity between two text strings based on the cosine similarity method.
+
+    See  http://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html#sklearn.metrics.pairwise.cosine_similarity
+    """
+    tfidf = TfidfVectorizer().fit_transform([txt1, txt2])
+    cosine_similarities = cosine_similarity(tfidf[0], tfidf[1]).flatten()
+    return cosine_similarities[0]

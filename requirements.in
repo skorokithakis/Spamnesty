@@ -12,6 +12,9 @@ uwsgi
 raven
 whitenoise
 Werkzeug
+numpy
+sklearn
+scipy
 
 # Testing
 coverage
