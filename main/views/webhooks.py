@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from raven.contrib.django.raven_compat.models import client
 
 from ..models import Message
-from ..utils import construct_reply
+from ..utils import check_last_messages_similarity, construct_reply
 
 
 @csrf_exempt
@@ -71,6 +71,7 @@ def email(request):
     # If there is no unsent message in the queue, queue one.
     if (message and
        message.conversation.messages.count() <= 40 and
+       not check_last_messages_similarity(message.conversation) and
        not message.conversation.messages.exclude(send_on=None).exists()):
         # Reply to the spammer.
         reply = construct_reply(message)
