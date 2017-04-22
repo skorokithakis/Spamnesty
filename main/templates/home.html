@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load cache %}
+{% load cache bootstrap3 %}
 
 {% block title %}Home{% endblock %}
 
@@ -43,6 +43,7 @@
         <h3>Conversations</h3>
         <div class="row">
             <div class="col-md-12">
+                {% bootstrap_pagination conversations size="large" %}
                 <table class="table">
                     <tr>
                         <th>Person</th>
@@ -51,8 +52,9 @@
                         <th>Msgs</th>
                     </tr>
 
-                    {% cache 1800 home-conversations %}
-                    {% for conversation in conversations %}
+
+                    {% cache 1800 home-conversations conversations.number %}
+                    {% for conversation in conversations.object_list %}
                     <tr>
                         <td><a href="{% url "main:conversation-view" conversation.id %}">{{ conversation.sender_name }}</a></td>
                         <td>{{ conversation.message_set.first.subject }}</td>
@@ -62,6 +64,7 @@
                     {% endfor %}
                     {% endcache %}
                 </table>
+                {% bootstrap_pagination conversations size="large" %}
             </div>
         </div>
     </div>

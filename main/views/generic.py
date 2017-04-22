@@ -1,6 +1,7 @@
 from annoying.decorators import render_to
 from django.conf import settings
 from django.contrib import messages
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, Max
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.crypto import constant_time_compare
@@ -13,10 +14,24 @@ from ..models import Conversation, SpamCategory
 def home(request):
     if not (request.get_host().startswith("spa.") or settings.DEBUG):
         return {"TEMPLATE": "fake.html"}
+
     conversations = Conversation.objects.annotate(
             last_message_time=Max('message__timestamp'),
             num_messages=Count("message"),
         ).filter(num_messages__gt=11).order_by('-last_message_time')
+
+    paginator = Paginator(conversations, 25)
+    page = request.GET.get("page")
+    try:
+        conversations = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        print("Not an int")
+        conversations = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        conversations = paginator.page(paginator.num_pages)
+
     return {"conversations": conversations}
 
 
