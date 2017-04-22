@@ -20,7 +20,7 @@ def home(request):
             num_messages=Count("message"),
         ).filter(num_messages__gt=11).order_by('-last_message_time')
 
-    paginator = Paginator(conversations, 25)
+    paginator = Paginator(conversations, 50)
     page = request.GET.get("page")
     try:
         conversations = paginator.page(page)
