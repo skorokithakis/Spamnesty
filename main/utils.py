@@ -153,6 +153,7 @@ def is_blacklisted(message):
         "Não escreva abaixo desta linha",
         "Your inquiry has been received by DHL",
         "Agradecemos desde já o seu contacto",
+        "LinkedIn Corporation",
     ]
     for text in blacklisted_content:
         if text in message:
