@@ -4,7 +4,6 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-appdirs==1.4.3            # via setuptools
 bleach==1.5.0
 brotlipy==0.6.0
 cffi==1.9.1               # via brotlipy

@@ -4,7 +4,6 @@
 #
 #    pip-compile --output-file requirements-dev.txt requirements-dev.in
 #
-appdirs==1.4.1            # via setuptools
 click==6.7                # via pip-tools
 first==2.0.1              # via pip-tools
 flake8-docstrings==1.0.3
