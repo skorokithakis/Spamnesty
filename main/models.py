@@ -304,7 +304,7 @@ class Message(CharIDModel):
         message = cls()
         message.direction = "F" if forwarded else "R"
         message.sender = posted["From"]
-        message.recipient = posted.get("To").replace("\n", " ")
+        message.recipient = posted.get("To", "").replace("\n", " ")
         message.subject = posted.get("Subject", "").replace("\n", " ")
         message.body = posted["body-plain"]
         message.stripped_body = posted.get("stripped-text", "")
