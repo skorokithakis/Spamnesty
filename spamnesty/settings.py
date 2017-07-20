@@ -1,4 +1,5 @@
 import os
+import re
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -13,7 +14,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", 'secret')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get("NODEBUG") is None else False
 
-ALLOWED_HOSTS = ["web", "localhost"] if os.environ.get("NODEBUG") is None else [".mnesty.com"]
+ALLOWED_HOSTS = ["web", "localhost"] if os.environ.get("NODEBUG") is None else [".mnesty.com", "spamnesty.vms.stavros.io"]
 
 DEFAULT_FROM_EMAIL = "Spamnesty <sp@mnesty.com>"
 
@@ -93,6 +94,22 @@ if os.environ.get("IN_DOCKER"):
             'PORT': os.environ.get("DB_PORT", 5432),
         }
     }
+elif os.environ.get("DATABASE_URL"):
+    # Stuff for when running in Dokku.
+
+    # Parse the DATABASE_URL env var.
+    USER, PASSWORD, HOST, PORT, NAME = re.match("^postgres://(?P<username>.*?)\:(?P<password>.*?)\@(?P<host>.*?)\:(?P<port>\d+)\/(?P<db>.*?)$", os.environ.get("DATABASE_URL", "")).groups()
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': NAME,
+            'USER': USER,
+            'PASSWORD': PASSWORD,
+            'HOST': HOST,
+            'PORT': int(PORT),
+        }
+    }
 else:
     DATABASES = {
         'default': {
@@ -141,6 +158,22 @@ USE_L10N = False
 USE_TZ = False
 
 SITE_ID = 1
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
+}
 
 
 EMAIL_USE_TLS = True
