@@ -3,27 +3,9 @@ image: python:latest
 stages:
   - staticcheck
   - test
-  - build
   - deploy
 
-variables:
-  CONTAINER_TEST_IMAGE: registry.gitlab.com/stavros/spamnesty:$CI_BUILD_REF_NAME
-  CONTAINER_RELEASE_IMAGE: registry.gitlab.com/stavros/spamnesty:latest
-
-build:
-  image: docker:git
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
-  stage: build
-  script:
-    - docker build -t $CONTAINER_TEST_IMAGE .
-    - docker push $CONTAINER_TEST_IMAGE
-  only:
-    - master
-
-staticcheck:
+vastaticcheck:
   before_script:
     - pip install -Ur requirements-dev.txt
   script:
@@ -40,8 +22,10 @@ test:
   stage: test
 
 deploy to production:
+  image: ilyasemenov/gitlab-ci-git-push
   stage: deploy
-  script: curl https://spa.mnesty.com/deploy/${PRODUCTION_DEPLOY_KEY}/
+  script:
+    - git-push dokku@all.vms.stavros.io:timetaco
   environment: production
   only:
     - master
