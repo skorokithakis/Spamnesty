@@ -185,7 +185,7 @@ class Conversation(CharIDModel):
     @property
     def messages(self):
         """
-        A QuerySet of all the messages in the converation.
+        Return a QuerySet of all the messages in the converation.
 
         The QuerySet is sorted by ascending date, ie the most recent items are
         last.
@@ -353,7 +353,7 @@ class Message(CharIDModel):
             )
         else:
             if not message.sender or \
-               "@" not in message.sender or \
+               "@" not in message.sender_email or \
                Domain.objects.filter(name=message.sender_email.split("@")[1].lower()).exists():
                 # We couldn't locate a sender, or the sender is us, so abort.
                 return None
