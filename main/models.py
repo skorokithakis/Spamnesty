@@ -419,4 +419,8 @@ class Message(CharIDModel):
         if not self.message_id:
             self.message_id = generate_message_id(self.conversation.domain.name)
 
-        super().save(*args, **kwargs)
+        try:
+            super().save(*args, **kwargs)
+        except IntegrityError:
+            # This means this message is a duplicate.
+            pass
