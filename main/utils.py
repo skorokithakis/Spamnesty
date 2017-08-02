@@ -181,6 +181,9 @@ def get_similarity(txt1, txt2):
 
     See  http://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html#sklearn.metrics.pairwise.cosine_similarity
     """
+    if not txt1.strip() or not txt2.strip():
+        return 0
+
     tfidf = TfidfVectorizer().fit_transform([txt1, txt2])
     cosine_similarities = cosine_similarity(tfidf[0], tfidf[1]).flatten()
     return cosine_similarities[0]
