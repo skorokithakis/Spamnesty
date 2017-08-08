@@ -86,7 +86,9 @@ class UnitTests(TestCase):
     def test_address_parsing(self):
         addresses = [
             ('"Test Tester" <test@example.com>', "Test Tester", "test@example.com"),
+            ('"Test Tester" <test@example.com>stuff.com', None, None),
             ('Test Tester <test@example.com>', "Test Tester", "test@example.com"),
+            ('Test Tester <test@example.com>other.stuff.com', None, None),
             ('Test Tester [test@example.com]', "Test Tester", "test@example.com"),
             ('Test Tester test@example.com', "Test Tester", "test@example.com"),
             ('Test Tester <mailto:test@example.com>', "Test Tester", "test@example.com"),
@@ -104,6 +106,10 @@ class UnitTests(TestCase):
             ('Example Example [mailto:exa.mple@example.com]', "Example Example", "exa.mple@example.com"),
         ]
         for address, name, email in addresses:
-            n, e = parse_email_address(address)
-            self.assertEqual(n, name)
-            self.assertEqual(e, email)
+            if name is None:
+                with self.assertRaises(ValueError):
+                    parse_email_address(address)
+            else:
+                n, e = parse_email_address(address)
+                self.assertEqual(n, name)
+                self.assertEqual(e, email)

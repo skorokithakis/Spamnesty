@@ -22,7 +22,7 @@ def parse_email_address(address: str):
         # Regular format (Person <per@ex.com>).
         r"^\s*\"?(.*?)\"?\s*[<\[]+(?:mailto\:)?(.*?)[>\]]+\s*$",
         # Weird format (Person per@ex.com).
-        r"^\s*(.*?)?\s*(?:mailto\:)?(\S+?)\s*$",
+        r"^\s*([^\@]*?)?\s*(?:mailto\:)?([A-Za-z0-9\@_\-.]+?)\s*$",
     ]
     # Try each regex in order, to find one that matches.
     for regex in regexes:
