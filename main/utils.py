@@ -20,7 +20,7 @@ def parse_email_address(address: str):
         # Weird-ass Outlook format (Person <per@ex.com<mailto:per@ex.com>>).
         r"^\s*\"?(.*?)\"?\s*<([^<>]+?)<.*?>>$",
         # Regular format (Person <per@ex.com>).
-        r"^\s*\"?(.*?)\"?\s*[<\[]+(?:mailto\:)?(.*?)[>\]]+\s*$",
+        r"^\s*\"?(.*?)\"?\s*[<\[\(]+(?:mailto\:)?(.*?)[>\]\)]+\s*$",
         # Weird format (Person per@ex.com).
         r"^\s*([^\@]*?)?\s*(?:mailto\:)?([A-Za-z0-9\@_\-.]+?)\s*$",
     ]

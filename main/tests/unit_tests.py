@@ -91,6 +91,8 @@ class UnitTests(TestCase):
             ('Test Tester <test@example.com>other.stuff.com', None, None),
             ('Test Tester [test@example.com]', "Test Tester", "test@example.com"),
             ('Test Tester test@example.com', "Test Tester", "test@example.com"),
+            ('Test Tester (test@example.com)', "Test Tester", "test@example.com"),
+            ('Test Tester (mailto:test@example.com)', "Test Tester", "test@example.com"),
             ('Test Tester <mailto:test@example.com>', "Test Tester", "test@example.com"),
             ('Test Tester [mailto:test@example.com]', "Test Tester", "test@example.com"),
             ('Test Tester <<test@example.com>', "Test Tester", "test@example.com"),

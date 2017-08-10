@@ -98,7 +98,7 @@ elif os.environ.get("DATABASE_URL"):
     # Stuff for when running in Dokku.
 
     # Parse the DATABASE_URL env var.
-    USER, PASSWORD, HOST, PORT, NAME = re.match("^postgres://(?P<username>.*?)\:(?P<password>.*?)\@(?P<host>.*?)\:(?P<port>\d+)\/(?P<db>.*?)$", os.environ.get("DATABASE_URL", "")).groups()
+    USER, PASSWORD, HOST, PORT, NAME = re.match(r"^postgres://(?P<username>.*?)\:(?P<password>.*?)\@(?P<host>.*?)\:(?P<port>\d+)\/(?P<db>.*?)$", os.environ.get("DATABASE_URL", "")).groups()
 
     DATABASES = {
         'default': {
