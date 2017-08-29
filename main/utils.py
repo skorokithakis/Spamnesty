@@ -165,13 +165,13 @@ def check_last_messages_similarity(conversation):
     """Check whether the last two spammer messages are similar."""
     messages = conversation.messages
     spammer_messages = messages.filter(direction='R') | messages.filter(direction='F')
-    num_messages = spammer_messages.count()
+    num_messages = len(spammer_messages)
     if num_messages < 2:
         return False
     message_last = spammer_messages[num_messages - 1]
     message_prev = spammer_messages[num_messages - 2]
-    similarity = get_similarity(message_last.body, message_prev.body)
-    if similarity > 0.9:
+    similarity = get_similarity(message_last.best_body, message_prev.best_body)
+    if similarity > 0.95:
         return True
     return False
 
