@@ -155,8 +155,12 @@ def is_blacklisted(message):
         "Agradecemos desde já o seu contacto",
         "LinkedIn Corporation",
     ]
+
+    if "undisclosed recipients" in message.recipient:
+        return True
+
     for text in blacklisted_content:
-        if text in message:
+        if text in message.body:
             return True
     return False
 

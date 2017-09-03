@@ -314,7 +314,7 @@ class Message(CharIDModel):
         if not message.recipient:
             return None
 
-        if is_blacklisted(message.body):
+        if is_blacklisted(message):
             return None
 
         if forwarded:
