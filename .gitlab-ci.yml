@@ -5,17 +5,18 @@ stages:
   - test
   - deploy
 
-vastaticcheck:
+staticcheck:
   before_script:
-    - pip install flake8 isort
+    - pip install flake8
   script:
     - flake8 .
-    - isort -c
   stage: staticcheck
 
 test:
   before_script:
     - pip install -Ur requirements.txt
+    - pip install isort
+    - isort -c
     - python manage.py migrate
     - python manage.py collectstatic --noinput
   script:
