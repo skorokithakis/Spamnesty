@@ -140,7 +140,7 @@ AUTH_PASSWORD_VALIDATORS = [
 from subprocess import check_output  # noqa
 try:
     COMMIT_HASH = check_output(['git', 'rev-parse', '--short', 'HEAD']).strip()
-except:
+except: # noqa
     COMMIT_HASH = "Not a git repo"
 
 
@@ -203,10 +203,10 @@ except ImportError:
 
 try:
     INSTALLED_APPS += LOCAL_INSTALLED_APPS  # noqa
-except:
+except:  # noqa
     pass
 
 try:
     MIDDLEWARE_CLASSES += LOCAL_MIDDLEWARE_CLASSES  # noqa
-except:
+except:  # noqa
     pass

@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from main.models import Domain, Message
 from main.utils import check_last_messages_similarity, get_similarity
 
@@ -66,11 +67,15 @@ class MessageTests(TestCase):
         conversation = message1.conversation
         self.assertFalse(check_last_messages_similarity(conversation))
         body = "body2"
-        message2 = Message.objects.create(subject=subject, body=body, direction='S', conversation_id=message1.conversation_id)
+        message2 = Message.objects.create(
+            subject=subject, body=body, direction='S', conversation_id=message1.conversation_id
+        )
         message2.save()
         self.assertFalse(check_last_messages_similarity(conversation))
         body = "body3"
-        message3 = Message.objects.create(subject=subject, body=body, direction='R', conversation_id=message1.conversation_id)
+        message3 = Message.objects.create(
+            subject=subject, body=body, direction='R', conversation_id=message1.conversation_id
+        )
         message3.save()
         self.assertFalse(check_last_messages_similarity(conversation))
 
@@ -82,10 +87,14 @@ class MessageTests(TestCase):
         conversation = message1.conversation
         self.assertFalse(check_last_messages_similarity(conversation))
         body = "body2"
-        message2 = Message.objects.create(subject=subject, body=body, direction='S', conversation_id=message1.conversation_id)
+        message2 = Message.objects.create(
+            subject=subject, body=body, direction='S', conversation_id=message1.conversation_id
+        )
         message2.save()
         self.assertFalse(check_last_messages_similarity(conversation))
         body = "body1"
-        message3 = Message.objects.create(subject=subject, body=body, direction='R', conversation_id=message1.conversation_id)
+        message3 = Message.objects.create(
+            subject=subject, body=body, direction='R', conversation_id=message1.conversation_id
+        )
         message3.save()
         self.assertTrue(check_last_messages_similarity(conversation))

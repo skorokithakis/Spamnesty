@@ -37,5 +37,5 @@ class ConversationAdmin(admin.ModelAdmin):
 
 @admin.register(Message)
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ["conversation", "recipient", "subject", "timestamp", "send_on"]
+    list_display = ["conversation", "recipient", "subject", "timestamp", "direction", "send_on"]
     search_fields = ["recipient", "subject", "message_id"]

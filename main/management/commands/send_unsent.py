@@ -7,9 +7,9 @@ class Command(BaseCommand):
     help = "Send unsent messages that should now be sent."
 
     def add_arguments(self, parser):
-        parser.add_argument('--dry-run', dest='dry_run', action='store_true',
-                            help="Check, but do not send any email.",
-                            default=False)
+        parser.add_argument(
+            '--dry-run', dest='dry_run', action='store_true', help="Check, but do not send any email.", default=False
+        )
 
     def handle(self, *args, **options):
         if options['dry_run']:

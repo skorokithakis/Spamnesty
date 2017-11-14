@@ -2,7 +2,6 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
-
 from raven.contrib.django.raven_compat.models import client
 
 from ..models import Message
@@ -22,7 +21,7 @@ def forwarded(request):
     # Try to parse the forwarded message.
     try:
         message = Message.parse_from_mailgun(request.POST, forwarded=True)
-    except:
+    except:  # noqa
         # Notify Sentry.
         client.captureException()
         message = None
@@ -30,28 +29,15 @@ def forwarded(request):
     if not message:
         # Notify the sender that we couldn't find the spammer's address.
         EmailMessage(
-            subject=render_to_string(
-                "emails/forward_no_email_subject.txt",
-                request=request
-            ).strip(),
-            body=render_to_string(
-                "emails/forward_no_email_body.txt",
-                request=request
-            ),
+            subject=render_to_string("emails/forward_no_email_subject.txt", request=request).strip(),
+            body=render_to_string("emails/forward_no_email_body.txt", request=request),
             to=[request.POST["From"]],
         ).send()
     else:
         # Notify the sender that we've received it.
         EmailMessage(
-            subject=render_to_string(
-                "emails/forward_received_subject.txt",
-                request=request
-            ).strip(),
-            body=render_to_string(
-                "emails/forward_received_body.txt",
-                context={"message": message},
-                request=request
-            ),
+            subject=render_to_string("emails/forward_received_subject.txt", request=request).strip(),
+            body=render_to_string("emails/forward_received_body.txt", context={"message": message}, request=request),
             to=[request.POST["From"]],
         ).send()
 
@@ -69,10 +55,9 @@ def email(request):
     message = Message.parse_from_mailgun(request.POST)
 
     # If there is no unsent message in the queue, queue one.
-    if (message and
-       message.conversation.messages.count() <= 40 and
-       not check_last_messages_similarity(message.conversation) and
-       not message.conversation.messages.exclude(send_on=None).exists()):
+    if (message and message.conversation.messages.count() <= 40
+            and not check_last_messages_similarity(message.conversation)
+            and not message.conversation.messages.exclude(send_on=None).exists()):
         # Reply to the spammer.
         reply = construct_reply(message)
         reply.queue()

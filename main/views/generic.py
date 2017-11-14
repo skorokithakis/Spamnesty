@@ -2,12 +2,12 @@ from annoying.decorators import render_to
 from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.db.models import Count, Max
+from django.db.models import Count, OuterRef, Subquery
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.crypto import constant_time_compare
 from django.views.decorators.http import require_POST
 
-from ..models import Conversation, SpamCategory
+from ..models import Conversation, Message, SpamCategory
 
 
 @render_to("home.html")
@@ -15,10 +15,14 @@ def home(request):
     if not (request.get_host().startswith("spa.") or settings.DEBUG):
         return {"TEMPLATE": "fake.html"}
 
+    # Prepare a subquery of the most recent sent message in every conversation.
+    newest = Message.objects.filter(direction="S", conversation=OuterRef("pk")).order_by("-timestamp")
+
+    # Retrieve conversations, ordering them by the most recent sent message from the subquery.
     conversations = Conversation.objects.annotate(
-            last_message_time=Max('message__timestamp'),
-            num_messages=Count("message"),
-        ).filter(num_messages__gt=11).order_by('-last_message_time')
+        last_message_time=Subquery(newest.values("timestamp")[:1]),
+        num_messages=Count("message"),
+    ).filter(num_messages__gt=15, num_messages__lt=50).order_by("-last_message_time")
 
     paginator = Paginator(conversations, 50)
     page = request.GET.get("page")
@@ -26,7 +30,6 @@ def home(request):
         conversations = paginator.page(page)
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-        print("Not an int")
         conversations = paginator.page(1)
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
@@ -65,7 +68,9 @@ def conversation_view(request, conversation_id):
     own_conversation = constant_time_compare(request.GET.get("key"), conversation.secret_key)
 
     if own_conversation and "@" in conversation.reporter_email:
-        other_conversations = Conversation.objects.filter(reporter_email=conversation.reporter_email).annotate(num_messages=Count("message")).order_by("-num_messages")
+        other_conversations = Conversation.objects.filter(reporter_email=conversation.reporter_email
+                                                          ).annotate(num_messages=Count("message")
+                                                                     ).order_by("-num_messages")
     else:
         other_conversations = []
 

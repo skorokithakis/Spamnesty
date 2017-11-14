@@ -7,11 +7,7 @@ from main.models import Conversation, Domain
 
 class SmokeTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(
-            'user',
-            'user@user.com',
-            'password'
-        )
+        self.user = User.objects.create_user('user', 'user@user.com', 'password')
         self.user.is_staff = True
         self.user.save()
 
@@ -35,11 +31,7 @@ class SmokeTests(TestCase):
 class DeleteTests(TestCase):
     def setUp(self):
         Domain.objects.create(name="example.com", company_name="Company")
-        self.user = User.objects.create_user(
-            'user',
-            'user@user.com',
-            'password'
-        )
+        self.user = User.objects.create_user('user', 'user@user.com', 'password')
         self.user.is_staff = True
         self.user.save()
 

@@ -4,12 +4,10 @@ import datetime
 import random
 import re
 import time
-
 from email.utils import make_msgid
 
 import shortuuid
 import spintax
-
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.db import models
@@ -55,8 +53,7 @@ def get_random_domain():
 class CharIDModel(models.Model):
     """Base model that gives children string IDs."""
 
-    id = models.CharField(max_length=30, primary_key=True,
-            default=generate_uuid, editable=False)
+    id = models.CharField(max_length=30, primary_key=True, default=generate_uuid, editable=False)
 
     class Meta:
         abstract = True
@@ -91,7 +88,7 @@ class ReplyTemplate(CharIDModel):
     """Custom reply templates."""
 
     body = models.TextField()
-    category = models.ForeignKey(SpamCategory, default=get_default_category)
+    category = models.ForeignKey(SpamCategory, default=get_default_category, on_delete=models.CASCADE)
 
     @property
     def snippet(self):
@@ -166,10 +163,10 @@ class Conversation(CharIDModel):
     secret_key = models.CharField(max_length=1000, default=generate_key)
 
     # The fake domain to use to send mail from.
-    domain = models.ForeignKey(Domain, default=get_random_domain)
+    domain = models.ForeignKey(Domain, default=get_random_domain, on_delete=models.CASCADE)
 
     # The category of the email (sales, scam, dating, etc).
-    category = models.ForeignKey(SpamCategory, default=get_default_category)
+    category = models.ForeignKey(SpamCategory, default=get_default_category, on_delete=models.CASCADE)
 
     # Whether this has been classified by a trusted human.
     classified = models.BooleanField(default=False, db_index=True)
@@ -222,7 +219,7 @@ class Message(CharIDModel):
     DIRECTIONS = [("F", "Forwarded"), ("S", "Sent"), ("R", "Received")]
 
     timestamp = models.DateTimeField(auto_now_add=True)
-    conversation = models.ForeignKey(Conversation)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
 
     # Whether this email was forwarded to us, sent by us, or received by us from
     # the spammer.
@@ -348,9 +345,7 @@ class Message(CharIDModel):
             if match:
                 message.subject = match.group(1)
 
-            message.conversation = Conversation.objects.create(
-                reporter_email=posted["From"]
-            )
+            message.conversation = Conversation.objects.create(reporter_email=posted["From"])
         else:
             if not message.sender or \
                "@" not in message.sender_email or \

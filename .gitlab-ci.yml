@@ -7,9 +7,10 @@ stages:
 
 vastaticcheck:
   before_script:
-    - pip install -Ur requirements-dev.txt
+    - pip install flake8 isort
   script:
     - flake8 .
+    - isort -c
   stage: staticcheck
 
 test:

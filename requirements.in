@@ -1,8 +1,8 @@
 bleach
 brotlipy
-Django~=1.10.0
+Django~=1.11.0
 django-annoying
-django-bootstrap3~=7.1.0
+django-bootstrap3
 django-extensions
 Faker
 psycopg2

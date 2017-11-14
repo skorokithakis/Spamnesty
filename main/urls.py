@@ -2,9 +2,9 @@
 
 from django.conf.urls import url
 
-from main.views import generic, learn, webhooks
+from .views import generic, learn, webhooks
 
-
+app_name = "main"
 urlpatterns = [
     url(r'^$', generic.home, name="home"),
     url(r'^conversations/(?P<conversation_id>[^/]*)/$', generic.conversation_view, name="conversation-view"),
