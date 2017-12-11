@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load cache bootstrap3 %}
+{% load bootstrap3 %}
 
 {% block title %}Home{% endblock %}
 
@@ -52,7 +52,6 @@
                     </tr>
 
 
-                    {% cache 1800 home-conversations conversations.number %}
                     {% for conversation in conversations.object_list %}
                     <tr>
                         <td><a href="{% url "main:conversation-view" conversation.id %}">{{ conversation.sender_name }}</a></td>
@@ -61,7 +60,6 @@
                         <td>{{ conversation.num_messages}}</td>
                     </tr>
                     {% endfor %}
-                    {% endcache %}
                 </table>
                 {% bootstrap_pagination conversations pages_to_show=6 %}
             </div>

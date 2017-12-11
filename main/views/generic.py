@@ -1,6 +1,7 @@
 from annoying.decorators import render_to
 from django.conf import settings
 from django.contrib import messages
+from django.core.cache import cache
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Count, OuterRef, Subquery
 from django.shortcuts import get_object_or_404, redirect
@@ -19,10 +20,15 @@ def home(request):
     newest = Message.objects.filter(direction="S", conversation=OuterRef("pk")).order_by("-timestamp")
 
     # Retrieve conversations, ordering them by the most recent sent message from the subquery.
-    conversations = Conversation.objects.annotate(
-        last_message_time=Subquery(newest.values("timestamp")[:1]),
-        num_messages=Count("message"),
-    ).filter(num_messages__gt=15, num_messages__lt=50).order_by("-last_message_time")
+    conversations = cache.get("conversations")
+    if not conversations:
+        conversations = Conversation.objects.annotate(
+            last_message_time=Subquery(newest.values("timestamp")[:1]),
+            num_messages=Count("message"),
+        ).filter(
+            num_messages__gt=15, num_messages__lt=50
+        ).order_by("-last_message_time")
+        cache.set("conversations", list(conversations), 60 * 60)
 
     paginator = Paginator(conversations, 50)
     page = request.GET.get("page")
