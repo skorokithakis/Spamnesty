@@ -149,6 +149,8 @@ def is_blacklisted(message):
     """Check if a given message should be blacklisted."""
     blacklisted_content = [
         "do not write below this line",
+        "message could not be delivered",
+        "message was undeliverable",
         "Please type your reply above this line",
         "Não escreva abaixo desta linha",
         "Your inquiry has been received by DHL",
