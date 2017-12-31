@@ -150,6 +150,7 @@ def is_blacklisted(message):
     blacklisted_content = [
         "do not write below this line",
         "message could not be delivered",
+        "permanent fatal errors",
         "message was undeliverable",
         "Please type your reply above this line",
         "Não escreva abaixo desta linha",
