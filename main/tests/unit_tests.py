@@ -76,6 +76,11 @@ class UnitTests(TestCase):
                 "sender": "Rev Fr Andrew Bob <revfatherbob@hotmale.com>",
                 "check": "spam content",
             },
+            {
+                "body": open("main/tests/forwarded_emails/15.txt").read(),
+                "sender": "John Doe <Ofux@44.34.65.218.broad.nc.jx.dynamic.163data.com.cn>",
+                "check": "More stuff",
+            },
         ]
 
         for message in messages:
