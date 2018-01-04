@@ -7,99 +7,86 @@ class UnitTests(TestCase):
     def test_message_parsing(self):
         messages = [
             {
-                "body": open("main/tests/forwarded_emails/1.txt").read(),
+                "sender": "ex@example.com <ex@example.com>",
+                "check": "Mail body",
+            },
+            {
                 "sender": "as@example.com <as@example.com>",
                 "check": "looking for stuff",
             },
             {
-                "body": open("main/tests/forwarded_emails/2.txt").read(),
                 "sender": "SomePerson <sperson@example.com>",
                 "check": "Stuff.",
             },
             {
-                "body": open("main/tests/forwarded_emails/3.txt").read(),
                 "sender": "MRS ELIZABETH JOHNSON <elizjohnson@example.com>",
                 "check": "PLEASE YOUR URGENT RESPONSE",
             },
             {
-                "body": open("main/tests/forwarded_emails/4.txt").read(),
                 "sender": "SomePerson <sperson@example.com>",
                 "check": "Stuff.",
             },
             {
-                "body": open("main/tests/forwarded_emails/5.txt").read(),
                 "sender": "SomePerson <sperson@example.com>",
                 "check": "Stuff.",
             },
             {
-                "body": open("main/tests/forwarded_emails/6.txt").read(),
                 "sender": "Spam Spammer <spam@example.com>",
                 "check": "Hi, this is spam.",
             },
             {
-                "body": open("main/tests/forwarded_emails/7.txt").read(),
                 "sender": "stuff/things <reply+00005c60909823812093819034c0f36b6e0bb2b65fda05b292cf000000011406c76b92a169ce020bbb75@reply.example.com>",
                 "check": "You could try to create",
             },
             {
-                "body": open("main/tests/forwarded_emails/8.txt").read(),
                 "sender": "stuff/things <reply+00005c60909823812093819034c0f36b6e0bb2b65fda05b292cf000000011406c76b92a169ce020bbb75@reply.example.com>",
                 "check": "You could try to create",
             },
             {
-                "body": open("main/tests/forwarded_emails/9.txt").read(),
                 "sender": "International Thing of Thing Stuff <j.thing@example.com>",
                 "check": "You could try to create",
             },
             {
-                "body": open("main/tests/forwarded_emails/10.txt").read(),
                 "sender": "Example <ex@example.com>",
                 "check": "There was stuff",
             },
             {
-                "body": open("main/tests/forwarded_emails/11.txt").read(),
                 "sender": "reply.912.45705@example.com",
                 "check": "Do your password reset requests",
             },
             {
-                "body": open("main/tests/forwarded_emails/12.txt").read(),
                 "sender": "adminuyuog836 <peyveoext160314@mail.com>",
                 "check": "Message",
             },
             {
-                "body": open("main/tests/forwarded_emails/13.txt").read(),
                 "sender": "Bamba Mariam <bamba@gmail.com>",
                 "check": "Things",
             },
             {
-                "body": open("main/tests/forwarded_emails/14.txt").read(),
                 "sender": "Rev Fr Andrew Bob <revfatherbob@hotmale.com>",
                 "check": "spam content",
             },
             {
-                "body": open("main/tests/forwarded_emails/15.txt").read(),
                 "sender": "John Doe <Ofux@44.34.65.218.broad.nc.jx.dynamic.163data.com.cn>",
                 "check": "More stuff",
             },
             {
-                "body": open("main/tests/forwarded_emails/16.txt").read(),
                 "sender": "E. Xample <ex@example.com>",
                 "check": "Hello",
             },
             {
-                "body": open("main/tests/forwarded_emails/17.txt").read(),
                 "sender": "E. Xample <ex@example.com>",
                 "check": "Mail here",
             },
             {
-                "body": open("main/tests/forwarded_emails/18.txt").read(),
-                "sender": "office.info.66@mail.ru",
+                "sender": "cj002@tradexunpan.com <cj002@tradexunpan.com>",
                 "check": "Mail body",
             },
         ]
 
-        for message in messages:
-            sender, body = parse_forwarded_message(message["body"])
+        for counter, message in enumerate(messages):
+            print("Testing %s..." % counter)
+            sender, body = parse_forwarded_message(open("main/tests/forwarded_emails/%s.txt" % counter).read())
             self.assertEqual(sender, message["sender"])
             self.assertIn(message["check"], body)
 
@@ -108,7 +95,8 @@ class UnitTests(TestCase):
             ('"Test Tester" <test@example.com>', "Test Tester", "test@example.com"),
             ('"Test Tester" <test@example.com>stuff.com', None, None),
             ('Test Tester <test@example.com>', "Test Tester", "test@example.com"),
-            ('Test Tester <test@example.com>other.stuff.com', None, None),
+            ('test@example.com [mailto:test@example.com] On Behalf Of Whoever', "test@example.com", "test@example.com"),
+            ('Test Tester <test@example.com> On behalf of whoever', "Test Tester", "test@example.com"),
             ('Test Tester [test@example.com]', "Test Tester", "test@example.com"),
             ('Test Tester test@example.com', "Test Tester", "test@example.com"),
             ('Test Tester (test@example.com)', "Test Tester", "test@example.com"),
