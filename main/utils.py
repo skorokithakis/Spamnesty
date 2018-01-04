@@ -60,14 +60,14 @@ def parse_forwarded_message(message: str):
     body = []
     regex = re.compile(
         r"""
-        [\r\n][\t\f\v \>]*    # Ignore any whitespace before the header.
-        (Reply-To|From):    # Match the header.
-        \s*                 # Ignore whitespace after it.
-        ((?:.*?)            # Non-preserving group of anything before the @.
-        @                   # The actual "@" sign (it all hinges on this, so if
-                            # some madman has a quoted "@" in their email address,
-                            # we're out of luck.
-        (?:[^\r\n]*))       # Match anything remaining, up to a newline.
+        [\r\n][\t\f\v \>]*     # Ignore any whitespace before the header.
+        (Reply-To|From)\s*:    # Match the header.
+        \s*                    # Ignore whitespace after it.
+        ((?:.*?)               # Non-preserving group of anything before the @.
+        @                      # The actual "@" sign (it all hinges on this, so if
+                               # some madman has a quoted "@" in their email address,
+                               # we're out of luck.
+        (?:[^\r\n]*))          # Match anything remaining, up to a newline.
         """,
         re.DOTALL | re.IGNORECASE | re.VERBOSE
     )
@@ -93,7 +93,7 @@ def parse_forwarded_message(message: str):
     for line in message.split("\n"):
         line = line.strip("\r\n> ")
         if state == "START":
-            match = re.match(r"^From:.*$", line)
+            match = re.match(r"^From\s*:.*$", line)
             if match:
                 state = "HEADER"
         elif state == "EMAIL":
