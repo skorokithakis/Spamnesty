@@ -91,6 +91,11 @@ class UnitTests(TestCase):
                 "sender": "E. Xample <ex@example.com>",
                 "check": "Mail here",
             },
+            {
+                "body": open("main/tests/forwarded_emails/18.txt").read(),
+                "sender": "office.info.66@mail.ru",
+                "check": "Mail body",
+            },
         ]
 
         for message in messages:
