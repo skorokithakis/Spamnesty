@@ -1,0 +1,9 @@
+
+=========== Forwarded message ============
+From : Ex Ample<ex@example.com>
+To : <x@amp.le>
+Date : Sun, 31 Dec 2017 14:49:18 +0100
+Subject : Apps Development and Design
+============ Forwarded message ============
+
+Mail body here
