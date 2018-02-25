@@ -27,7 +27,7 @@ deploy to production:
   image: ilyasemenov/gitlab-ci-git-push
   stage: deploy
   script:
-    - git-push ssh://dokku@vms.stavros.io:16022/spamnesty
+    - git-push ssh://dokku@projects.stavros.io:16022/spamnesty
   environment: production
   only:
     - master
