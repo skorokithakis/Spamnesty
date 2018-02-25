@@ -14,8 +14,8 @@ provider "cloudflare" {
   token = "${var.cloudflare_token}"
 }
 
-variable ipv6_ip { default = "2001:19f0:5:fc8:5400:ff:fe7d:1191" }
-variable ipv4_ip { default = "45.63.15.100" }
+variable ipv6_ip { default = "2a01:4f8:1c0c:6109::1" }
+variable ipv4_ip { default = "195.201.40.251" }
 variable domain { default = "mnesty.com" }
 
 resource "cloudflare_record" "root4" {
