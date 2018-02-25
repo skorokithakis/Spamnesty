@@ -14,7 +14,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", 'secret')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if os.environ.get("NODEBUG") is None else False
 
-ALLOWED_HOSTS = ["web", "localhost"] if os.environ.get("NODEBUG") is None else [".mnesty.com", "spamnesty.vms.stavros.io"]
+ALLOWED_HOSTS = ["web", "localhost"] if os.environ.get("NODEBUG") is None else [".mnesty.com"]
 
 DEFAULT_FROM_EMAIL = "Spamnesty <sp@mnesty.com>"
 
@@ -110,6 +110,20 @@ elif os.environ.get("DATABASE_URL"):
             'PORT': int(PORT),
         }
     }
+
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": os.getenv("REDIS_URL", "") + "/1",
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            }
+        }
+    }
+
+    SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+    SESSION_CACHE_ALIAS = "default"
+    SESSION_COOKIE_AGE = 365 * 24 * 60 * 60
 else:
     DATABASES = {
         'default': {

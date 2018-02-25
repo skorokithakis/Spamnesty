@@ -4,6 +4,7 @@ Django~=1.11.0
 django-annoying
 django-bootstrap3
 django-extensions
+django-redis
 Faker
 psycopg2
 shortuuid
