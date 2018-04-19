@@ -229,6 +229,9 @@ class Message(CharIDModel):
     recipient = models.CharField(max_length=1000, blank=True)
     subject = models.CharField(max_length=1000)
 
+    # The email address of the person who forwarded the mail to us.
+    forwarder = models.CharField(max_length=1000, blank=True)
+
     # The time to send the email on.
     send_on = models.DateTimeField(blank=True, null=True)
 
@@ -336,6 +339,7 @@ class Message(CharIDModel):
                Domain.objects.filter(name=sender.split("@")[1].lower()).exists():
                 # We couldn't locate a sender, or the sender is us, so abort.
                 return None
+            message.forwarder = message.sender
             message.sender = sender
             message.body = body
             message.stripped_body = ""

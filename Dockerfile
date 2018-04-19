@@ -1,4 +1,4 @@
-FROM python:latest
+FROM python:3.6
 ENV PYTHONUNBUFFERED 1
 RUN apt-get update
 RUN apt-get install -y swig libssl-dev dpkg-dev netcat
