@@ -171,6 +171,9 @@ class Conversation(CharIDModel):
     # Whether this has been classified by a trusted human.
     classified = models.BooleanField(default=False, db_index=True)
 
+    # When the conversation was created.
+    created = models.DateTimeField(auto_now_add=True)
+
     objects = ConversationManager()
 
     def __str__(self):

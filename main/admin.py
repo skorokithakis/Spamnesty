@@ -29,7 +29,7 @@ class MessageInline(admin.TabularInline):
 
 @admin.register(Conversation)
 class ConversationAdmin(admin.ModelAdmin):
-    list_display = ["id", "sender_name", "sender_email", "domain", "category"]
+    list_display = ["id", "sender_name", "sender_email", "domain", "category", "created"]
     search_fields = ["id", "sender_email", "sender_name"]
     list_filter = ["category"]
     inlines = [MessageInline]
