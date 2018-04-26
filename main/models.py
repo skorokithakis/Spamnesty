@@ -392,7 +392,7 @@ class Message(CharIDModel):
 
         email = EmailMessage(
             self.subject,
-            body,
+            body + "\n\n\n\n",
             "%s <%s>" % (conversation.sender_name, self.conversation.sender_email),
             [self.recipient],
             headers={'Message-ID': self.message_id},
