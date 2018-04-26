@@ -191,10 +191,10 @@ LOGGING = {
 
 
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.mailgun.org'
-EMAIL_HOST_USER = 'postmaster@mnesty.com'
+EMAIL_HOST = 'smtp.elasticemail.com'
+EMAIL_HOST_USER = 'elasticemail@mail.stavros.io'
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASSWORD", "")
-EMAIL_PORT = 587
+EMAIL_PORT = 2525
 
 
 RAVEN_CONFIG = {"dsn": os.environ.get("RAVEN_DSN")}  # type: Dict[str, Union[None, str]]

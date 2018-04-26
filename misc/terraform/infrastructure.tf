@@ -66,6 +66,14 @@ resource "cloudflare_record" "www6" {
     value = "${var.ipv6_ip}"
 }
 
+resource "cloudflare_record" "tracking" {
+    domain = "${var.domain}"
+    proxied = "false"
+    type = "CNAME"
+    name = "tracking"
+    value = "api.elasticemail.com"
+}
+
 resource "cloudflare_record" "email" {
     domain = "${var.domain}"
     proxied = "false"
@@ -115,7 +123,7 @@ resource "cloudflare_record" "spf" {
     proxied = "false"
     type = "TXT"
     name = "@"
-    value = "v=spf1 include:mailgun.org ~all"
+    value = "v=spf1 a mx include:_spf.elasticemail.com include:mailgun.org ~all"
 }
 
 resource "cloudflare_record" "dkim" {
@@ -124,4 +132,12 @@ resource "cloudflare_record" "dkim" {
     type = "TXT"
     name = "mailo._domainkey"
     value = "k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDX16UZfYbYtEPC/4GgUkf7wGmLotT4Oh/I8QnmirMacjxqNQ+X+U7LY2VMC8wpeoTmv9a4H2GDqcCBoQsdDOTLu1NcN3DRBXrbDkndqQkwRW6vC8XhIXra2xyykKsOPUhuP4afNCcloV832tq4Y/BTGb5zqWeoBLi+BTDeYLh1lwIDAQAB"
+}
+
+resource "cloudflare_record" "dkim2" {
+    domain = "${var.domain}"
+    proxied = "false"
+    type = "TXT"
+    name = "api._domainkey"
+    value = "k=rsa;t=s;p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCbmGbQMzYeMvxwtNQoXN0waGYaciuKx8mtMh5czguT4EZlJXuCt6V+l56mmt3t68FEX5JJ0q4ijG71BGoFRkl87uJi7LrQt1ZZmZCvrEII0YO4mp8sDLXC8g1aUAoi8TJgxq2MJqCaMyj5kAm3Fdy2tzftPCV/lbdiJqmBnWKjtwIDAQAB"
 }
