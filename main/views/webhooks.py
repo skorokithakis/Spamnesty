@@ -11,7 +11,7 @@ from ..utils import check_last_messages_similarity, construct_reply
 @csrf_exempt
 def forwarded(request):
     """Perform necessary tasks when a user forwards a legitimate email."""
-    if not request.POST.get("From") or "@qq.com" in request.POST.get("From"):
+    if not request.POST.get("From"):
         return HttpResponse("Empty sender.")
 
     if Message.objects.filter(message_id=request.POST.get("Message-Id", "")).exists():
