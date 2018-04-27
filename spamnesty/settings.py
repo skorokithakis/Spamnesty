@@ -16,7 +16,7 @@ DEBUG = True if os.environ.get("NODEBUG") is None else False
 
 ALLOWED_HOSTS = ["web", "localhost"] if os.environ.get("NODEBUG") is None else [".mnesty.com"]
 
-DEFAULT_FROM_EMAIL = "Spamnesty <sp@mnesty.com>"
+DEFAULT_FROM_EMAIL = "Spamnesty <noreply-sp@mnesty.com>"
 
 
 # Application definition
