@@ -86,6 +86,10 @@ class UnitTests(TestCase):
                 "sender": "Ex Ample <ex@example.com>",
                 "check": "Mail body",
             },
+            {
+                "sender": "Yoon Patty (US Partners) <patty.yoon@partners.mcd.com>",
+                "check": "Mail body",
+            },
         ]
 
         for counter, message in enumerate(messages):
