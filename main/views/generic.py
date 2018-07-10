@@ -76,7 +76,7 @@ def conversation_view(request, conversation_id):
     if own_conversation and "@" in conversation.reporter_email:
         other_conversations = Conversation.objects.filter(reporter_email=conversation.reporter_email
                                                           ).annotate(num_messages=Count("message")
-                                                                     ).order_by("-num_messages")
+                                                                     ).order_by("-num_messages", "-created")
     else:
         other_conversations = []
 
