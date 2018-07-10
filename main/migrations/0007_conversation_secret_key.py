@@ -8,14 +8,12 @@ import main.models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('main', '0006_replytemplate'),
-    ]
+    dependencies = [("main", "0006_replytemplate")]
 
     operations = [
         migrations.AddField(
-            model_name='conversation',
-            name='secret_key',
+            model_name="conversation",
+            name="secret_key",
             field=models.CharField(default=main.models.generate_key, max_length=1000),
-        ),
+        )
     ]

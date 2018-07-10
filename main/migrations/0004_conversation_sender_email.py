@@ -7,14 +7,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('main', '0003_remove_message_stripped_signature'),
-    ]
+    dependencies = [("main", "0003_remove_message_stripped_signature")]
 
     operations = [
         migrations.AddField(
-            model_name='conversation',
-            name='sender_email',
+            model_name="conversation",
+            name="sender_email",
             field=models.CharField(blank=True, db_index=True, max_length=1000),
-        ),
+        )
     ]

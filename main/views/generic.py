@@ -22,12 +22,13 @@ def home(request):
     # Retrieve conversations, ordering them by the most recent sent message from the subquery.
     conversations = cache.get("conversations")
     if not conversations:
-        conversations = Conversation.objects.annotate(
-            last_message_time=Subquery(newest.values("timestamp")[:1]),
-            num_messages=Count("message"),
-        ).filter(
-            num_messages__gt=15, num_messages__lt=50
-        ).order_by("-last_message_time")
+        conversations = (
+            Conversation.objects.annotate(
+                last_message_time=Subquery(newest.values("timestamp")[:1]), num_messages=Count("message")
+            )
+            .filter(num_messages__gt=15, num_messages__lt=50)
+            .order_by("-last_message_time")
+        )
         cache.set("conversations", list(conversations), 60 * 60)
 
     paginator = Paginator(conversations, 50)
@@ -74,9 +75,11 @@ def conversation_view(request, conversation_id):
     own_conversation = constant_time_compare(request.GET.get("key"), conversation.secret_key)
 
     if own_conversation and "@" in conversation.reporter_email:
-        other_conversations = Conversation.objects.filter(reporter_email=conversation.reporter_email
-                                                          ).annotate(num_messages=Count("message")
-                                                                     ).order_by("-num_messages", "-created")
+        other_conversations = (
+            Conversation.objects.filter(reporter_email=conversation.reporter_email)
+            .annotate(num_messages=Count("message"))
+            .order_by("-num_messages", "-created")
+        )
     else:
         other_conversations = []
 

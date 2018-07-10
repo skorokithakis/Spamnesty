@@ -8,19 +8,24 @@ import main.models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('main', '0005_merge_20161003_1219'),
-    ]
+    dependencies = [("main", "0005_merge_20161003_1219")]
 
     operations = [
         migrations.CreateModel(
-            name='ReplyTemplate',
+            name="ReplyTemplate",
             fields=[
-                ('id', models.CharField(default=main.models.generate_uuid, editable=False, max_length=30, primary_key=True, serialize=False)),
-                ('body', models.TextField()),
+                (
+                    "id",
+                    models.CharField(
+                        default=main.models.generate_uuid,
+                        editable=False,
+                        max_length=30,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("body", models.TextField()),
             ],
-            options={
-                'abstract': False,
-            },
-        ),
+            options={"abstract": False},
+        )
     ]

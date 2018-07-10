@@ -1,25 +1,17 @@
 image: python:latest
 
 stages:
-  - staticcheck
   - test
   - deploy
 
-staticcheck:
-  before_script:
-    - pip install flake8
-  script:
-    - flake8 .
-  stage: staticcheck
-
 test:
   before_script:
-    - pip install -Ur requirements.txt
-    - pip install isort
-    - isort -c
+    - pip install pipenv pre-commit
+    - pipenv install --system
     - python manage.py migrate
     - python manage.py collectstatic --noinput
   script:
+    - pre-commit run -a
     - python manage.py test
   stage: test
 

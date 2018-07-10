@@ -7,14 +7,10 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('main', '0011_conversation_classified'),
-    ]
+    dependencies = [("main", "0011_conversation_classified")]
 
     operations = [
         migrations.AlterField(
-            model_name='conversation',
-            name='classified',
-            field=models.BooleanField(db_index=True, default=False),
-        ),
+            model_name="conversation", name="classified", field=models.BooleanField(db_index=True, default=False)
+        )
     ]

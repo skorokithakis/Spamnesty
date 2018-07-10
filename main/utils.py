@@ -69,7 +69,7 @@ def parse_forwarded_message(message: str):
                                # we're out of luck.
         (?:[^\r\n]*))          # Match anything remaining, up to a newline.
         """,
-        re.DOTALL | re.IGNORECASE | re.VERBOSE
+        re.DOTALL | re.IGNORECASE | re.VERBOSE,
     )
 
     # Match headers, but only keep the first two matches. If there are more,
@@ -171,7 +171,7 @@ def is_blacklisted(message):
 def check_last_messages_similarity(conversation):
     """Check whether the last two spammer messages are similar."""
     messages = conversation.messages
-    spammer_messages = messages.filter(direction='R') | messages.filter(direction='F')
+    spammer_messages = messages.filter(direction="R") | messages.filter(direction="F")
     num_messages = len(spammer_messages)
     if num_messages < 2:
         return False

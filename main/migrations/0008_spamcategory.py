@@ -13,21 +13,26 @@ def add_category(apps, schema_editor):
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('main', '0007_conversation_secret_key'),
-    ]
+    dependencies = [("main", "0007_conversation_secret_key")]
 
     operations = [
         migrations.CreateModel(
-            name='SpamCategory',
+            name="SpamCategory",
             fields=[
-                ('id', models.CharField(default=main.models.generate_uuid, editable=False, max_length=30, primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=30)),
-                ('default', models.BooleanField(default=False, unique=True)),
+                (
+                    "id",
+                    models.CharField(
+                        default=main.models.generate_uuid,
+                        editable=False,
+                        max_length=30,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("name", models.CharField(max_length=30)),
+                ("default", models.BooleanField(default=False, unique=True)),
             ],
-            options={
-                'abstract': False,
-            },
+            options={"abstract": False},
         ),
         migrations.RunPython(add_category),
     ]

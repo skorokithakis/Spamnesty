@@ -3,14 +3,15 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update
 RUN apt-get install -y swig libssl-dev dpkg-dev netcat
 
-RUN pip install -U pip
-ADD requirements.txt /code/
-RUN pip install -Ur /code/requirements.txt
+RUN pip install -U pip pipenv
+ADD Pipfile* /code/
+WORKDIR /code
+RUN pipenv install --system
 
 ADD misc/dokku/CHECKS /app/
 ADD misc/dokku/* /code/
 
 WORKDIR /code
-COPY . /code/
 
+COPY . /code/
 RUN /code/manage.py collectstatic --noinput

@@ -7,18 +7,11 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('main', '0009_auto_20161025_1307'),
-    ]
+    dependencies = [("main", "0009_auto_20161025_1307")]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='spamcategory',
-            options={'verbose_name_plural': 'spam categories'},
-        ),
+        migrations.AlterModelOptions(name="spamcategory", options={"verbose_name_plural": "spam categories"}),
         migrations.AlterField(
-            model_name='spamcategory',
-            name='default',
-            field=models.BooleanField(db_index=True, default=False),
+            model_name="spamcategory", name="default", field=models.BooleanField(db_index=True, default=False)
         ),
     ]

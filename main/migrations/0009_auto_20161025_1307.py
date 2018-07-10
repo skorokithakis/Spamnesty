@@ -9,19 +9,25 @@ import main.models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('main', '0008_spamcategory'),
-    ]
+    dependencies = [("main", "0008_spamcategory")]
 
     operations = [
         migrations.AddField(
-            model_name='conversation',
-            name='category',
-            field=models.ForeignKey(default=main.models.get_default_category, on_delete=django.db.models.deletion.CASCADE, to='main.SpamCategory'),
+            model_name="conversation",
+            name="category",
+            field=models.ForeignKey(
+                default=main.models.get_default_category,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="main.SpamCategory",
+            ),
         ),
         migrations.AddField(
-            model_name='replytemplate',
-            name='category',
-            field=models.ForeignKey(default=main.models.get_default_category, on_delete=django.db.models.deletion.CASCADE, to='main.SpamCategory'),
+            model_name="replytemplate",
+            name="category",
+            field=models.ForeignKey(
+                default=main.models.get_default_category,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="main.SpamCategory",
+            ),
         ),
     ]

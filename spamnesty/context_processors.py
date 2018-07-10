@@ -21,4 +21,4 @@ class SafeSettings:
 
 
 def settings(request):
-    return {'settings': SafeSettings()}
+    return {"settings": SafeSettings()}

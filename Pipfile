@@ -1,0 +1,39 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+bleach = "*"
+brotlipy = "*"
+django-annoying = "*"
+"django-bootstrap3" = "*"
+django-extensions = "*"
+django-redis = "*"
+"psycopg2" = "*"
+shortuuid = "*"
+spintax = "*"
+raven = "*"
+whitenoise = "*"
+numpy = "*"
+sklearn = "*"
+scipy = "*"
+coverage = "*"
+django-nose = "*"
+hypothesis = {version = "*", extras = ["django"]}
+ipython = "*"
+Django = "~=1.11.0"
+Faker = "*"
+uWSGI = "*"
+Werkzeug = "*"
+
+[dev-packages]
+mypy-lang = "*"
+"flake8" = "*"
+"flake8-docstrings" = "*"
+"pep8-naming" = "*"
+"pep8" = "*"
+pip-tools = "*"
+
+[requires]
+python_version = "3.6"

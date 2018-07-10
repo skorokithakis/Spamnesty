@@ -11,55 +11,83 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies: list = []
 
     operations = [
         migrations.CreateModel(
-            name='Conversation',
+            name="Conversation",
             fields=[
-                ('id', models.CharField(default=main.models.generate_uuid, editable=False, max_length=30, primary_key=True, serialize=False)),
-                ('sender_name', models.CharField(default=main.models.generate_fake_name, max_length=1000)),
+                (
+                    "id",
+                    models.CharField(
+                        default=main.models.generate_uuid,
+                        editable=False,
+                        max_length=30,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("sender_name", models.CharField(default=main.models.generate_fake_name, max_length=1000)),
             ],
-            options={
-                'abstract': False,
-            },
+            options={"abstract": False},
         ),
         migrations.CreateModel(
-            name='Domain',
+            name="Domain",
             fields=[
-                ('id', models.CharField(default=main.models.generate_uuid, editable=False, max_length=30, primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=1000)),
-                ('company_name', models.CharField(max_length=1000)),
+                (
+                    "id",
+                    models.CharField(
+                        default=main.models.generate_uuid,
+                        editable=False,
+                        max_length=30,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("name", models.CharField(max_length=1000)),
+                ("company_name", models.CharField(max_length=1000)),
             ],
-            options={
-                'abstract': False,
-            },
+            options={"abstract": False},
         ),
         migrations.CreateModel(
-            name='Message',
+            name="Message",
             fields=[
-                ('id', models.CharField(default=main.models.generate_uuid, editable=False, max_length=30, primary_key=True, serialize=False)),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('direction', models.CharField(choices=[('F', 'Forwarded'), ('S', 'Sent'), ('R', 'Received')], max_length=10)),
-                ('sender', models.CharField(blank=True, max_length=1000)),
-                ('recipient', models.CharField(blank=True, max_length=1000)),
-                ('subject', models.CharField(max_length=1000)),
-                ('send_on', models.DateTimeField(blank=True, null=True)),
-                ('body', models.TextField()),
-                ('stripped_body', models.TextField(blank=True)),
-                ('stripped_signature', models.TextField(blank=True)),
-                ('message_id', models.CharField(max_length=1000, unique=True)),
-                ('in_reply_to', models.CharField(blank=True, max_length=1000)),
-                ('conversation', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='main.Conversation')),
+                (
+                    "id",
+                    models.CharField(
+                        default=main.models.generate_uuid,
+                        editable=False,
+                        max_length=30,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
+                (
+                    "direction",
+                    models.CharField(choices=[("F", "Forwarded"), ("S", "Sent"), ("R", "Received")], max_length=10),
+                ),
+                ("sender", models.CharField(blank=True, max_length=1000)),
+                ("recipient", models.CharField(blank=True, max_length=1000)),
+                ("subject", models.CharField(max_length=1000)),
+                ("send_on", models.DateTimeField(blank=True, null=True)),
+                ("body", models.TextField()),
+                ("stripped_body", models.TextField(blank=True)),
+                ("stripped_signature", models.TextField(blank=True)),
+                ("message_id", models.CharField(max_length=1000, unique=True)),
+                ("in_reply_to", models.CharField(blank=True, max_length=1000)),
+                (
+                    "conversation",
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="main.Conversation"),
+                ),
             ],
-            options={
-                'ordering': ['timestamp'],
-            },
+            options={"ordering": ["timestamp"]},
         ),
         migrations.AddField(
-            model_name='conversation',
-            name='domain',
-            field=models.ForeignKey(default=main.models.get_random_domain, on_delete=django.db.models.deletion.CASCADE, to='main.Domain'),
+            model_name="conversation",
+            name="domain",
+            field=models.ForeignKey(
+                default=main.models.get_random_domain, on_delete=django.db.models.deletion.CASCADE, to="main.Domain"
+            ),
         ),
     ]

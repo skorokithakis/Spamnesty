@@ -7,14 +7,8 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('main', '0010_auto_20161025_1320'),
-    ]
+    dependencies = [("main", "0010_auto_20161025_1320")]
 
     operations = [
-        migrations.AddField(
-            model_name='conversation',
-            name='classified',
-            field=models.BooleanField(default=False),
-        ),
+        migrations.AddField(model_name="conversation", name="classified", field=models.BooleanField(default=False))
     ]

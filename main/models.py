@@ -337,9 +337,7 @@ class Message(CharIDModel):
             # Parse the forwarded message and replace the sender and body.
             body = message.best_body
             sender, body = parse_forwarded_message(body)
-            if not sender or \
-               "@" not in sender or \
-               Domain.objects.filter(name=sender.split("@")[1].lower()).exists():
+            if not sender or "@" not in sender or Domain.objects.filter(name=sender.split("@")[1].lower()).exists():
                 # We couldn't locate a sender, or the sender is us, so abort.
                 return None
             message.forwarder = message.sender
@@ -354,9 +352,11 @@ class Message(CharIDModel):
 
             message.conversation = Conversation.objects.create(reporter_email=posted["From"])
         else:
-            if not message.sender or \
-               "@" not in message.sender_email or \
-               Domain.objects.filter(name=message.sender_email.split("@")[1].lower()).exists():
+            if (
+                not message.sender
+                or "@" not in message.sender_email
+                or Domain.objects.filter(name=message.sender_email.split("@")[1].lower()).exists()
+            ):
                 # We couldn't locate a sender, or the sender is us, so abort.
                 return None
 
@@ -369,8 +369,7 @@ class Message(CharIDModel):
         if settings.DEBUG:
             send_on = datetime.datetime.now()
         else:
-            send_on = datetime.datetime.now() + \
-                datetime.timedelta(seconds=random.randrange(60, 12 * 60 * 60))
+            send_on = datetime.datetime.now() + datetime.timedelta(seconds=random.randrange(60, 12 * 60 * 60))
         self.timestamp = send_on
         self.send_on = send_on
         self.save()
@@ -398,7 +397,7 @@ class Message(CharIDModel):
             body + "\n\n\n\n",
             "%s <%s>" % (conversation.sender_name, self.conversation.sender_email),
             [self.recipient],
-            headers={'Message-ID': self.message_id},
+            headers={"Message-ID": self.message_id},
         )
 
         email.send(fail_silently=True)

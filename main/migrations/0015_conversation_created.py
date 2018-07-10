@@ -8,15 +8,13 @@ import django.utils.timezone
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('main', '0014_message_forwarder'),
-    ]
+    dependencies = [("main", "0014_message_forwarder")]
 
     operations = [
         migrations.AddField(
-            model_name='conversation',
-            name='created',
+            model_name="conversation",
+            name="created",
             field=models.DateTimeField(auto_now_add=True, default=django.utils.timezone.now),
             preserve_default=False,
-        ),
+        )
     ]

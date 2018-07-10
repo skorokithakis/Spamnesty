@@ -7,14 +7,12 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('main', '0012_auto_20161120_0050'),
-    ]
+    dependencies = [("main", "0012_auto_20161120_0050")]
 
     operations = [
         migrations.AlterField(
-            model_name='conversation',
-            name='reporter_email',
+            model_name="conversation",
+            name="reporter_email",
             field=models.CharField(blank=True, db_index=True, max_length=1000),
-        ),
+        )
     ]
