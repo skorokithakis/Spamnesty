@@ -37,7 +37,7 @@ pytz==2017.3              # via django, hypothesis
 raven==6.3.0
 redis==2.10.6             # via django-redis
 scikit-learn==0.19.1      # via sklearn
-scipy==1.0.0
+scipy==1.1.0
 shortuuid==0.5.0
 simplegeneric==0.8.1      # via ipython
 six==1.11.0               # via bleach, django-extensions, faker, html5lib, prompt-toolkit, python-dateutil, traitlets
