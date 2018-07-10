@@ -23,7 +23,7 @@ ipython-genutils==0.2.0   # via traitlets
 ipython==6.2.1
 jedi==0.11.0              # via ipython
 nose==1.3.7               # via django-nose
-numpy==1.13.3
+numpy==1.14.5
 parso==0.1.0              # via jedi
 pexpect==4.3.0            # via ipython
 pickleshare==0.7.4        # via ipython
