@@ -220,7 +220,6 @@
                 "sha256:c9d78e9b539559ac813928570bc197fc436e0d5fd34c22c7a6bb3a8ae2827966"
             ],
             "index": "pypi",
-            "markers": null,
             "version": "==3.66.1"
         },
         "ipython": {
