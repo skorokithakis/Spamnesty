@@ -7,13 +7,12 @@ import time
 from email.utils import make_msgid
 
 import shortuuid
+import spintax
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.db import models
 from django.db.utils import IntegrityError
 from django.urls import reverse
-
-import spintax
 from faker import Faker
 
 from .utils import is_blacklisted, parse_email_address, parse_forwarded_message

@@ -7,13 +7,13 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('main', '0015_conversation_created'),
-    ]
+    dependencies = [("main", "0015_conversation_created")]
 
     operations = [
         migrations.AddIndex(
-            model_name='message',
-            index=models.Index(fields=['timestamp', 'conversation', 'direction'], name='main_messag_timesta_15e05b_idx'),
-        ),
+            model_name="message",
+            index=models.Index(
+                fields=["timestamp", "conversation", "direction"], name="main_messag_timesta_15e05b_idx"
+            ),
+        )
     ]
