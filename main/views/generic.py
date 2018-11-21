@@ -29,7 +29,7 @@ def home(request):
             .filter(num_messages__gt=15, num_messages__lt=50)
             .order_by("-last_message_time")
         )
-        cache.set("conversations", list(conversations), 60 * 60)
+        cache.set("conversations", list(conversations), 12 * 60 * 60)
 
     paginator = Paginator(conversations, 50)
     page = request.GET.get("page")
