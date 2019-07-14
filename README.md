@@ -3,6 +3,7 @@ Spamnesty
 
 [![build status](https://gitlab.com/stavros/Spamnesty/badges/master/build.svg)](https://gitlab.com/stavros/Spamnesty/commits/master)
 [![coverage report](https://gitlab.com/stavros/Spamnesty/badges/master/coverage.svg)](https://gitlab.com/stavros/Spamnesty/commits/master)
+[![Liberapay](http://img.shields.io/liberapay/receives/Spamnesty.svg?logo=liberapay)](https://liberapay.com/Spamnesty/donate)
 
 
 Spamnesty lets you waste spammers' time by pretending it's a person and talking
