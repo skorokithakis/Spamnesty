@@ -1,13 +1,23 @@
-image: python:3.6
+image: python:3.7
 
 stages:
   - test
   - deploy
 
 test:
+  variables:
+    PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  cache:
+    paths:
+      - .cache/pip
+      - venv/
   before_script:
-    - pip install pipenv pre-commit
-    - pipenv install --system
+    - pip install virtualenv poetry pre-commit
+    - virtualenv venv
+    - source venv/bin/activate
+    - poetry config settings.virtualenvs.create false
+    - poetry install
+    - pip uninstall -y kerma
     - python manage.py migrate
     - python manage.py collectstatic --noinput
   script:

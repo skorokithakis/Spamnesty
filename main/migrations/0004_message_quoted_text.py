@@ -9,4 +9,8 @@ class Migration(migrations.Migration):
 
     dependencies = [("main", "0003_remove_message_stripped_signature")]
 
-    operations = [migrations.AddField(model_name="message", name="quoted_text", field=models.TextField(blank=True))]
+    operations = [
+        migrations.AddField(
+            model_name="message", name="quoted_text", field=models.TextField(blank=True)
+        )
+    ]

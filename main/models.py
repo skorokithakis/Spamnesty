@@ -53,7 +53,9 @@ def get_random_domain():
 class CharIDModel(models.Model):
     """Base model that gives children string IDs."""
 
-    id = models.CharField(max_length=30, primary_key=True, default=generate_uuid, editable=False)
+    id = models.CharField(
+        max_length=30, primary_key=True, default=generate_uuid, editable=False
+    )
 
     class Meta:
         abstract = True
@@ -88,7 +90,9 @@ class ReplyTemplate(CharIDModel):
     """Custom reply templates."""
 
     body = models.TextField()
-    category = models.ForeignKey(SpamCategory, default=get_default_category, on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        SpamCategory, default=get_default_category, on_delete=models.CASCADE
+    )
 
     @property
     def snippet(self):
@@ -136,7 +140,9 @@ class ConversationManager(models.Manager):
             if not replied_to:
                 # There may not be an included in-reply-to header, check the
                 # email address.
-                conversation = Conversation.objects.filter(sender_email=message.recipient_email).first()
+                conversation = Conversation.objects.filter(
+                    sender_email=message.recipient_email
+                ).first()
                 if not conversation:
                     # We've never seen this ID before, so return a new conversation.
                     conversation = super().create()
@@ -163,10 +169,14 @@ class Conversation(CharIDModel):
     secret_key = models.CharField(max_length=1000, default=generate_key)
 
     # The fake domain to use to send mail from.
-    domain = models.ForeignKey(Domain, default=get_random_domain, on_delete=models.CASCADE)
+    domain = models.ForeignKey(
+        Domain, default=get_random_domain, on_delete=models.CASCADE
+    )
 
     # The category of the email (sales, scam, dating, etc).
-    category = models.ForeignKey(SpamCategory, default=get_default_category, on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        SpamCategory, default=get_default_category, on_delete=models.CASCADE
+    )
 
     # Whether this has been classified by a trusted human.
     classified = models.BooleanField(default=False, db_index=True)
@@ -213,7 +223,9 @@ class Conversation(CharIDModel):
 
 class MessageManager(models.Manager):
     def unsent(self):
-        return Message.objects.exclude(send_on=None).filter(send_on__lt=datetime.datetime.now())
+        return Message.objects.exclude(send_on=None).filter(
+            send_on__lt=datetime.datetime.now()
+        )
 
 
 class Message(CharIDModel):
@@ -338,7 +350,11 @@ class Message(CharIDModel):
             # Parse the forwarded message and replace the sender and body.
             body = message.best_body
             sender, body = parse_forwarded_message(body)
-            if not sender or "@" not in sender or Domain.objects.filter(name=sender.split("@")[1].lower()).exists():
+            if (
+                not sender
+                or "@" not in sender
+                or Domain.objects.filter(name=sender.split("@")[1].lower()).exists()
+            ):
                 # We couldn't locate a sender, or the sender is us, so abort.
                 return None
             message.forwarder = message.sender
@@ -351,12 +367,16 @@ class Message(CharIDModel):
             if match:
                 message.subject = match.group(1)
 
-            message.conversation = Conversation.objects.create(reporter_email=posted["From"])
+            message.conversation = Conversation.objects.create(
+                reporter_email=posted["From"]
+            )
         else:
             if (
                 not message.sender
                 or "@" not in message.sender_email
-                or Domain.objects.filter(name=message.sender_email.split("@")[1].lower()).exists()
+                or Domain.objects.filter(
+                    name=message.sender_email.split("@")[1].lower()
+                ).exists()
             ):
                 # We couldn't locate a sender, or the sender is us, so abort.
                 return None
@@ -370,7 +390,9 @@ class Message(CharIDModel):
         if settings.DEBUG:
             send_on = datetime.datetime.now()
         else:
-            send_on = datetime.datetime.now() + datetime.timedelta(seconds=random.randrange(60, 12 * 60 * 60))
+            send_on = datetime.datetime.now() + datetime.timedelta(
+                seconds=random.randrange(60, 12 * 60 * 60)
+            )
         self.timestamp = send_on
         self.send_on = send_on
         self.save()
@@ -409,7 +431,11 @@ class Message(CharIDModel):
     def get_random_reply(self):
         """Get a random reply to this message, based on its contents."""
         # Right now it's not very much based on the original email's contents.
-        reply = ReplyTemplate.objects.filter(category=self.conversation.category).order_by("?").first()
+        reply = (
+            ReplyTemplate.objects.filter(category=self.conversation.category)
+            .order_by("?")
+            .first()
+        )
         return spintax.spin(reply.body)
 
     def save(self, *args, **kwargs):

@@ -12,7 +12,9 @@ def handler500(request):
     from django.template import loader
     from django.http import HttpResponseServerError
 
-    content_type = request.META.get("HTTP_ACCEPT", request.META.get("CONTENT_TYPE", "text/html")).lower()
+    content_type = request.META.get(
+        "HTTP_ACCEPT", request.META.get("CONTENT_TYPE", "text/html")
+    ).lower()
     if content_type == "application/json":
         return HttpResponseServerError(
             '{"result": "error", "error_msg": "There was a server error. Please try again later."}',

@@ -27,7 +27,12 @@ class Migration(migrations.Migration):
                         serialize=False,
                     ),
                 ),
-                ("sender_name", models.CharField(default=main.models.generate_fake_name, max_length=1000)),
+                (
+                    "sender_name",
+                    models.CharField(
+                        default=main.models.generate_fake_name, max_length=1000
+                    ),
+                ),
             ],
             options={"abstract": False},
         ),
@@ -65,7 +70,10 @@ class Migration(migrations.Migration):
                 ("timestamp", models.DateTimeField(auto_now_add=True)),
                 (
                     "direction",
-                    models.CharField(choices=[("F", "Forwarded"), ("S", "Sent"), ("R", "Received")], max_length=10),
+                    models.CharField(
+                        choices=[("F", "Forwarded"), ("S", "Sent"), ("R", "Received")],
+                        max_length=10,
+                    ),
                 ),
                 ("sender", models.CharField(blank=True, max_length=1000)),
                 ("recipient", models.CharField(blank=True, max_length=1000)),
@@ -78,7 +86,10 @@ class Migration(migrations.Migration):
                 ("in_reply_to", models.CharField(blank=True, max_length=1000)),
                 (
                     "conversation",
-                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="main.Conversation"),
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="main.Conversation",
+                    ),
                 ),
             ],
             options={"ordering": ["timestamp"]},
@@ -87,7 +98,9 @@ class Migration(migrations.Migration):
             model_name="conversation",
             name="domain",
             field=models.ForeignKey(
-                default=main.models.get_random_domain, on_delete=django.db.models.deletion.CASCADE, to="main.Domain"
+                default=main.models.get_random_domain,
+                on_delete=django.db.models.deletion.CASCADE,
+                to="main.Domain",
             ),
         ),
     ]

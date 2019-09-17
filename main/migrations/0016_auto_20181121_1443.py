@@ -13,7 +13,8 @@ class Migration(migrations.Migration):
         migrations.AddIndex(
             model_name="message",
             index=models.Index(
-                fields=["timestamp", "conversation", "direction"], name="main_messag_timesta_15e05b_idx"
+                fields=["timestamp", "conversation", "direction"],
+                name="main_messag_timesta_15e05b_idx",
             ),
         )
     ]

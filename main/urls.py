@@ -7,9 +7,21 @@ from .views import generic, learn, webhooks
 app_name = "main"
 urlpatterns = [
     url(r"^$", generic.home, name="home"),
-    url(r"^conversations/(?P<conversation_id>[^/]*)/$", generic.conversation_view, name="conversation-view"),
-    url(r"^conversations/(?P<conversation_id>[^/]*)/delete/$", generic.conversation_delete, name="conversation-delete"),
-    url(r"^conversations/(?P<conversation_id>[^/]*)/change/$", generic.conversation_change, name="conversation-change"),
+    url(
+        r"^conversations/(?P<conversation_id>[^/]*)/$",
+        generic.conversation_view,
+        name="conversation-view",
+    ),
+    url(
+        r"^conversations/(?P<conversation_id>[^/]*)/delete/$",
+        generic.conversation_delete,
+        name="conversation-delete",
+    ),
+    url(
+        r"^conversations/(?P<conversation_id>[^/]*)/change/$",
+        generic.conversation_change,
+        name="conversation-change",
+    ),
 ]
 
 urlpatterns += [
@@ -18,4 +30,10 @@ urlpatterns += [
     url(r"^webhooks/cron/$", webhooks.cron, name="cron-webhook"),
 ]
 
-urlpatterns += [url(r"^entrary/misc/export-messages/$", learn.export_messages, name="learn-export-messages")]
+urlpatterns += [
+    url(
+        r"^entrary/misc/export-messages/$",
+        learn.export_messages,
+        name="learn-export-messages",
+    )
+]

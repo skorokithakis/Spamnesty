@@ -38,9 +38,15 @@ class DeleteTests(TestCase):
 
         conversation = Conversation.objects.create()
         self.client.login(username="user", password="password")
-        response = self.client.post(reverse("classification:delete"), data={"conversation_id": conversation.id})
+        response = self.client.post(
+            reverse("classification:delete"), data={"conversation_id": conversation.id}
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertRaises(Conversation.DoesNotExist, Conversation.objects.get, id=conversation.id)
+        self.assertRaises(
+            Conversation.DoesNotExist, Conversation.objects.get, id=conversation.id
+        )
 
-        response = self.client.post(reverse("classification:delete"), data={"conversation_id": conversation.id})
+        response = self.client.post(
+            reverse("classification:delete"), data={"conversation_id": conversation.id}
+        )
         self.assertEqual(response.status_code, 404)

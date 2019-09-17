@@ -11,6 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AlterField(
-            model_name="conversation", name="classified", field=models.BooleanField(db_index=True, default=False)
+            model_name="conversation",
+            name="classified",
+            field=models.BooleanField(db_index=True, default=False),
         )
     ]

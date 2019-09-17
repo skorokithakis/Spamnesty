@@ -116,7 +116,10 @@ def quote_message(body: str, message):
     original.append("CEO, %s" % message.conversation.domain.company_name)
 
     reply = []
-    reply.append("On %s, %s wrote:" % (message.timestamp.strftime("%d/%m/%Y %H:%M %p"), message.sender_name))
+    reply.append(
+        "On %s, %s wrote:"
+        % (message.timestamp.strftime("%d/%m/%Y %H:%M %p"), message.sender_name)
+    )
     reply.extend(["> " + line for line in message.best_body.split("\n")])
     return "\n".join(original), "\n".join(reply)
 

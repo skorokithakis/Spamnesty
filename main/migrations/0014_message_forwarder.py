@@ -10,5 +10,9 @@ class Migration(migrations.Migration):
     dependencies = [("main", "0013_auto_20161124_2354")]
 
     operations = [
-        migrations.AddField(model_name="message", name="forwarder", field=models.CharField(blank=True, max_length=1000))
+        migrations.AddField(
+            model_name="message",
+            name="forwarder",
+            field=models.CharField(blank=True, max_length=1000),
+        )
     ]

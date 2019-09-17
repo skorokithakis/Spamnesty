@@ -9,4 +9,6 @@ class Migration(migrations.Migration):
 
     dependencies = [("main", "0002_conversation_reporter_email")]
 
-    operations = [migrations.RemoveField(model_name="message", name="stripped_signature")]
+    operations = [
+        migrations.RemoveField(model_name="message", name="stripped_signature")
+    ]

@@ -7,6 +7,9 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [("main", "0004_message_quoted_text"), ("main", "0004_conversation_sender_email")]
+    dependencies = [
+        ("main", "0004_message_quoted_text"),
+        ("main", "0004_conversation_sender_email"),
+    ]
 
     operations: list = []

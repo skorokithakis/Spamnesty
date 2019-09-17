@@ -17,14 +17,17 @@ def home(request):
         return {"TEMPLATE": "fake.html"}
 
     # Prepare a subquery of the most recent sent message in every conversation.
-    newest = Message.objects.filter(direction="S", conversation=OuterRef("pk")).order_by("-timestamp")
+    newest = Message.objects.filter(
+        direction="S", conversation=OuterRef("pk")
+    ).order_by("-timestamp")
 
     # Retrieve conversations, ordering them by the most recent sent message from the subquery.
     conversations = cache.get("conversations")
     if not conversations:
         conversations = (
             Conversation.objects.annotate(
-                last_message_time=Subquery(newest.values("timestamp")[:1]), num_messages=Count("message")
+                last_message_time=Subquery(newest.values("timestamp")[:1]),
+                num_messages=Count("message"),
             )
             .filter(num_messages__gt=15, num_messages__lt=50)
             .order_by("-last_message_time")
@@ -48,7 +51,10 @@ def home(request):
 @require_POST
 def conversation_delete(request, conversation_id):
     conversation = get_object_or_404(Conversation, pk=conversation_id)
-    if constant_time_compare(request.GET.get("key"), conversation.secret_key) or request.user.is_staff:
+    if (
+        constant_time_compare(request.GET.get("key"), conversation.secret_key)
+        or request.user.is_staff
+    ):
         messages.success(request, "The conversation has been deleted.")
         conversation.delete()
     else:
@@ -59,7 +65,10 @@ def conversation_delete(request, conversation_id):
 def conversation_change(request, conversation_id):
     conversation = get_object_or_404(Conversation, pk=conversation_id)
     category = get_object_or_404(SpamCategory, pk=request.GET.get("category", ""))
-    if constant_time_compare(request.GET.get("key"), conversation.secret_key) or request.user.is_staff:
+    if (
+        constant_time_compare(request.GET.get("key"), conversation.secret_key)
+        or request.user.is_staff
+    ):
         messages.success(request, "The conversation's category has been changed.")
         conversation.category = category
         conversation.classified = request.user.is_staff
@@ -72,7 +81,9 @@ def conversation_change(request, conversation_id):
 @render_to("conversation_view.html")
 def conversation_view(request, conversation_id):
     conversation = get_object_or_404(Conversation, pk=conversation_id)
-    own_conversation = constant_time_compare(request.GET.get("key"), conversation.secret_key)
+    own_conversation = constant_time_compare(
+        request.GET.get("key"), conversation.secret_key
+    )
 
     if own_conversation and "@" in conversation.reporter_email:
         other_conversations = (

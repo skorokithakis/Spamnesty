@@ -55,7 +55,12 @@ class MessageTests(TestCase):
         conversation = message1.conversation
         self.assertFalse(check_last_messages_similarity(conversation))
         body = "body2"
-        Message.objects.create(subject=subject, body=body, direction="S", conversation_id=message1.conversation_id)
+        Message.objects.create(
+            subject=subject,
+            body=body,
+            direction="S",
+            conversation_id=message1.conversation_id,
+        )
         self.assertFalse(check_last_messages_similarity(conversation))
 
     def test_two_messages_with_reply(self):
@@ -67,13 +72,19 @@ class MessageTests(TestCase):
         self.assertFalse(check_last_messages_similarity(conversation))
         body = "body2"
         message2 = Message.objects.create(
-            subject=subject, body=body, direction="S", conversation_id=message1.conversation_id
+            subject=subject,
+            body=body,
+            direction="S",
+            conversation_id=message1.conversation_id,
         )
         message2.save()
         self.assertFalse(check_last_messages_similarity(conversation))
         body = "body3"
         message3 = Message.objects.create(
-            subject=subject, body=body, direction="R", conversation_id=message1.conversation_id
+            subject=subject,
+            body=body,
+            direction="R",
+            conversation_id=message1.conversation_id,
         )
         message3.save()
         self.assertFalse(check_last_messages_similarity(conversation))
@@ -87,13 +98,19 @@ class MessageTests(TestCase):
         self.assertFalse(check_last_messages_similarity(conversation))
         body = "body2"
         message2 = Message.objects.create(
-            subject=subject, body=body, direction="S", conversation_id=message1.conversation_id
+            subject=subject,
+            body=body,
+            direction="S",
+            conversation_id=message1.conversation_id,
         )
         message2.save()
         self.assertFalse(check_last_messages_similarity(conversation))
         body = "body1"
         message3 = Message.objects.create(
-            subject=subject, body=body, direction="R", conversation_id=message1.conversation_id
+            subject=subject,
+            body=body,
+            direction="R",
+            conversation_id=message1.conversation_id,
         )
         message3.save()
         self.assertTrue(check_last_messages_similarity(conversation))

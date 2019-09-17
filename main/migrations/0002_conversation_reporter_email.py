@@ -11,6 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.AddField(
-            model_name="conversation", name="reporter_email", field=models.CharField(blank=True, max_length=1000)
+            model_name="conversation",
+            name="reporter_email",
+            field=models.CharField(blank=True, max_length=1000),
         )
     ]

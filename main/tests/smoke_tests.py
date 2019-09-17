@@ -21,7 +21,9 @@ class WebhookTests(TestCase):
     def test_invalid_forwarding(self):
         self.assertEqual(len(mail.outbox), 0)
 
-        response = self.client.post(reverse("main:forwarded-webhook"), data={"From": "hi@example.com"})
+        response = self.client.post(
+            reverse("main:forwarded-webhook"), data={"From": "hi@example.com"}
+        )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
         self.assertEqual(len(mail.outbox), 1)
@@ -31,7 +33,8 @@ class WebhookTests(TestCase):
         self.assertEqual(len(mail.outbox), 0)
 
         response = self.client.post(
-            reverse("main:forwarded-webhook"), data=json.load(open("main/tests/forward_requests/1.json"))
+            reverse("main:forwarded-webhook"),
+            data=json.load(open("main/tests/forward_requests/1.json")),
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
@@ -42,7 +45,8 @@ class WebhookTests(TestCase):
         mail.outbox = []
 
         response = self.client.post(
-            reverse("main:forwarded-webhook"), data=json.load(open("main/tests/forward_requests/1.json"))
+            reverse("main:forwarded-webhook"),
+            data=json.load(open("main/tests/forward_requests/1.json")),
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
@@ -52,7 +56,8 @@ class WebhookTests(TestCase):
 
         # A blacklisted email.
         response = self.client.post(
-            reverse("main:forwarded-webhook"), data=json.load(open("main/tests/forward_requests/2.json"))
+            reverse("main:forwarded-webhook"),
+            data=json.load(open("main/tests/forward_requests/2.json")),
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
@@ -62,7 +67,8 @@ class WebhookTests(TestCase):
         self.assertEqual(len(mail.outbox), 0)
 
         response = self.client.post(
-            reverse("main:email-webhook"), data=json.load(open("main/tests/email_requests/1.json"))
+            reverse("main:email-webhook"),
+            data=json.load(open("main/tests/email_requests/1.json")),
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
@@ -72,7 +78,8 @@ class WebhookTests(TestCase):
 
         # An email where the sender is us.
         response = self.client.post(
-            reverse("main:email-webhook"), data=json.load(open("main/tests/email_requests/2.json"))
+            reverse("main:email-webhook"),
+            data=json.load(open("main/tests/email_requests/2.json")),
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
