@@ -22,7 +22,7 @@ coverage = "*"
 django-nose = "*"
 hypothesis = {version = "*", extras = ["django"]}
 ipython = "*"
-Django = "~=1.11.0"
+Django = "~=1.11.28"
 Faker = "*"
 uWSGI = "*"
 Werkzeug = "*"
