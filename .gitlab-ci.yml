@@ -20,7 +20,7 @@ test:
     - python manage.py migrate
     - python manage.py collectstatic --noinput
   script:
-    - pre-commit run -a
+    - pre-commit run -a --hook-stage=manual
     - python manage.py test
   stage: test
 
