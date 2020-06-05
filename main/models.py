@@ -313,8 +313,8 @@ class Message(CharIDModel):
         return self.stripped_body or self.body
 
     @classmethod
-    def parse_from_mailgun(cls, posted, forwarded=False):
-        """Parse a message from Mailgun and return a Message instance."""
+    def parse_from_webhook(cls, posted, forwarded=False):
+        """Parse a message from the webhook and return a Message instance."""
         # Delete old messages with this ID, as it probably means the server
         # crashed on them and we need to redo whatever we did.
         cls.objects.filter(message_id=posted["id"]).delete()
@@ -322,14 +322,14 @@ class Message(CharIDModel):
         message = cls()
         message.direction = "F" if forwarded else "R"
         message.sender = posted["addresses[from]"].replace("\n", " ")
-        message.recipient = posted.get("addresses[to]", [""]).replace("\n", " ")
-        message.subject = posted.get("subject", [""]).replace("\n", " ")
-        message.body = posted["body[text]"]
+        message.recipient = posted.get("addresses[to]", "").replace("\n", " ")
+        message.subject = posted.get("subject", "").replace("\n", " ")
+        message.body = posted.get("body[text]")
         # No stripped body with smtp2http.
         message.message_id = posted["id"]
         message.in_reply_to = posted.get("in-reply-to", "")
 
-        if not message.recipient:
+        if not message.recipient or not message.body:
             return None
 
         if is_blacklisted(message):

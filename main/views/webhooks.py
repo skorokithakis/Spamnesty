@@ -1,3 +1,5 @@
+import re
+
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -11,17 +13,17 @@ from ..utils import construct_reply
 
 def process_forwarded_email(request):
     """Perform necessary tasks when a user forwards a legitimate email."""
-    from_addr = request.POST.get("addresses[from]", [""])
+    from_addr = request.POST.get("addresses[from]")
     if not from_addr:
         return HttpResponse("Empty sender.")
 
     if Message.objects.filter(message_id=request.POST.get("id", "")).exists():
-        # Ignore Mailgun retries if we've already added the message.
+        # Ignore webhook retries if we've already added the message.
         return HttpResponse("OK")
 
     # Try to parse the forwarded message.
     try:
-        message = Message.parse_from_mailgun(request.POST, forwarded=True)
+        message = Message.parse_from_webhook(request.POST, forwarded=True)
     except:  # noqa
         # Notify Sentry.
         client.captureException()
@@ -58,7 +60,7 @@ def process_forwarded_email(request):
 def process_spam(request):
     """Perform necessary tasks when we get some email."""
     # Parse the received message.
-    message = Message.parse_from_mailgun(request.POST)
+    message = Message.parse_from_webhook(request.POST)
 
     # If there is no unsent message in the queue, queue one.
     if (
@@ -74,15 +76,9 @@ def process_spam(request):
 
 @csrf_exempt
 def email(request):
-    print(request.POST)
-    if request.POST.get("addresses[to]", "").lower() in (
-        "sp@mnesty.com",
-        "spa@mnesty.com",
-    ):
-        print("forwarded")
+    if re.search(r"spa?@mnesty\.com", request.POST.get("addresses[to]", "").lower()):
         process_forwarded_email(request)
     else:
-        print("spam")
         process_spam(request)
     return HttpResponse("OK")
 
