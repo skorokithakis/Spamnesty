@@ -4,7 +4,9 @@ from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from ..models import Domain, Message, ReplyTemplate
+from ..models import Domain
+from ..models import Message
+from ..models import ReplyTemplate
 
 
 class SmokeTests(TestCase):

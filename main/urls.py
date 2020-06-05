@@ -1,8 +1,9 @@
 """The main application's URLs."""
-
 from django.conf.urls import url
 
-from .views import generic, learn, webhooks
+from .views import generic
+from .views import learn
+from .views import webhooks
 
 app_name = "main"
 urlpatterns = [
@@ -25,7 +26,6 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    url(r"^webhooks/forwarded/$", webhooks.forwarded, name="forwarded-webhook"),
     url(r"^webhooks/email/$", webhooks.email, name="email-webhook"),
     url(r"^webhooks/cron/$", webhooks.cron, name="cron-webhook"),
 ]

@@ -24,6 +24,11 @@ services:
       DB_HOST: "db"
       DB_PASSWORD: "password"
 
+  smtp:
+    command: /smtp2http -listen :2525 -strict=false -webhook http://web:8000/webhooks/email/
+    ports:
+      - "2525:2525"
+
   webserver:
     image: jumanjiman/caddy
     depends_on:

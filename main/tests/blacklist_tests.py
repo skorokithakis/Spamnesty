@@ -1,6 +1,9 @@
 from django.test import TestCase
-from main.models import Domain, Message
-from main.utils import check_last_messages_similarity, get_similarity
+
+from main.models import Domain
+from main.models import Message
+from main.utils import check_last_messages_similarity
+from main.utils import get_similarity
 
 
 class SimilarityTextTests(TestCase):

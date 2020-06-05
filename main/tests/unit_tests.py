@@ -1,6 +1,7 @@
 from django.test import TestCase
 
-from ..utils import parse_email_address, parse_forwarded_message
+from ..utils import parse_email_address
+from ..utils import parse_forwarded_message
 
 
 class UnitTests(TestCase):

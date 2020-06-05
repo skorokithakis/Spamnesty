@@ -5,16 +5,17 @@ from django.views.decorators.csrf import csrf_exempt
 from raven.contrib.django.raven_compat.models import client
 
 from ..models import Message
-from ..utils import check_last_messages_similarity, construct_reply
+from ..utils import check_last_messages_similarity
+from ..utils import construct_reply
 
 
-@csrf_exempt
-def forwarded(request):
+def process_forwarded_email(request):
     """Perform necessary tasks when a user forwards a legitimate email."""
-    if not request.POST.get("From"):
+    from_addr = request.POST.get("addresses[from]", [""])
+    if not from_addr:
         return HttpResponse("Empty sender.")
 
-    if Message.objects.filter(message_id=request.POST.get("Message-Id", "")).exists():
+    if Message.objects.filter(message_id=request.POST.get("id", "")).exists():
         # Ignore Mailgun retries if we've already added the message.
         return HttpResponse("OK")
 
@@ -33,7 +34,7 @@ def forwarded(request):
                 "emails/forward_no_email_subject.txt", request=request
             ).strip(),
             body=render_to_string("emails/forward_no_email_body.txt", request=request),
-            to=[request.POST["From"]],
+            to=[from_addr],
         ).send()
     else:
         # Notify the sender that we've received it.
@@ -46,19 +47,16 @@ def forwarded(request):
                 context={"message": message},
                 request=request,
             ),
-            to=[request.POST["From"]],
+            to=[from_addr],
         ).send()
 
         # Reply to the spammer.
         reply = construct_reply(message)
         reply.send()
 
-    return HttpResponse("OK")
 
-
-@csrf_exempt
-def email(request):
-    """Perform necessary tasks when we get some spam."""
+def process_spam(request):
+    """Perform necessary tasks when we get some email."""
     # Parse the received message.
     message = Message.parse_from_mailgun(request.POST)
 
@@ -73,6 +71,19 @@ def email(request):
         reply = construct_reply(message)
         reply.queue()
 
+
+@csrf_exempt
+def email(request):
+    print(request.POST)
+    if request.POST.get("addresses[to]", "").lower() in (
+        "sp@mnesty.com",
+        "spa@mnesty.com",
+    ):
+        print("forwarded")
+        process_forwarded_email(request)
+    else:
+        print("spam")
+        process_spam(request)
     return HttpResponse("OK")
 
 
