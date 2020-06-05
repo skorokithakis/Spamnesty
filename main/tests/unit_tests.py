@@ -1,6 +1,7 @@
 from django.test import TestCase
 
-from ..utils import parse_email_address, parse_forwarded_message
+from ..utils import parse_email_address
+from ..utils import parse_forwarded_message
 
 
 class UnitTests(TestCase):
@@ -71,7 +72,7 @@ class UnitTests(TestCase):
     def test_address_parsing(self):
         addresses = [
             ('"Test Tester" <test@example.com>', "Test Tester", "test@example.com"),
-            ('"Test Tester" <test@example.com>stuff.com', None, None),
+            ('"Test Tester" <test@>stuff.com', None, None),
             ("Test Tester <test@example.com>", "Test Tester", "test@example.com"),
             (
                 "test@example.com [mailto:test@example.com] On Behalf Of Whoever",
@@ -128,7 +129,7 @@ class UnitTests(TestCase):
         for address, name, email in addresses:
             if name is None:
                 with self.assertRaises(ValueError):
-                    parse_email_address(address)
+                    n, e = parse_email_address(address)
             else:
                 n, e = parse_email_address(address)
                 self.assertEqual(n, name)

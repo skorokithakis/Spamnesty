@@ -4,7 +4,9 @@ from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-from ..models import Domain, Message, ReplyTemplate
+from ..models import Domain
+from ..models import Message
+from ..models import ReplyTemplate
 
 
 class SmokeTests(TestCase):
@@ -22,7 +24,13 @@ class WebhookTests(TestCase):
         self.assertEqual(len(mail.outbox), 0)
 
         response = self.client.post(
-            reverse("main:forwarded-webhook"), data={"From": "hi@example.com"}
+            reverse("main:email-webhook"),
+            data={
+                "addresses[from]": "hi@example.com",
+                "addresses[to]": "sp@mnesty.com",
+                "body[text]": "Hello",
+                "id": "2",
+            },
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
@@ -33,7 +41,7 @@ class WebhookTests(TestCase):
         self.assertEqual(len(mail.outbox), 0)
 
         response = self.client.post(
-            reverse("main:forwarded-webhook"),
+            reverse("main:email-webhook"),
             data=json.load(open("main/tests/forward_requests/1.json")),
         )
         self.assertEqual(response.status_code, 200)
@@ -45,7 +53,7 @@ class WebhookTests(TestCase):
         mail.outbox = []
 
         response = self.client.post(
-            reverse("main:forwarded-webhook"),
+            reverse("main:email-webhook"),
             data=json.load(open("main/tests/forward_requests/1.json")),
         )
         self.assertEqual(response.status_code, 200)
@@ -56,12 +64,12 @@ class WebhookTests(TestCase):
 
         # A blacklisted email.
         response = self.client.post(
-            reverse("main:forwarded-webhook"),
+            reverse("main:email-webhook"),
             data=json.load(open("main/tests/forward_requests/2.json")),
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
-        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(len(mail.outbox), 0)
 
     def test_email_request(self):
         self.assertEqual(len(mail.outbox), 0)
