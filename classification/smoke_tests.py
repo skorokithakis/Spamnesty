@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from main.models import Conversation, Domain
+
+from main.models import Conversation
+from main.models import Domain
 
 
 class SmokeTests(TestCase):

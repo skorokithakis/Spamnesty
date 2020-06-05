@@ -4,7 +4,9 @@ import json
 from django.contrib.auth.decorators import user_passes_test
 from django.db.models import Count
 from django.http import StreamingHttpResponse
-from main.models import Conversation, SpamCategory
+
+from main.models import Conversation
+from main.models import SpamCategory
 
 
 def message_exporter():

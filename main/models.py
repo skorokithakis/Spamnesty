@@ -15,7 +15,9 @@ from django.db.utils import IntegrityError
 from django.urls import reverse
 from faker import Faker
 
-from .utils import is_blacklisted, parse_email_address, parse_forwarded_message
+from .utils import is_blacklisted
+from .utils import parse_email_address
+from .utils import parse_forwarded_message
 
 
 def generate_message_id(domain_name) -> str:
@@ -311,23 +313,23 @@ class Message(CharIDModel):
         return self.stripped_body or self.body
 
     @classmethod
-    def parse_from_mailgun(cls, posted, forwarded=False):
-        """Parse a message from Mailgun and return a Message instance."""
+    def parse_from_webhook(cls, posted, forwarded=False):
+        """Parse a message from the webhook and return a Message instance."""
         # Delete old messages with this ID, as it probably means the server
         # crashed on them and we need to redo whatever we did.
-        cls.objects.filter(message_id=posted["Message-Id"]).delete()
+        cls.objects.filter(message_id=posted["id"]).delete()
 
         message = cls()
         message.direction = "F" if forwarded else "R"
-        message.sender = posted["From"].replace("\n", " ")
-        message.recipient = posted.get("To", "").replace("\n", " ")
-        message.subject = posted.get("Subject", "").replace("\n", " ")
-        message.body = posted["body-plain"]
-        message.stripped_body = posted.get("stripped-text", "")
-        message.message_id = posted["Message-Id"]
-        message.in_reply_to = posted.get("In-Reply-To", "")
+        message.sender = posted["addresses[from]"].replace("\n", " ")
+        message.recipient = posted.get("addresses[to]", "").replace("\n", " ")
+        message.subject = posted.get("subject", "").replace("\n", " ")
+        message.body = posted.get("body[text]")
+        # No stripped body with smtp2http.
+        message.message_id = posted["id"]
+        message.in_reply_to = posted.get("in-reply-to", "")
 
-        if not message.recipient:
+        if not message.recipient or not message.body:
             return None
 
         if is_blacklisted(message):
@@ -368,7 +370,7 @@ class Message(CharIDModel):
                 message.subject = match.group(1)
 
             message.conversation = Conversation.objects.create(
-                reporter_email=posted["From"]
+                reporter_email=posted["addresses[from]"]
             )
         else:
             if (

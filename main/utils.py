@@ -1,5 +1,4 @@
 # This file uses the encoding: utf8
-
 import re
 
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -23,6 +22,8 @@ def parse_email_address(address: str):
         r"^\s*\"?(.*?)\"?\s*[<\[\(]+(?:mailto\:)?([^<>]*?)[>\]\)]+[\w\s]*?$",
         # Weird format (Person per@ex.com).
         r"^\s*([^\@]*?)?\s*(?:mailto\:)?([A-Za-z0-9\@_\-.]+?)\s*$",
+        # Just try to find an email address, any email address.
+        r""".*?()([^'"<>@ \[\]]+\@[^'"<>@ \[\]]+)""",
     ]
     # Try each regex in order, to find one that matches.
     for regex in regexes:

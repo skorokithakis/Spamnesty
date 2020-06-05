@@ -15,13 +15,12 @@ test:
     - pip install virtualenv poetry pre-commit
     - virtualenv venv
     - source venv/bin/activate
-    - poetry config settings.virtualenvs.create false
-    - poetry install
-    - pip uninstall -y kerma
+    - poetry config virtualenvs.create false
+    - poetry install --no-root
     - python manage.py migrate
     - python manage.py collectstatic --noinput
   script:
-    - pre-commit run -a
+    - pre-commit run -a --hook-stage=manual
     - python manage.py test
   stage: test
 

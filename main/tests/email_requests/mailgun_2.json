@@ -1,0 +1,75 @@
+{
+  "stripped-signature": [
+    "Thanks,\r\nBob"
+  ],
+  "From": [
+    "Bob <bob@example.com>"
+  ],
+  "attachment-count": [
+    "2"
+  ],
+  "To": [
+    "Alice <alice@mnesty.com>"
+  ],
+  "from": [
+    "Bob <bob@example.com>"
+  ],
+  "User-Agent": [
+    "Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130308 Thunderbird/17.0.4"
+  ],
+  "In-Reply-To": [
+    "<517AC78B.5060404@mnesty.com>"
+  ],
+  "Date": [
+    "Fri, 26 Apr 2013 11:50:29 -0700"
+  ],
+  "Message-Id": [
+    "<517ACC75.5010709@mnesty.com>"
+  ],
+  "body-plain": [
+    "---- Forwarded message ----\nFrom: hi@example.com\n\nHello"
+  ],
+  "Mime-Version": [
+    "1.0"
+  ],
+  "Received": [
+    "by luna.mailgun.net with SMTP mgrt 8788212249833; Fri, 26 Apr 2013 18:50:30 +0000",
+    "from [10.20.76.69] (Unknown [50.56.129.169]) by mxa.mailgun.org with ESMTP id 517acc75.4b341f0-worker2; Fri, 26 Apr 2013 18:50:29 -0000 (UTC)"
+  ],
+  "content-id-map": [
+    "{\"<part1.04060802.06030207@mnesty.com>\": \"attachment-1\"}"
+  ],
+  "Sender": [
+    "bob@example.com"
+  ],
+  "timestamp": [
+    "1479924346"
+  ],
+  "message-headers": [
+    "[[\"Received\", \"by luna.mailgun.net with SMTP mgrt 8788212249833; Fri, 26 Apr 2013 18:50:30 +0000\"], [\"Received\", \"from [10.20.76.69] (Unknown [50.56.129.169]) by mxa.mailgun.org with ESMTP id 517acc75.4b341f0-worker2; Fri, 26 Apr 2013 18:50:29 -0000 (UTC)\"], [\"Message-Id\", \"<517ACC75.5010709@mnesty.com>\"], [\"Date\", \"Fri, 26 Apr 2013 11:50:29 -0700\"], [\"From\", \"Bob <bob@mnesty.com>\"], [\"User-Agent\", \"Mozilla/5.0 (X11; Linux x86_64; rv:17.0) Gecko/20130308 Thunderbird/17.0.4\"], [\"Mime-Version\", \"1.0\"], [\"To\", \"Alice <alice@mnesty.com>\"], [\"Subject\", \"Re: Sample POST request\"], [\"References\", \"<517AC78B.5060404@mnesty.com>\"], [\"In-Reply-To\", \"<517AC78B.5060404@mnesty.com>\"], [\"X-Mailgun-Variables\", \"{\\\"my_var_1\\\": \\\"Mailgun Variable #1\\\", \\\"my-var-2\\\": \\\"awesome\\\"}\"], [\"Content-Type\", \"multipart/mixed; boundary=\\\"------------020601070403020003080006\\\"\"], [\"Sender\", \"bob@mnesty.com\"]]"
+  ],
+  "recipient": [
+    "alice@mnesty.com"
+  ],
+  "sender": [
+    "bob@example.com"
+  ],
+  "X-Mailgun-Variables": [
+    "{\"my_var_1\": \"Mailgun Variable #1\", \"my-var-2\": \"awesome\"}"
+  ],
+  "token": [
+    "3e4adde642f0a4927aece6a57d1302efeb6f523edf6e264b72"
+  ],
+  "References": [
+    "<517AC78B.5060404@mnesty.com>"
+  ],
+  "signature": [
+    "fa601c81bdf67df74a4d1421f40a5bd67687407e369cf4cc23b0e8e76542c68e"
+  ],
+  "Content-Type": [
+    "multipart/mixed; boundary=\"------------020601070403020003080006\""
+  ],
+  "Subject": [
+    "Re: Sample POST request"
+  ]
+}

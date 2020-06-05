@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
-from .views import classify, delete_conversation
+from .views import classify
+from .views import delete_conversation
 
 app_name = "classification"
 urlpatterns = [
