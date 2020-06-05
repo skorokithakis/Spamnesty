@@ -76,10 +76,13 @@ def process_spam(request):
 
 @csrf_exempt
 def email(request):
-    if re.search(r"spa?@mnesty\.com", request.POST.get("addresses[to]", "").lower()):
-        process_forwarded_email(request)
-    else:
-        process_spam(request)
+    if "id" in request.POST:
+        if re.search(
+            r"spa?@mnesty\.com", request.POST.get("addresses[to]", "").lower()
+        ):
+            process_forwarded_email(request)
+        else:
+            process_spam(request)
     return HttpResponse("OK")
 
 
