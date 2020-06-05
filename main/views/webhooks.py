@@ -31,6 +31,7 @@ def process_forwarded_email(request):
         message = None
 
     if not message:
+        print(json.dumps(request.POST))
         # Notify the sender that we couldn't find the spammer's address.
         EmailMessage(
             subject=render_to_string(
@@ -77,7 +78,6 @@ def process_spam(request):
 
 @csrf_exempt
 def email(request):
-    print(json.dumps(request.POST))
     if "id" in request.POST:
         if re.search(
             r"spa?@mnesty\.com", request.POST.get("addresses[to]", "").lower()
