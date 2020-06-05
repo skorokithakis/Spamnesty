@@ -1,3 +1,4 @@
+import json
 import re
 
 from django.core.mail import EmailMessage
@@ -76,6 +77,7 @@ def process_spam(request):
 
 @csrf_exempt
 def email(request):
+    print(json.dumps(request.POST))
     if "id" in request.POST:
         if re.search(
             r"spa?@mnesty\.com", request.POST.get("addresses[to]", "").lower()
