@@ -11,8 +11,8 @@ services:
   web:
     # Docker hack to wait until Postgres is up, then run stuff.
     command: bash -c "while ! nc -w 1 -z db 5432; do sleep 0.1; done; ./manage.py migrate; while :; do ./manage.py runserver_plus 0.0.0.0:8000; sleep 1; done"
-    image: django
     build: .
+    image: web
     volumes:
       - .:/code
     depends_on:
@@ -25,7 +25,8 @@ services:
       DB_PASSWORD: "password"
 
   smtp:
-    command: /smtp2http -listen :2525 -strict=false -webhook http://web:8000/webhooks/email/
+    command: /usr/local/bin/smtp2http -listen :2525 -strict=false -webhook http://web:8000/webhooks/email/
+    image: web
     ports:
       - "2525:2525"
 

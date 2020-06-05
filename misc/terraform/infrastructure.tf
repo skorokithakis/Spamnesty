@@ -8,18 +8,22 @@ terraform {
 
 variable "cloudflare_email" {}
 variable "cloudflare_token" {}
-
-provider "cloudflare" {
-  email = "${var.cloudflare_email}"
-  token = "${var.cloudflare_token}"
+variable "zone_id" {
+  default = "e43bf90424083ce1525ad8bf7d0f4661"
 }
 
 variable ipv6_ip { default = "2a01:4f8:1c0c:6109::1" }
 variable ipv4_ip { default = "195.201.40.251" }
 variable domain { default = "mnesty.com" }
 
+provider "cloudflare" {
+  version = "~> 2.0"
+  email   = var.cloudflare_email
+  api_key = var.cloudflare_token
+}
+
 resource "cloudflare_record" "root4" {
-  domain  = "${var.domain}"
+  zone_id = var.zone_id
   proxied = "true"
   type    = "A"
   name    = "@"
@@ -27,7 +31,7 @@ resource "cloudflare_record" "root4" {
 }
 
 resource "cloudflare_record" "www4" {
-  domain  = "${var.domain}"
+  zone_id = var.zone_id
   proxied = "true"
   type    = "A"
   name    = "www"
@@ -35,15 +39,23 @@ resource "cloudflare_record" "www4" {
 }
 
 resource "cloudflare_record" "spa4" {
-  domain  = "${var.domain}"
+  zone_id = var.zone_id
   proxied = "true"
   type    = "A"
   name    = "spa"
   value   = "${var.ipv4_ip}"
 }
 
+resource "cloudflare_record" "mail" {
+  zone_id = var.zone_id
+  proxied = "false"
+  type    = "A"
+  name    = "mail"
+  value   = "78.47.150.26"
+}
+
 resource "cloudflare_record" "root6" {
-  domain  = "${var.domain}"
+  zone_id = var.zone_id
   proxied = "true"
   type    = "AAAA"
   name    = "@"
@@ -51,7 +63,7 @@ resource "cloudflare_record" "root6" {
 }
 
 resource "cloudflare_record" "spa6" {
-  domain  = "${var.domain}"
+  zone_id = var.zone_id
   proxied = "true"
   type    = "AAAA"
   name    = "spa"
@@ -59,7 +71,7 @@ resource "cloudflare_record" "spa6" {
 }
 
 resource "cloudflare_record" "www6" {
-  domain  = "${var.domain}"
+  zone_id = var.zone_id
   proxied = "true"
   type    = "AAAA"
   name    = "www"
@@ -67,7 +79,7 @@ resource "cloudflare_record" "www6" {
 }
 
 resource "cloudflare_record" "tracking" {
-  domain  = "${var.domain}"
+  zone_id = var.zone_id
   proxied = "false"
   type    = "CNAME"
   name    = "tracking"
@@ -75,7 +87,7 @@ resource "cloudflare_record" "tracking" {
 }
 
 resource "cloudflare_record" "email" {
-  domain  = "${var.domain}"
+  zone_id = var.zone_id
   proxied = "false"
   type    = "CNAME"
   name    = "email"
@@ -83,43 +95,25 @@ resource "cloudflare_record" "email" {
 }
 
 resource "cloudflare_record" "mxw1" {
-  domain   = "${var.domain}"
+  zone_id  = var.zone_id
   proxied  = "false"
   type     = "MX"
   name     = "*"
-  value    = "mxa.mailgun.org"
+  value    = "mail.mnesty.com"
   priority = "10"
-}
-
-resource "cloudflare_record" "mxw2" {
-  domain   = "${var.domain}"
-  proxied  = "false"
-  type     = "MX"
-  name     = "*"
-  value    = "mxb.mailgun.org"
-  priority = "20"
 }
 
 resource "cloudflare_record" "mx1" {
-  domain   = "${var.domain}"
+  zone_id  = var.zone_id
   proxied  = "false"
   type     = "MX"
   name     = "@"
-  value    = "mxa.mailgun.org"
+  value    = "mail.mnesty.com"
   priority = "10"
 }
 
-resource "cloudflare_record" "mx2" {
-  domain   = "${var.domain}"
-  proxied  = "false"
-  type     = "MX"
-  name     = "@"
-  value    = "mxb.mailgun.org"
-  priority = "20"
-}
-
 resource "cloudflare_record" "spf" {
-  domain  = "${var.domain}"
+  zone_id = var.zone_id
   proxied = "false"
   type    = "TXT"
   name    = "@"
@@ -127,7 +121,7 @@ resource "cloudflare_record" "spf" {
 }
 
 resource "cloudflare_record" "dkim" {
-  domain  = "${var.domain}"
+  zone_id = var.zone_id
   proxied = "false"
   type    = "TXT"
   name    = "mailo._domainkey"
@@ -135,7 +129,7 @@ resource "cloudflare_record" "dkim" {
 }
 
 resource "cloudflare_record" "dkim2" {
-  domain  = "${var.domain}"
+  zone_id = var.zone_id
   proxied = "false"
   type    = "TXT"
   name    = "api._domainkey"
