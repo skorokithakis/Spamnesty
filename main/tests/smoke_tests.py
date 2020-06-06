@@ -66,7 +66,7 @@ class WebhookTests(TestCase):
         # A blacklisted email.
         response = self.client.post(
             reverse("main:email-webhook"),
-            data=json.load(open("main/tests/forward_requests/2.json")),
+            data=json.load(open("main/tests/forward_requests/blacklisted.json")),
         )
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
@@ -75,7 +75,7 @@ class WebhookTests(TestCase):
     def test_forwarding_request_bulk(self):
         DIR = "main/tests/forward_requests/"
         for infile in os.listdir(DIR):
-            if not infile.endswith(".json"):
+            if not infile.endswith(".json") or "blacklisted" in infile:
                 continue
 
             mail.outbox = []

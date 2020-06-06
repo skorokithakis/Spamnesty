@@ -1,0 +1,23 @@
+{
+  "stripped-signature": [
+    "Thanks,\r\nBob"
+  ],
+  "addresses[from]": [
+    "Bob <bob@mnesty.com>"
+  ],
+  "addresses[to]": [
+    "Alice <spa@mnesty.com>"
+  ],
+  "in-reply-to": [
+    "<517AC78B.5060404@mnesty.com>"
+  ],
+  "id": [
+    "<517ACC75.5010709@mnesty.com>"
+  ],
+  "body[text]": [
+    "---- Forwarded message ----\nFrom: hi@example.com\n\nHello\n\n## Please do not write below this line ##\n\nHello!"
+  ],
+  "subject": [
+    "Re: Sample POST request"
+  ]
+}
