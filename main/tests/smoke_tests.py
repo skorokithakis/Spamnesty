@@ -1,8 +1,8 @@
 import json
 
 from django.core import mail
-from django.core.urlresolvers import reverse
 from django.test import TestCase
+from django.urls import reverse
 
 from ..models import Domain
 from ..models import Message
@@ -70,6 +70,19 @@ class WebhookTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.content, b"OK")
         self.assertEqual(len(mail.outbox), 0)
+
+    def test_forwarding_request_1(self):
+        self.assertEqual(len(mail.outbox), 0)
+
+        response = self.client.post(
+            reverse("main:email-webhook"),
+            data=json.load(open("main/tests/forward_requests/3.json")),
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, b"OK")
+        self.assertEqual(len(mail.outbox), 2)
+        self.assertIn("from\nmailer-daemon", mail.outbox[0].body)
+        self.assertIn("CEO, Company", mail.outbox[1].body)
 
     def test_email_request(self):
         self.assertEqual(len(mail.outbox), 0)

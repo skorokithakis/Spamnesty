@@ -7,7 +7,6 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-bleach = "*"
 brotlipy = "*"
 coverage = "*"
 django = "==1.11.*,>=1.11.0"
@@ -30,6 +29,7 @@ uwsgi = "*"
 werkzeug = "*"
 whitenoise = "*"
 mypy = "^0.780"
+beautifulsoup4 = "^4.9.1"
 
 [tool.poetry.dev-dependencies]
 flake8 = "*"
