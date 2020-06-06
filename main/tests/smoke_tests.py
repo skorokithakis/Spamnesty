@@ -1,4 +1,5 @@
 import json
+import os
 
 from django.core import mail
 from django.test import TestCase
@@ -71,18 +72,23 @@ class WebhookTests(TestCase):
         self.assertEqual(response.content, b"OK")
         self.assertEqual(len(mail.outbox), 0)
 
-    def test_forwarding_request_1(self):
-        self.assertEqual(len(mail.outbox), 0)
+    def test_forwarding_request_bulk(self):
+        DIR = "main/tests/forward_requests/"
+        for infile in os.listdir(DIR):
+            if not infile.endswith(".json"):
+                continue
 
-        response = self.client.post(
-            reverse("main:email-webhook"),
-            data=json.load(open("main/tests/forward_requests/3.json")),
-        )
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.content, b"OK")
-        self.assertEqual(len(mail.outbox), 2)
-        self.assertIn("from\nmailer-daemon", mail.outbox[0].body)
-        self.assertIn("CEO, Company", mail.outbox[1].body)
+            mail.outbox = []
+            self.assertEqual(len(mail.outbox), 0)
+
+            print(f"Processing {infile}...")
+
+            response = self.client.post(
+                reverse("main:email-webhook"), data=json.load(open(DIR + infile))
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.content, b"OK")
+            self.assertEqual(len(mail.outbox), 2)
 
     def test_email_request(self):
         self.assertEqual(len(mail.outbox), 0)
