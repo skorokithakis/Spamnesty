@@ -6,6 +6,7 @@ import re
 import time
 from email.utils import make_msgid
 
+import bleach
 import shortuuid
 import spintax
 from django.conf import settings
@@ -325,7 +326,9 @@ class Message(CharIDModel):
         message.recipient = posted.get("addresses[to]", "").replace("\n", " ")
         message.subject = posted.get("subject", "").replace("\n", " ")
         message.body = posted.get("body[text]")
-        # No stripped body with smtp2http.
+        message.stripped_body = bleach.clean(
+            posted.get("body[html]", ""), tags=[], strip=True
+        )
         message.message_id = posted["id"]
         message.in_reply_to = posted.get("in-reply-to", "")
 
