@@ -1,5 +1,4 @@
-from __future__ import unicode_literals
-
+import base64
 import datetime
 import random
 import re
@@ -21,6 +20,15 @@ from .utils import parse_email_address
 from .utils import parse_forwarded_message
 
 
+def is_base64(text: str) -> bool:
+    return bool(
+        re.match(
+            r"^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$",
+            text.replace("\n", ""),
+        )
+    )
+
+
 def strip_html(html):
     """Strip all tags from an HTML string."""
     soup = BeautifulSoup(html, features="html.parser")
@@ -36,8 +44,8 @@ def generate_message_id(domain_name) -> str:
 
 def generate_fake_name():
     """Generate a fake name."""
+    Faker.seed(time.time())
     fake = Faker()
-    fake.seed(time.time())
     return fake.name()
 
 
@@ -328,13 +336,22 @@ class Message(CharIDModel):
         # crashed on them and we need to redo whatever we did.
         cls.objects.filter(message_id=posted["id"]).delete()
 
+        # Some mail is base64-encoded and the server doesn't handle that for us.
+        html_body = posted.get("body[html]", "")
+        if is_base64(html_body):
+            html_body = base64.b64decode(html_body.replace("\n", " ")).decode()
+
+        text_body = posted.get("body[text]", "")
+        if is_base64(text_body):
+            text_body = base64.b64decode(text_body.replace("\n", " ")).decode()
+
         message = cls()
         message.direction = "F" if forwarded else "R"
         message.sender = posted["addresses[from]"].replace("\n", " ")
         message.recipient = posted.get("addresses[to]", "").replace("\n", " ")
         message.subject = posted.get("subject", "").replace("\n", " ")
-        message.body = posted.get("body[text]")
-        message.stripped_body = strip_html(posted.get("body[html]", ""))
+        message.body = text_body
+        message.stripped_body = strip_html(html_body)
         message.message_id = posted["id"]
         message.in_reply_to = posted.get("in-reply-to", "")
 
