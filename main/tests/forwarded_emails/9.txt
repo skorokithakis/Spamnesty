@@ -6,7 +6,7 @@ Subject: 	Re: [stuff/things] Stuff
 Challenge-Response (#52)
 Date: 	Fri, 30 Sep 2016 17:38:03 -0700
 To: 	stuff/stuff <stuff@noreply.example.com>
-CC: 	Stavros Korokithakis <stavros@korokithakis.net>, Comment
+CC: 	John Doe <john@doe.net>, Comment
 <comment@noreply.example.com>
 From: 	More invalid crap
 <crap@example.com>

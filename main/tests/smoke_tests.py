@@ -24,13 +24,31 @@ class WebhookTests(TestCase):
     def test_invalid_forwarding(self):
         self.assertEqual(len(mail.outbox), 0)
 
+        # The sender is us.
         response = self.client.post(
             reverse("main:email-webhook"),
             data={
                 "addresses[from]": "hi@example.com",
                 "addresses[to]": "sp@mnesty.com",
-                "body[text]": "Hello",
+                "body[text]": "==== Forwarded ====\nFrom: hi@example.com\n\nHello",
                 "id": "2",
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, b"OK")
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("didn't work out", mail.outbox[0].subject)
+
+        mail.outbox = []
+
+        # No sender.
+        response = self.client.post(
+            reverse("main:email-webhook"),
+            data={
+                "addresses[from]": "hi@example.com",
+                "addresses[to]": "sp@mnesty.com",
+                "body[text]": "Hi",
+                "id": "3",
             },
         )
         self.assertEqual(response.status_code, 200)
