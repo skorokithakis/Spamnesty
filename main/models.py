@@ -21,12 +21,20 @@ from .utils import parse_forwarded_message
 
 
 def is_base64(text: str) -> bool:
+    """Guess whether text is base64-encoded."""
     return bool(
         re.match(
             r"^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$",
             text.replace("\n", ""),
         )
     )
+
+
+def try_decoding_base64(text: str) -> str:
+    """Try to decode some potentially base64 text, returning the original if decoding fails."""
+    if not is_base64(text):
+        return text
+    return base64.b64decode(text.replace("\n", " ")).decode()
 
 
 def get_relevant_recipient(recipients: str) -> str:
@@ -354,14 +362,8 @@ class Message(CharIDModel):
         cls.objects.filter(message_id=posted["id"]).delete()
 
         # Some mail is base64-encoded and the server doesn't handle that for us.
-        html_body = posted.get("body[html]", "")
-        if is_base64(html_body):
-            html_body = base64.b64decode(html_body.replace("\n", " ")).decode()
-
-        text_body = posted.get("body[text]", "")
-        if is_base64(text_body):
-            text_body = base64.b64decode(text_body.replace("\n", " ")).decode()
-
+        html_body = try_decoding_base64(posted.get("body[html]", ""))
+        text_body = try_decoding_base64(posted.get("body[text]", ""))
         message = cls()
         message.direction = "F" if forwarded else "R"
         message.sender = posted["addresses[from]"].replace("\n", " ")
