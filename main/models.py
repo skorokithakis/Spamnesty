@@ -29,6 +29,23 @@ def is_base64(text: str) -> bool:
     )
 
 
+def get_relevant_recipient(recipients: str) -> str:
+    """
+    Clean the recipients list and return the one we care about.
+
+    Sometimes we'll get a comma-separated list of multiple recipients,
+    and we want to ignore (and not display) everyone who's not on our
+    domain. This function picks the relevant recipient and returns it.
+
+    Returns jdoe@ourdomain if no relevant recipient was found.
+    """
+    domains = [d.name for d in Domain.objects.all()]
+    for recipient in recipients.split(","):
+        if any(True for domain in domains if f"@{domain}" in recipient):
+            return recipient.strip()
+    return f"jdoe@{domains[0]}"
+
+
 def strip_html(html):
     """Strip all tags from an HTML string."""
     soup = BeautifulSoup(html, features="html.parser")
@@ -348,7 +365,9 @@ class Message(CharIDModel):
         message = cls()
         message.direction = "F" if forwarded else "R"
         message.sender = posted["addresses[from]"].replace("\n", " ")
-        message.recipient = posted.get("addresses[to]", "").replace("\n", " ")
+        message.recipient = get_relevant_recipient(
+            posted.get("addresses[to]", "").replace("\n", " ")
+        )
         message.subject = posted.get("subject", "").replace("\n", " ")
         message.body = text_body
         message.stripped_body = strip_html(html_body)

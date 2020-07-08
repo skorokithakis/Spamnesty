@@ -25,7 +25,7 @@ def process_forwarded_email(request):
     # Try to parse the forwarded message.
     try:
         message = Message.parse_from_webhook(request.POST, forwarded=True)
-    except:  # noqa
+    except Exception:
         # Notify Sentry.
         client.captureException()
         message = None

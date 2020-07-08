@@ -45,7 +45,7 @@ class UnitTests(TestCase):
                 "check": "More stuff",
             },
             {"sender": "E. Xample <ex@example.com>", "check": "Hello"},
-            {"sender": "E. Xample <ex@example.com>", "check": "Mail here"},
+            {"sender": "E. Xampe <ex@example.com>", "check": "Mail here"},
             {
                 "sender": "cj002@tradexunpan.com <cj002@tradexunpan.com>",
                 "check": "Mail body",

@@ -39,6 +39,7 @@ pep8 = "*"
 pep8-naming = "*"
 pip-tools = "*"
 django-stubs = "*"
+pudb = "^2019.2"
 
 [build-system]
 requires = ["poetry>=0.12"]

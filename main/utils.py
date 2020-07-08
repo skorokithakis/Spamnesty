@@ -1,5 +1,6 @@
 # This file uses the encoding: utf8
 import re
+from typing import Tuple
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -36,7 +37,7 @@ def parse_email_address(address: str):
     raise ValueError("Could not parse input: %s" % address)
 
 
-def normalize_email_address(address: str):
+def normalize_email_address(address: str) -> str:
     """
     Normalize an email address.
 
@@ -50,7 +51,7 @@ def normalize_email_address(address: str):
         return email
 
 
-def parse_forwarded_message(message: str):
+def parse_forwarded_message(message: str) -> Tuple[str, str]:
     """
     Parse an email body that contains a forwarded message.
 
@@ -63,7 +64,7 @@ def parse_forwarded_message(message: str):
         r"""
         [\r\n][\t\f\v \>]*     # Ignore any whitespace before the header.
         (Reply-To|From)\s*:    # Match the header.
-        \s*                    # Ignore whitespace after it.
+        \s+                    # Ignore whitespace after it.
         ((?:.*?)               # Non-preserving group of anything before the @.
         @                      # The actual "@" sign (it all hinges on this, so if
                                # some madman has a quoted "@" in their email address,
@@ -188,9 +189,10 @@ def check_last_messages_similarity(conversation):
 
 
 def get_similarity(txt1, txt2):
-    """Calculate similarity between two text strings based on the cosine similarity method.
+    """
+    Calculate similarity between two text strings based on the cosine similarity method.
 
-    See  http://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html#sklearn.metrics.pairwise.cosine_similarity
+    See http://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html#sklearn.metrics.pairwise.cosine_similarity
     """
     if not txt1.strip() or not txt2.strip():
         return 0

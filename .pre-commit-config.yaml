@@ -16,8 +16,12 @@ repos:
 - repo: https://github.com/gruntwork-io/pre-commit
   rev: v0.0.9
   hooks:
-    - id: terraform-fmt
-      stages: [commit]
+  - id: terraform-fmt
+    stages: [commit]
+- repo: https://github.com/pycqa/pydocstyle
+  rev: 5.0.2
+  hooks:
+  - id: pydocstyle
 - repo: local
   hooks:
   - id: migrations-check

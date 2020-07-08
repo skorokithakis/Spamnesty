@@ -6,7 +6,7 @@ services:
     environment:
       POSTGRES_PASSWORD: password
     volumes:
-      - ./dbdata:/var/lib/postgresql/data
+      - ./misc/dbdata:/var/lib/postgresql/data
 
   web:
     # Docker hack to wait until Postgres is up, then run stuff.
