@@ -34,7 +34,7 @@ def try_decoding_base64(text: str) -> str:
     """Try to decode some potentially base64 text, returning the original if decoding fails."""
     if not is_base64(text):
         return text
-    return base64.b64decode(text.replace("\n", " ")).decode()
+    return base64.b64decode(text.replace("\n", " ")).decode(errors="ignore")
 
 
 def get_relevant_recipient(recipients: str) -> str:
