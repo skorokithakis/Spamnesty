@@ -128,7 +128,7 @@ elif os.environ.get("DATABASE_URL"):
     CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
-            "LOCATION": os.getenv("REDIS_URL", "") + "/1",
+            "LOCATION": os.getenv("REDIS_URL", ""),
             "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
         }
     }
