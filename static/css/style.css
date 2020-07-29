@@ -24,3 +24,8 @@ td.deleted {
 .conv-buttons .btn-group {
     display: flex;
 }
+
+.navbar-nav > li > .dropdown-menu {
+	overflow: auto;
+	max-height: 30em;
+}
