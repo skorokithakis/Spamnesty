@@ -370,7 +370,7 @@ class Message(CharIDModel):
         message.recipient = get_relevant_recipient(
             posted.get("addresses[to]", "").replace("\n", " ")
         )
-        message.subject = posted.get("subject", "").replace("\n", " ")
+        message.subject = re.sub(r"[\n\r]", " ", posted.get("subject", ""))
         message.body = text_body
         message.stripped_body = strip_html(html_body)
         message.message_id = posted["id"]
