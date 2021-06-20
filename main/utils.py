@@ -164,7 +164,7 @@ def is_blacklisted(message):
         "LinkedIn Corporation",
     ]
 
-    if re.search("undisclosed.recipients", message.recipient):
+    if re.search(r"(undisclosed.recipients|hetzner\.com)", message.recipient):
         return True
 
     for text in blacklisted_content:
