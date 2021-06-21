@@ -464,15 +464,22 @@ class Message(CharIDModel):
         if self.quoted_text:
             body += "\n\n" + self.quoted_text
 
-        email = EmailMessage(
-            self.subject,
-            body + "\n\n\n\n",
-            "%s <%s>" % (conversation.sender_name, self.conversation.sender_email),
-            [self.recipient],
-            headers={"Message-ID": self.message_id},
-        )
+        recipient_email = self.recipient_email
+        for domain in ["hetzner.de", "hetzner.com", "your-server.de"]:
+            if domain in recipient_email:
+                # Domain is blacklisted, don't send email.
+                break
+        else:
+            # Domain is not blacklisted, send.
+            email = EmailMessage(
+                self.subject,
+                body + "\n\n\n\n",
+                "%s <%s>" % (conversation.sender_name, self.conversation.sender_email),
+                [self.recipient],
+                headers={"Message-ID": self.message_id},
+            )
 
-        email.send(fail_silently=True)
+            email.send(fail_silently=True)
 
         self.send_on = None
         self.save()
