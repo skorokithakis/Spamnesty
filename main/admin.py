@@ -1,4 +1,5 @@
 from django.contrib import admin
+from djangoql.admin import DjangoQLSearchMixin
 
 from .models import Conversation
 from .models import Domain
@@ -8,31 +9,31 @@ from .models import SpamCategory
 
 
 @admin.register(SpamCategory)
-class SpamCategoryAdmin(admin.ModelAdmin):
+class SpamCategoryAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
     list_display = ["name", "default"]
     search_fields = ["name"]
 
 
 @admin.register(ReplyTemplate)
-class ReplyTemplateAdmin(admin.ModelAdmin):
+class ReplyTemplateAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
     list_display = ["id", "snippet", "category"]
     search_fields = ["body"]
     list_filter = ["category"]
 
 
 @admin.register(Domain)
-class DomainAdmin(admin.ModelAdmin):
+class DomainAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
     list_display = ["name", "company_name"]
     search_fields = ["name", "company_name"]
 
 
-class MessageInline(admin.TabularInline):
+class MessageInline(DjangoQLSearchMixin, admin.TabularInline):
     model = Message
     fields = ["sender", "recipient", "body"]
 
 
 @admin.register(Conversation)
-class ConversationAdmin(admin.ModelAdmin):
+class ConversationAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
     list_display = [
         "id",
         "sender_name",
@@ -47,7 +48,7 @@ class ConversationAdmin(admin.ModelAdmin):
 
 
 @admin.register(Message)
-class MessageAdmin(admin.ModelAdmin):
+class MessageAdmin(DjangoQLSearchMixin, admin.ModelAdmin):
     raw_id_fields = ("conversation",)
     list_display = [
         "conversation",

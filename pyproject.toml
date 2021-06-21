@@ -30,6 +30,7 @@ werkzeug = "*"
 whitenoise = "*"
 mypy = "^0.780"
 beautifulsoup4 = "^4.9.1"
+djangoql = "^0.15.0"
 
 [tool.poetry.dev-dependencies]
 flake8 = "*"
