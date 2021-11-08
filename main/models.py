@@ -366,15 +366,15 @@ class Message(CharIDModel):
         text_body = try_decoding_base64(posted.get("body[text]", ""))
         message = cls()
         message.direction = "F" if forwarded else "R"
-        message.sender = posted["addresses[from]"].replace("\n", " ")
+        message.sender = posted["addresses[from]"].replace("\n", " ")[:1000]
         message.recipient = get_relevant_recipient(
             posted.get("addresses[to]", "").replace("\n", " ")
-        )
-        message.subject = re.sub(r"[\n\r]", " ", posted.get("subject", ""))
+        )[:1000]
+        message.subject = re.sub(r"[\n\r]", " ", posted.get("subject", ""))[:1000]
         message.body = text_body
         message.stripped_body = strip_html(html_body)
-        message.message_id = posted["id"]
-        message.in_reply_to = posted.get("in-reply-to", "")
+        message.message_id = posted["id"][:1000]
+        message.in_reply_to = posted.get("in-reply-to", "")[:1000]
 
         if not message.recipient or not message.body:
             return None
