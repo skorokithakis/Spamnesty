@@ -407,7 +407,7 @@ class Message(CharIDModel):
                 # We couldn't locate a sender, or the sender is us, so abort.
                 return None
             message.forwarder = message.sender
-            message.sender = sender
+            message.sender = sender[:1000]
             message.body = body
             message.stripped_body = ""
 
