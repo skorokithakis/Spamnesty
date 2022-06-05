@@ -41,8 +41,8 @@ and go to [http://localhost/entrary/](http://localhost/entrary/) the log in.
 Contributing
 ------------
 
-To contribute, just issue a merge request on our repository. Make sure tests
-pass first, though:
+To contribute, just issue a merge request on our repository. Make sure tests pass first,
+though:
 
 ~~~
 docker-compose run web /code/manage.py test
